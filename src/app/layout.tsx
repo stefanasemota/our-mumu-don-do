@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/shared/Header';
 
 export const metadata: Metadata = {
-  title: 'Mumu No More',
+  title: 'Mumu Do More',
   description:
     'A platform promoting Nigerian solutions, critical thinking, and historical context.',
 };
