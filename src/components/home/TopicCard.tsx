@@ -28,13 +28,15 @@ const categoryImageMap: Record<
 export function TopicCard({ topic }: TopicCardProps) {
   const placeholderId = categoryImageMap[topic.guidelineCategory];
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
+  const imageUrl = topic.pages[0]?.imageUrl.startsWith('/') ? topic.pages[0].imageUrl : placeholder?.imageUrl || '';
+
 
   return (
     <Link href={`/story/${topic.id}`} className="group flex flex-col">
       <Card className="flex-grow overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
         <div className="relative h-48 w-full">
           <Image
-            src={topic.pages[0]?.imageUrl || placeholder?.imageUrl || ''}
+            src={imageUrl}
             alt={topic.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

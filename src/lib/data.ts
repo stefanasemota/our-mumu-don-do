@@ -11,90 +11,68 @@ const topics: WeeklyEducationalTopic[] = [
     guidelineCategory: 'Nigerian Solutions',
     pages: [
       {
-        text: 'Meet Amina! Amina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'topic-nigerian-solutions')
-            ?.imageUrl || 'https://picsum.photos/seed/201/800/600',
+        text: 'Meet Amina! Amina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
+        imageUrl: '/images/the-glass-of-milk/page_0.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'One afternoon, Mama Yewande said, "Amina, my dear, please go to Malam Musas shop and buy us a bottle of fresh milk for our breakfast tomorrow."',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_1.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Amina skipped to the shop and bought the milk. She paid Malam Musa and hurried home, excited for her favorite breakfast of akara and milk',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        text: 'Amina skipped to the shop and bought the milk. She paid Malam Musa and hurried home, excited for her favorite breakfast of akara and milk.',
+        imageUrl: '/images/the-glass-of-milk/page_2.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'The next morning, Amina poured herself a glass of milk. But when she took a sip, her eyebrows furrowed. "Hmm," she thought. "This milk tastes different. It’s thin and watery!"',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_3.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: '“Mama Yewande,” Amina asked, “Why is this milk so watery? It’s not rich and creamy like the milk we bought last week.”',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_4.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Mama Yewande sighed softly. "Amina, sometimes, people who sell things are dishonest. They add water to the good milk so they have more bottles to sell and can make more money."',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_5.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Mama Yewande picked up two glasses of clear, clean water. "Imagine this clear water is something good, like honesty, or a good project for our community, like a new school."',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_6.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Then, Mama Yewande took a handful of dusty sand and poured it into one glass. "This sand," she explained, "is like a bad action—cheating, lying, or taking something that does not belong to you."',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_7.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: '"See? Just a little bit of sand—just one bad action—ruins the clean, pure water. This act of spoiling something good for selfish gain? That is what we call corruption."',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_8.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Mama Yewande squeezed Amina’s hand. "We must always try to be the clean water, Amina. We must choose honesty, work hard, and keep our actions pure. This is how we build a strong, good community."',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_9.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: '“Not every seller is like that, my dear! Most people are honest. But now that you know what corruption looks like, you can help keep your glass—and our community’s glass—clear and clean!”',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'story-page-2')?.imageUrl ||
-          'https://picsum.photos/seed/202/800/600',
+        imageUrl: '/images/the-glass-of-milk/page_10.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       }
