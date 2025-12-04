@@ -1,12 +1,11 @@
 import type { WeeklyEducationalTopic } from '@/types';
-import { Timestamp } from 'firebase/firestore';
 import { PlaceHolderImages } from './placeholder-images';
 
 const topics: WeeklyEducationalTopic[] = [
   {
     id: '1',
     title: 'The Rise of Tech in Lagos',
-    date: Timestamp.fromDate(new Date('2024-05-10')),
+    date: new Date('2024-05-10').toISOString(),
     guidelineCategory: 'Nigerian Solutions',
     pages: [
       {
@@ -30,7 +29,7 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '2',
     title: 'Benin Kingdom: A Legacy in Bronze',
-    date: Timestamp.fromDate(new Date('2024-05-03')),
+    date: new Date('2024-05-03').toISOString(),
     guidelineCategory: 'Historical Context',
     pages: [
       {
@@ -46,7 +45,7 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '3',
     title: 'Why Do We Have Different Currencies?',
-    date: Timestamp.fromDate(new Date('2024-04-26')),
+    date: new Date('2024-04-26').toISOString(),
     guidelineCategory: 'Critical Thinking',
     pages: [
       {
@@ -62,7 +61,7 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '4',
     title: 'The Strength in Our Diversity',
-    date: Timestamp.fromDate(new Date('2024-04-19')),
+    date: new Date('2024-04-19').toISOString(),
     guidelineCategory: 'Unity & Identity',
     pages: [
       {
@@ -86,5 +85,12 @@ export async function getTopicById(
   id: string
 ): Promise<WeeklyEducationalTopic | undefined> {
   // In a real app, you'd fetch this from Firestore
-  return Promise.resolve(topics.find((topic) => topic.id === id));
+  const topic = topics.find((topic) => topic.id === id);
+  if (!topic) return undefined;
+
+  // This is a temporary solution to handle the fact that the mock data has a mix of types.
+  // In a real app, the data from Firestore would be consistent.
+  const date = topic.date instanceof Date ? topic.date.toISOString() : topic.date;
+
+  return { ...topic, date: date };
 }

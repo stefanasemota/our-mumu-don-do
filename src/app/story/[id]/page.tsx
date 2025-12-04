@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import type { WeeklyEducationalTopic } from '@/types';
 
 interface StoryPageProps {
   params: {
@@ -12,11 +13,17 @@ interface StoryPageProps {
 }
 
 export default async function StoryPage({ params }: StoryPageProps) {
-  const topic = await getTopicById(params.id);
+  const topicData = await getTopicById(params.id);
 
-  if (!topic) {
+  if (!topicData) {
     notFound();
   }
+
+  // Ensure topic data is serializable
+  const topic: WeeklyEducationalTopic = {
+    ...topicData,
+    date: topicData.date.toString(), // Convert date to string
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">

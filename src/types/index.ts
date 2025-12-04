@@ -15,7 +15,7 @@ export interface StoryPage {
 export interface WeeklyEducationalTopic {
   id: string;
   title: string;
-  date: Timestamp | Date;
+  date: string; // Changed from Timestamp | Date to string
   guidelineCategory: GuidelineCategory;
   pages: StoryPage[];
 }
