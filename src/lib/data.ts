@@ -47,13 +47,13 @@ const topics: WeeklyEducationalTopic[] = [
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Amina picked up two glasses of clear, clean water. "Imagine this clear water is something good, like honesty, or a good project for our community, like a new school."',
+        text: 'Mama Yewande picked up two glasses of clear, clean water. "Imagine this clear water is something good, like honesty, or a good project for our community, like a new school."',
         imageUrl: '/images/the-glass-of-milk/page_6.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Then, Grand mother took a handful of dusty sand and poured it into one glass. "This sand," she explained, "is like a bad action—cheating, lying, or taking something that does not belong to you."',
+        text: 'Then, Mama Yewande took a handful of dusty sand and poured it into one glass. "This sand," she explained, "is like a bad action—cheating, lying, or taking something that does not belong to you."',
         imageUrl: '/images/the-glass-of-milk/page_7.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
@@ -80,7 +80,7 @@ const topics: WeeklyEducationalTopic[] = [
   },
   {
     id: '2',
-    title: 'Who Really Discovered the River Niger?',
+    title: 'The River Was Always There',
     description:
       'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
     date: new Date('2024-05-03').toISOString(),
