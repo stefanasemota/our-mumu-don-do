@@ -118,7 +118,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
             src={page.imageUrl}
             alt={`Story page ${currentPage + 1}`}
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={currentPage === 0}
           />
