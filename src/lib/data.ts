@@ -9,7 +9,7 @@ const topics: WeeklyEducationalTopic[] = [
     guidelineCategory: 'Nigerian Solutions',
     pages: [
       {
-        text: '"The Glass of Milk" for a reader aged 7-12. This story, written by \'NaijaSpeak,\' uses the metaphors of watery milk and sandy water in a vibrant Nigerian setting to explain the concept of corruption.',
+        text: 'The Glass of Milk" for a reader aged 7-12. This story, written by \'NaijaSpeak,\' uses the metaphors of watery milk and sandy water in a vibrant Nigerian setting to explain the concept of corruption.',
         imageUrl:
           PlaceHolderImages.find((p) => p.id === 'topic-nigerian-solutions')
             ?.imageUrl || 'https://picsum.photos/seed/201/800/600',
