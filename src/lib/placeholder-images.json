@@ -1,3 +1,52 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "gorilla-avatar",
+      "description": "An illustrated gorilla avatar.",
+      "imageUrl": "https://images.unsplash.com/photo-1754413810186-6ae4b94be414?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnb3JpbGxhJTIwY2FydG9vbnxlbnwwfHx8fDE3NjQ4NTY5MTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gorilla cartoon"
+    },
+    {
+      "id": "topic-nigerian-solutions",
+      "description": "A bustling, modern Nigerian city skyline.",
+      "imageUrl": "https://images.unsplash.com/photo-1648023200201-8fcede127835?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsYWdvcyUyMG5pZ2VyaWF8ZW58MHx8fHwxNzY0ODU2OTE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lagos nigeria"
+    },
+    {
+      "id": "topic-critical-thinking",
+      "description": "A close-up of a chess board.",
+      "imageUrl": "https://images.unsplash.com/photo-1627279622499-5678705ce453?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjaGVzcyUyMGdhbWV8ZW58MHx8fHwxNzY0ODU2OTE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chess game"
+    },
+    {
+      "id": "topic-historical-context",
+      "description": "Ancient Nigerian architecture.",
+      "imageUrl": "https://images.unsplash.com/photo-1711117078011-d6f8c0657069?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YmVuaW4lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzY0ODU2OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "benin architecture"
+    },
+    {
+      "id": "topic-unity-identity",
+      "description": "A group of diverse people working together.",
+      "imageUrl": "https://images.unsplash.com/photo-1655636237961-1fa3457c19a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjb21tdW5pdHklMjBoYW5kc3xlbnwwfHx8fDE3NjQ4MzE5NzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "community hands"
+    },
+    {
+      "id": "story-page-1",
+      "description": "A vibrant market scene in Nigeria.",
+      "imageUrl": "https://images.unsplash.com/photo-1658402834502-866c5760bb2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmlnZXJpYW4lMjBtYXJrZXR8ZW58MHx8fHwxNzY0ODU2OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "nigerian market"
+    },
+    {
+      "id": "story-page-2",
+      "description": "Children learning in an outdoor classroom.",
+      "imageUrl": "https://images.unsplash.com/photo-1509099836639-18ba1795216d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwY2hpbGRyZW58ZW58MHx8fHwxNzY0ODU2OTE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "african children"
+    },
+    {
+      "id": "story-page-3",
+      "description": "A map of ancient African kingdoms.",
+      "imageUrl": "https://images.unsplash.com/photo-1596195985766-ed92f3ec64eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhbmNpZW50JTIwbWFwfGVufDB8fHx8MTc2NDg1MTU1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient map"
+    }
+  ]
 }
