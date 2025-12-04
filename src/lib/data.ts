@@ -4,7 +4,7 @@ import { PlaceHolderImages } from './placeholder-images';
 const topics: WeeklyEducationalTopic[] = [
   {
     id: '1',
-    title: 'The Rise of Tech in Lagos',
+    title: 'The Glasse of Milk',
     date: new Date('2024-05-10').toISOString(),
     guidelineCategory: 'Nigerian Solutions',
     pages: [
