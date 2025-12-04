@@ -47,13 +47,13 @@ const topics: WeeklyEducationalTopic[] = [
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Mama Yewande picked up two glasses of clear, clean water. "Imagine this clear water is something good, like honesty, or a good project for our community, like a new school."',
+        text: 'Amina picked up two glasses of clear, clean water. "Imagine this clear water is something good, like honesty, or a good project for our community, like a new school."',
         imageUrl: '/images/the-glass-of-milk/page_6.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Then, Mama Yewande took a handful of dusty sand and poured it into one glass. "This sand," she explained, "is like a bad action—cheating, lying, or taking something that does not belong to you."',
+        text: 'Then, Grand mother took a handful of dusty sand and poured it into one glass. "This sand," she explained, "is like a bad action—cheating, lying, or taking something that does not belong to you."',
         imageUrl: '/images/the-glass-of-milk/page_7.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
@@ -80,14 +80,14 @@ const topics: WeeklyEducationalTopic[] = [
   },
   {
     id: '2',
-    title: 'Benin Kingdom: A Legacy in Bronze',
+    title: 'Who Really Discovered the River Niger?',
     description:
-      'Discover the rich history and artistic mastery of the ancient Benin Kingdom and its famous bronze sculptures.',
+      'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
     date: new Date('2024-05-03').toISOString(),
     guidelineCategory: 'Historical Context',
     pages: [
       {
-        text: 'The Benin Kingdom was famous for its amazing bronze sculptures.',
+        text: 'For a long time, stories said a European explorer discovered the River Niger. But people already lived there! Let\'s learn the real story.',
         imageUrl:
           PlaceHolderImages.find((p) => p.id === 'topic-historical-context')
             ?.imageUrl || 'https://picsum.photos/seed/203/800/600',
