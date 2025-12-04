@@ -113,7 +113,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
         </p>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 gap-8 items-start">
-        <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border">
+        <div className="relative aspect-square w-full rounded-lg overflow-hidden border">
           <Image
             src={page.imageUrl}
             alt={`Story page ${currentPage + 1}`}
