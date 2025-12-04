@@ -5,6 +5,8 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '1',
     title: 'The Glass of Milk',
+    description:
+      'A metaphorical tale explaining the concept of corruption to young readers in a vibrant Nigerian setting.',
     date: new Date('2024-05-10').toISOString(),
     guidelineCategory: 'Nigerian Solutions',
     pages: [
@@ -29,6 +31,8 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '2',
     title: 'Benin Kingdom: A Legacy in Bronze',
+    description:
+      'Discover the rich history and artistic mastery of the ancient Benin Kingdom and its famous bronze sculptures.',
     date: new Date('2024-05-03').toISOString(),
     guidelineCategory: 'Historical Context',
     pages: [
@@ -45,6 +49,8 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '3',
     title: 'Why Do We Have Different Currencies?',
+    description:
+      'An engaging exploration into the world of economics, explaining the reasons behind different national currencies.',
     date: new Date('2024-04-26').toISOString(),
     guidelineCategory: 'Critical Thinking',
     pages: [
@@ -61,6 +67,8 @@ const topics: WeeklyEducationalTopic[] = [
   {
     id: '4',
     title: 'The Strength in Our Diversity',
+    description:
+      'A celebration of the many cultures within Nigeria and how they combine to create a unique national identity.',
     date: new Date('2024-04-19').toISOString(),
     guidelineCategory: 'Unity & Identity',
     pages: [
@@ -90,7 +98,7 @@ export async function getTopicById(
 
   // This is a temporary solution to handle the fact that the mock data has a mix of types.
   // In a real app, the data from Firestore would be consistent.
-  const date = topic.date instanceof Date ? topic.date.toISOString() : topic.date;
+  const date = new Date(topic.date).toISOString();
 
   return { ...topic, date: date };
 }

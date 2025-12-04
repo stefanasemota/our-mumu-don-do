@@ -1,6 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -24,8 +30,8 @@ export function TopicCard({ topic }: TopicCardProps) {
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
 
   return (
-    <Link href={`/story/${topic.id}`} className="group">
-      <Card className="h-full overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
+    <Link href={`/story/${topic.id}`} className="group flex flex-col">
+      <Card className="flex-grow overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
         <div className="relative h-48 w-full">
           <Image
             src={topic.pages[0]?.imageUrl || placeholder?.imageUrl || ''}
@@ -41,8 +47,11 @@ export function TopicCard({ topic }: TopicCardProps) {
             {topic.title}
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Badge variant="secondary" className="font-normal">
+        <CardContent className="flex flex-col flex-grow">
+          <CardDescription className="text-sm text-muted-foreground mb-4 flex-grow">
+            {topic.description}
+          </CardDescription>
+          <Badge variant="secondary" className="font-normal w-fit">
             {topic.guidelineCategory}
           </Badge>
         </CardContent>
