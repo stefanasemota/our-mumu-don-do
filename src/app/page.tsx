@@ -12,7 +12,7 @@ export default async function Home() {
           Understand Yesterday. Improve Today.
         </h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-          An educational tool for the young children of Africa, fostering
+          An educational tool for the young children of Nigeria, fostering
           critical thinking, celebrating Nigerian solutions, and exploring our
           rich historical context.
         </p>
