@@ -4,7 +4,7 @@ import { PlaceHolderImages } from './placeholder-images';
 const topics: WeeklyEducationalTopic[] = [
   {
     id: '1',
-    title: 'The Glasse of Milk',
+    title: 'The Glass of Milk',
     date: new Date('2024-05-10').toISOString(),
     guidelineCategory: 'Nigerian Solutions',
     pages: [
