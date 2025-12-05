@@ -285,17 +285,6 @@ const featuredVideos: FeaturedVideo[] = [
     thumbnailUrl:
       'https://images.unsplash.com/photo-1629806461298-616a9a5019a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuaWdlcmlhbiUyMHRleHRpbGVzfGVufDB8fHx8MTc2NTM4NDA1NHww&ixlib=rb-4.1.0&q=80&w=1080',
   },
-  {
-    id: '4',
-    title: 'The Great Walls of Benin',
-    videographer: 'HistoryVisuals',
-    summary:
-      'Uncover the history of one of the largest man-made structures in the world.',
-    videoUrl:
-      'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-video.mp4',
-    thumbnailUrl:
-      'https://images.unsplash.com/photo-1648023200201-8fcede127835?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsYWdvcyUyMG5pZ2VyaWF8ZW58MHx8fHwxNzY0ODU2OTE2fDA&ixlib=rb-4.1.0&q=80&w=1080',
-  },
 ];
 
 export async function getTopics(): Promise<WeeklyEducationalTopic[]> {
