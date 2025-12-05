@@ -80,9 +80,9 @@ const topics: WeeklyEducationalTopic[] = [
   },
   {
     id: '2',
-    title: 'The River Was Always There',
+    title: 'he River Was Always There',
     description:
-      'Another story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
+      'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
     date: new Date('2024-05-03').toISOString(),
     guidelineCategory: 'Historical Context',
     pages: [
@@ -203,7 +203,7 @@ const featuredVideos: FeaturedVideo[] = [
     id: '1',
     title: 'Discover Osas’s Secret: A Story of Heritage, Loss & Hope',
     summary:
-      "Experience the vibrant energy and bustling commerce of one of Nigeria's largest markets.",
+      'Step into the vibrant African village where Osas, a kind-hearted boy with a famous laugh, embarks on a journey of heritage, loss, and hope. Discover how the mysterious disappearance of a sacred rattle staff unveils the profound impact of colonization on his community. Through warm hand-drawn animation inspired by Kirikou and the Sorceress, this moving story highlights the importance of unity, pride, and remembering one’s roots. Witness Osas and his friends as they learn about courage, history, and resilience under the glowing orange sun. Perfect for the African diaspora and anyone eager to explore rich cultural narratives. Like and share this heartfelt tale to spread awareness and inspire connection. #AfricanHeritage #OsasStory #ColonialHistory #UnityAndHope',
     videoUrl:
       'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-video.mp4',
     thumbnailUrl:
