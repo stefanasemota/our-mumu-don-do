@@ -20,3 +20,11 @@ export interface WeeklyEducationalTopic {
   guidelineCategory: GuidelineCategory;
   pages: StoryPage[];
 }
+
+export interface FeaturedVideo {
+  id: string;
+  title: string;
+  summary: string;
+  videoUrl: string;
+  thumbnailUrl: string;
+}

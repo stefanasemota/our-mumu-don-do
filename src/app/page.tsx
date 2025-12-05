@@ -1,9 +1,11 @@
 import { Guidelines } from '@/components/home/Guidelines';
 import { TopicGrid } from '@/components/home/TopicGrid';
-import { getTopics } from '@/lib/data';
+import { getTopics, getFeaturedVideos } from '@/lib/data';
+import { FeaturedVideos } from '@/components/home/FeaturedVideos';
 
 export default async function Home() {
   const topics = await getTopics();
+  const featuredVideos = await getFeaturedVideos();
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
@@ -25,6 +27,13 @@ export default async function Home() {
           Weekly Educational Topics
         </h2>
         <TopicGrid topics={topics} />
+      </section>
+
+      <section className="mt-12 md:mt-20">
+        <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
+          Featured Storytelling from other Videographers
+        </h2>
+        <FeaturedVideos videos={featuredVideos} />
       </section>
     </div>
   );
