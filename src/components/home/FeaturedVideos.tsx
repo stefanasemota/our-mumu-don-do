@@ -1,3 +1,5 @@
+'use client';
+
 import type { FeaturedVideo } from '@/types';
 import {
   Carousel,
@@ -10,18 +12,56 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { PlayCircle } from 'lucide-react';
+import { Button } from '../ui/button';
+import { PlayCircle, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 interface FeaturedVideosProps {
   videos: FeaturedVideo[];
 }
 
 export function FeaturedVideos({ videos }: FeaturedVideosProps) {
+  const { toast } = useToast();
+
+  const handleShare = async (video: FeaturedVideo) => {
+    const shareData = {
+      title: video.title,
+      text: video.summary,
+      url: window.location.origin, // In a real app, this would be the direct URL to the video
+    };
+
+    if (navigator.share && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        console.error('Error sharing:', error);
+        // Toast for share cancellation is often not needed, but can be added if desired.
+      }
+    } else {
+      // Fallback for browsers that don't support the Web Share API
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        toast({
+          title: 'Link Copied!',
+          description: 'The video link has been copied to your clipboard.',
+        });
+      } catch (error) {
+        console.error('Error copying to clipboard:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Failed to Copy',
+          description: 'Could not copy the link to your clipboard.',
+        });
+      }
+    }
+  };
+
   return (
     <Carousel
       opts={{
@@ -33,8 +73,8 @@ export function FeaturedVideos({ videos }: FeaturedVideosProps) {
       <CarouselContent>
         {videos.map((video) => (
           <CarouselItem key={video.id} className="md:basis-1/2 lg:basis-1/3">
-            <div className="p-1">
-              <Card className="overflow-hidden group">
+            <div className="p-1 h-full">
+              <Card className="overflow-hidden group flex flex-col h-full">
                 <div className="relative aspect-video">
                   <Image
                     src={video.thumbnailUrl}
@@ -45,19 +85,33 @@ export function FeaturedVideos({ videos }: FeaturedVideosProps) {
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <PlayCircle className="h-16 w-16 text-white/80 group-hover:text-primary transition-colors" />
                   </div>
-                   {/* In a real app, you might link to a video player page */}
-                  <Link href="#" className="absolute inset-0" aria-label={`Play video: ${video.title}`}></Link>
+                  {/* In a real app, you might link to a video player page */}
+                  <Link
+                    href="#"
+                    className="absolute inset-0"
+                    aria-label={`Play video: ${video.title}`}
+                  ></Link>
                 </div>
                 <CardHeader>
                   <CardTitle className="font-headline text-lg leading-snug">
                     {video.title}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <CardDescription className="text-sm text-muted-foreground">
                     {video.summary}
                   </CardDescription>
                 </CardContent>
+                <CardFooter>
+                  <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => handleShare(video)}
+                  >
+                    <Share2 className="mr-2 h-4 w-4" />
+                    Share
+                  </Button>
+                </CardFooter>
               </Card>
             </div>
           </CarouselItem>
