@@ -44,8 +44,11 @@ export default async function VideoPage({ params }: VideoPageProps) {
           )}
         </CardHeader>
         <CardContent>
-          <div className="aspect-video w-full rounded-lg overflow-hidden border mb-4">
-            <video src={video.videoUrl} controls className="w-full h-full" />
+          <div className="aspect-video w-full rounded-lg overflow-hidden border mb-4 bg-black">
+            <video controls className="w-full h-full">
+              <source src={video.videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
           <p className="text-foreground/80">{video.summary}</p>
         </CardContent>
