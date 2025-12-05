@@ -80,7 +80,7 @@ const topics: WeeklyEducationalTopic[] = [
   },
   {
     id: '2',
-    title: 'he River Was Always There',
+    title: 'The River Was Always There',
     description:
       'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
     date: new Date('2024-05-03').toISOString(),
@@ -88,73 +88,73 @@ const topics: WeeklyEducationalTopic[] = [
     pages: [
       {
         text: 'Tolu ran into the living room, a stack of very old history books sliding in her hands. She loved visiting Grandpa Adekunle because his house was shaped like a giant, colorful, triple-decker pagoda—a mix of old Nigeria and new China, Grandpa called it.',
-        imageUrl: '/images/the-river-was-always-there/page_0.png',
-        audioUrl:
-          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
-      },
-      {
-        text: '"Grandpa! Grandpa Adekunle!" Tolu called out. She pointed a small finger at a faded picture in one of the texts. "In my school book, it says that Mungo Park discovered the great River Niger! Is that really true? How can you find something that is so big?"',
         imageUrl: '/images/the-river-was-always-there/page_1.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Grandpa Adekunle adjusted his spectacles—they were gold-rimmed and slightly crooked. He reached out and gently took the book. "Ah, the famous discovery story," he chuckled, setting the book down. "Tolu, let me ask you something important."',
+        text: '"Grandpa! Grandpa Adekunle!" Tolu called out. She pointed a small finger at a faded picture in one of the texts. "In my school book, it says that Mungo Park discovered the great River Niger! Is that really true? How can you find something that is so big?"',
         imageUrl: '/images/the-river-was-always-there/page_2.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: '"If a total stranger walks right into our living room," he began, looking around the bright, spacious room, "and he sees our beautiful, comfy, Ankara-covered sofa… did he  discover the sofa? No! We were already sitting on it, werent we?"',
+        text: 'Grandpa Adekunle adjusted his spectacles—they were gold-rimmed and slightly crooked. He reached out and gently took the book. "Ah, the famous discovery story," he chuckled, setting the book down. "Tolu, let me ask you something important."',
         imageUrl: '/images/the-river-was-always-there/page_3.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Tolu giggled. "Yes! Mama was probably knitting right there! So why would he say he found the river?" Grandpa Adekunle tapped his chin. "Because the River Niger, my dear, was never hiding. It was busy."',
+        text: '"If a total stranger walks right into our living room," he began, looking around the bright, spacious room, "and he sees our beautiful, comfy, Ankara-covered sofa… did he  discover the sofa? No! We were already sitting on it, werent we?"',
         imageUrl: '/images/the-river-was-always-there/page_4.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'The view shifted, suddenly becoming lush and green, long, long ago. Along the banks of the vast, silver River Niger, people were already living vibrant lives. They fished, they traded, and they wrote songs about the water.',
+        text: 'Tolu giggled. "Yes! Mama was probably knitting right there! So why would he say he found the river?" Grandpa Adekunle tapped his chin. "Because the River Niger, my dear, was never hiding. It was busy."',
         imageUrl: '/images/the-river-was-always-there/page_5.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Musa the fisherman was singing a strong, ancient tune as he paddled his canoe near the tall reeds. He knew every turn, every bend, every sandbank. This river was his home, his map, and his pantry.',
+        text: 'The view shifted, suddenly becoming lush and green, long, long ago. Along the banks of the vast, silver River Niger, people were already living vibrant lives. They fished, they traded, and they wrote songs about the water.',
         imageUrl: '/images/the-river-was-always-there/page_6.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Suddenly, a very hot, confused-looking man in too many layers of clothes stumbled out of the thick bush. He carried a bulky telescope and sweated profusely. It was Mungo Park. He looked utterly lost.',
+        text: 'Musa the fisherman was singing a strong, ancient tune as he paddled his canoe near the tall reeds. He knew every turn, every bend, every sandbank. This river was his home, his map, and his pantry.',
         imageUrl: '/images/the-river-was-always-there/page_7.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Mungo Park waved frantically at Musa. "Excuse me, good man! Which way to the great, previously unmapped water source? I must locate it!" Musa simply pointed downstream with his paddle and shrugged, then went back to his fishing.',
+        text: 'Suddenly, a very hot, confused-looking man in too many layers of clothes stumbled out of the thick bush. He carried a bulky telescope and sweated profusely. It was Mungo Park. He looked utterly lost.',
         imageUrl: '/images/the-river-was-always-there/page_8.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Mungo Park rushed back to his temporary camp, dipped his quill in ink, and scribbled furiously in his journal. I have done it! I have found the mighty river! Meanwhile, Musa, guiding his canoe back upstream, smiled and shook his head quietly.',
+        text: 'Mungo Park waved frantically at Musa. "Excuse me, good man! Which way to the great, previously unmapped water source? I must locate it!" Musa simply pointed downstream with his paddle and shrugged, then went back to his fishing.',
         imageUrl: '/images/the-river-was-always-there/page_9.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'The scene faded back to the bright, modern living room. Tolus eyes were wide. "So, he did not discover it. He just used it and wrote a proud story about it," she summarized.',
+        text: 'Mungo Park rushed back to his temporary camp, dipped his quill in ink, and scribbled furiously in his journal. I have done it! I have found the mighty river! Meanwhile, Musa, guiding his canoe back upstream, smiled and shook his head quietly.',
         imageUrl: '/images/the-river-was-always-there/page_10.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: 'Grandpa Adekunle smiled, a deep, proud smile. "Exactly, my clever girl. The river was always there. It had been serving us for millennia. We only had to tell him where the sofa was." Tolu grinned. "He was a tourist, Grandpa. We were the guides."',
+        text: 'The scene faded back to the bright, modern living room. Tolus eyes were wide. "So, he did not discover it. He just used it and wrote a proud story about it," she summarized.',
         imageUrl: '/images/the-river-was-always-there/page_11.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: 'Grandpa Adekunle smiled, a deep, proud smile. "Exactly, my clever girl. The river was always there. It had been serving us for millennia. We only had to tell him where the sofa was." Tolu grinned. "He was a tourist, Grandpa. We were the guides."',
+        imageUrl: '/images/the-river-was-always-there/page_12.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
@@ -164,15 +164,79 @@ const topics: WeeklyEducationalTopic[] = [
     id: '3',
     title: 'The Kings Signature',
     description:
-      'Uses an imaginative Afro-Asian fusion setting to explain that King Duke Ephraim established the law protecting twins in Calabar in 1855, 21 years before Mary Slessor arrived to provide crucial care.',
+      'Uses an imaginative Lagos-Kano fusion setting andand corrects the myth about who stopped the killing of twins in Calabar. Set in a fantastical Afro-Asian Nigerian town, it proudly teaches that King Duke Ephraim signed the life-saving law in 1855, making him the Architect of change 21 years before Mary Slessor arrived as the kind Caretaker for the rescued babies',
     date: new Date('2024-04-26').toISOString(),
     guidelineCategory: 'Critical Thinking',
     pages: [
       {
-        text: "Let's explore why different countries use different money.",
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'topic-critical-thinking')
-            ?.imageUrl || 'https://picsum.photos/seed/204/800/600',
+        text: "Simi was spending the long summer holiday in her Uncle Edet city, a vibrant place where tall buildings stood beside ancient, mud-walled palaces. Uncle Edet, she asked, pointing across a bustling market square, what is that huge, beautiful old building with the red curved roof?",
+        imageUrl: '/images/the-kings-signature/page_1.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Uncle Edet adjusted his traditional hat, its embroidery catching the sun. Ah, Simi. That is the Old Secretariat. It is where the deep roots of our community were first planted. Every good community needs a strong foundation, just like that building.",
+        imageUrl: '/images/the-kings-signature/page_2.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Simi squinted. But the foundation looks cracked now. Why do people remember old rules? Shouldn’t we just focus on the future?",
+        imageUrl: '/images/the-kings-signature/page_3.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "We remember, Simi, because the future stands on the shoulders of the past, Uncle Edet said, leading her toward the ancient gate. Come. I want to show you the most important signature ever signed in this city.",
+        imageUrl: '/images/the-kings-signature/page_4.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "They entered a cool, echoing hall filled with dusty scrolls and carved wooden cabinets. The air smelled of old paper and teakwood. Uncle Edet stopped at a display case holding a brittle, yellowed document sealed with thick red wax.",
+        imageUrl: '/images/the-kings-signature/page_5.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "In 1855, Edet whispered, our great King, Duke Ephraim, laid down a law that saved countless lives. Before this, tradition demanded a very cruel thing when twins were born.",
+        imageUrl: '/images/the-kings-signature/page_6.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Simi gasped when Uncle Edet explained the tradition of abandoning twin babies, believing them to be a curse. The King knew tradition was wrong when it harmed the innocent, Edet continued. He used his power to build a safe house for all. This signature is the foundation, the very structure of the building.",
+        imageUrl: '/images/the-kings-signature/page_7.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Simi traced the huge, looping royal seal on the document with her finger outside the glass. So, King Duke Ephraim was the Architect of safety, she summarized.",
+        imageUrl: '/images/the-kings-signature/page_8.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Exactly, Edet agreed. But listen, Simi. A house with a strong foundation is still empty. It needs people who will lovingly furnish it. It needs care.",
+        imageUrl: '/images/the-kings-signature/page_9.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Uncle Edet led her to another section, where photographs of a kind woman with bright, focused eyes were displayed. Meet the Caretaker. Mary Slessor. She came later, in 1876, and used the King’s foundation to build a home of hope.",
+        imageUrl: '/images/the-kings-signature/page_10.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "The King was the Architect who built the law in 1855, Edet stated firmly, and Mary Slessor was the amazing Caretaker who furnished the house in 1876. The history clicked perfectly in Simi’s mind.",
+        imageUrl: '/images/the-kings-signature/page_11.png',
+        audioUrl:
+          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+      },
+      {
+        text: "Uncle Edet wrapped his arm around Simi. See? True change requires both the mighty signature of the King and the gentle, tireless hands of the Caretaker. One builds the structure; the other fills it with warmth.",
+        imageUrl: '/images/the-kings-signature/page_12.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
