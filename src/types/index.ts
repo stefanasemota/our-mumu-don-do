@@ -27,4 +27,5 @@ export interface FeaturedVideo {
   summary: string;
   videoUrl: string;
   thumbnailUrl: string;
+  videographer?: string;
 }

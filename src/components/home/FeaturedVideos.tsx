@@ -96,6 +96,11 @@ export function FeaturedVideos({ videos }: FeaturedVideosProps) {
                   <CardTitle className="font-headline text-lg leading-snug">
                     {video.title}
                   </CardTitle>
+                  {video.videographer && (
+                    <p className="text-sm text-muted-foreground pt-1">
+                      By {video.videographer}
+                    </p>
+                  )}
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <CardDescription className="text-sm text-muted-foreground">
