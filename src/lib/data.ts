@@ -242,24 +242,6 @@ const topics: WeeklyEducationalTopic[] = [
       },
     ],
   },
-  {
-    id: '4',
-    title: 'The Strength in Our Diversity',
-    description:
-      'A celebration of the many cultures within Nigeria and how they combine to create a unique national identity.',
-    date: new Date('2024-04-19').toISOString(),
-    guidelineCategory: 'Unity & Identity',
-    pages: [
-      {
-        text: 'Nigeria has many different cultures, and that makes our country special.',
-        imageUrl:
-          PlaceHolderImages.find((p) => p.id === 'topic-unity-identity')
-            ?.imageUrl || 'https://picsum.photos/seed/205/800/600',
-        audioUrl:
-          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
-      },
-    ],
-  },
 ];
 
 const featuredVideos: FeaturedVideo[] = [
