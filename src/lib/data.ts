@@ -202,7 +202,7 @@ const featuredVideos: FeaturedVideo[] = [
   {
     id: '1',
     title: 'Discover Osas’s Secret: A Story of Heritage, Loss & Hope',
-    videographer: 'NaijaStoryTellers',
+    videographer: '© Mr. Abeg',
     summary:
       'Step into the vibrant African village where Osas, a kind-hearted boy with a famous laugh, embarks on a journey of heritage, loss, and hope. Discover how the mysterious disappearance of a sacred rattle staff unveils the profound impact of colonization on his community. Through warm hand-drawn animation inspired by Kirikou and the Sorceress, this moving story highlights the importance of unity, pride, and remembering one’s roots. Witness Osas and his friends as they learn about courage, history, and resilience under the glowing orange sun. Perfect for the African diaspora and anyone eager to explore rich cultural narratives. Like and share this heartfelt tale to spread awareness and inspire connection. #AfricanHeritage #OsasStory #ColonialHistory #UnityAndHope',
     videoUrl:
