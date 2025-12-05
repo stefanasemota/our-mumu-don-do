@@ -274,17 +274,6 @@ const featuredVideos: FeaturedVideo[] = [
     thumbnailUrl:
       'https://images.unsplash.com/photo-1658402834502-866c5760bb2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmlnZXJpYW4lMjBtYXJrZXR8ZW58MHx8fHwxNzY0ODU2OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080',
   },
-  {
-    id: '2',
-    title: 'The Art of Adire',
-    videographer: 'YorubaCreations',
-    summary:
-      'A short documentary on the traditional Yoruba art of indigo-dyed cloth.',
-    videoUrl:
-      'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-video.mp4',
-    thumbnailUrl:
-      'https://images.unsplash.com/photo-1629806461298-616a9a5019a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuaWdlcmlhbiUyMHRleHRpbGVzfGVufDB8fHx8MTc2NTM4NDA1NHww&ixlib=rb-4.1.0&q=80&w=1080',
-  },
 ];
 
 export async function getTopics(): Promise<WeeklyEducationalTopic[]> {
