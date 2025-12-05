@@ -3,13 +3,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { VideoPlayer } from '@/components/video/VideoPlayer';
+import type { FeaturedVideo } from '@/types';
 
 interface VideoPageProps {
   params: {
@@ -18,11 +13,16 @@ interface VideoPageProps {
 }
 
 export default async function VideoPage({ params }: VideoPageProps) {
-  const video = await getFeaturedVideoById(params.id);
+  const videoData = await getFeaturedVideoById(params.id);
 
-  if (!video) {
+  if (!videoData) {
     notFound();
   }
+
+  // Ensure video data is serializable for the client component
+  const video: FeaturedVideo = {
+    ...videoData,
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -34,25 +34,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
           </Link>
         </Button>
       </div>
-      <Card className="w-full max-w-4xl mx-auto overflow-hidden shadow-2xl shadow-primary/10">
-        <CardHeader>
-          <CardTitle className="font-headline text-2xl md:text-3xl text-primary">
-            {video.title}
-          </CardTitle>
-          {video.videographer && (
-            <CardDescription>By {video.videographer}</CardDescription>
-          )}
-        </CardHeader>
-        <CardContent>
-          <div className="aspect-video w-full rounded-lg overflow-hidden border mb-4 bg-black">
-            <video controls className="w-full h-full">
-              <source src={video.videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          <p className="text-foreground/80">{video.summary}</p>
-        </CardContent>
-      </Card>
+      <VideoPlayer video={video} />
     </div>
   );
 }
