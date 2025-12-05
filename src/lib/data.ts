@@ -88,73 +88,73 @@ const topics: WeeklyEducationalTopic[] = [
     pages: [
       {
         text: 'Tolu ran into the living room, a stack of very old history books sliding in her hands. She loved visiting Grandpa Adekunle because his house was shaped like a giant, colorful, triple-decker pagoda—a mix of old Nigeria and new China, Grandpa called it.',
-        imageUrl: '/images/the-river-was-always-there/page_2.png',
+        imageUrl: '/images/the-river-was-always-there/page_0.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: '"Grandpa! Grandpa Adekunle!" Tolu called out. She pointed a small finger at a faded picture in one of the texts. "In my school book, it says that Mungo Park discovered the great River Niger! Is that really true? How can you find something that is so big?"',
-        imageUrl: '/images/the-river-was-always-there/page_3.png',
+        imageUrl: '/images/the-river-was-always-there/page_1.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Grandpa Adekunle adjusted his spectacles—they were gold-rimmed and slightly crooked. He reached out and gently took the book. "Ah, the famous discovery story," he chuckled, setting the book down. "Tolu, let me ask you something important."',
-        imageUrl: '/images/the-river-was-always-there/page_4.png',
+        imageUrl: '/images/the-river-was-always-there/page_2.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: '"If a total stranger walks right into our living room," he began, looking around the bright, spacious room, "and he sees our beautiful, comfy, Ankara-covered sofa… did he  discover the sofa? No! We were already sitting on it, werent we?"',
-        imageUrl: '/images/the-river-was-always-there/page_5.png',
+        imageUrl: '/images/the-river-was-always-there/page_3.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Tolu giggled. "Yes! Mama was probably knitting right there! So why would he say he found the river?" Grandpa Adekunle tapped his chin. "Because the River Niger, my dear, was never hiding. It was busy."',
-        imageUrl: '/images/the-river-was-always-there/page_6.png',
+        imageUrl: '/images/the-river-was-always-there/page_4.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'The view shifted, suddenly becoming lush and green, long, long ago. Along the banks of the vast, silver River Niger, people were already living vibrant lives. They fished, they traded, and they wrote songs about the water.',
-        imageUrl: '/images/the-river-was-always-there/page_7.png',
+        imageUrl: '/images/the-river-was-always-there/page_5.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Musa the fisherman was singing a strong, ancient tune as he paddled his canoe near the tall reeds. He knew every turn, every bend, every sandbank. This river was his home, his map, and his pantry.',
-        imageUrl: '/images/the-river-was-always-there/page_8.png',
+        imageUrl: '/images/the-river-was-always-there/page_6.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Suddenly, a very hot, confused-looking man in too many layers of clothes stumbled out of the thick bush. He carried a bulky telescope and sweated profusely. It was Mungo Park. He looked utterly lost.',
-        imageUrl: '/images/the-river-was-always-there/page_9.png',
+        imageUrl: '/images/the-river-was-always-there/page_7.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Mungo Park waved frantically at Musa. "Excuse me, good man! Which way to the great, previously unmapped water source? I must locate it!" Musa simply pointed downstream with his paddle and shrugged, then went back to his fishing.',
-        imageUrl: '/images/the-river-was-always-there/page_10.png',
+        imageUrl: '/images/the-river-was-always-there/page_8.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Mungo Park rushed back to his temporary camp, dipped his quill in ink, and scribbled furiously in his journal. I have done it! I have found the mighty river! Meanwhile, Musa, guiding his canoe back upstream, smiled and shook his head quietly.',
-        imageUrl: '/images/the-river-was-always-there/page_11.png',
+        imageUrl: '/images/the-river-was-always-there/page_9.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'The scene faded back to the bright, modern living room. Tolus eyes were wide. "So, he did not discover it. He just used it and wrote a proud story about it," she summarized.',
-        imageUrl: '/images/the-river-was-always-there/page_12.png',
+        imageUrl: '/images/the-river-was-always-there/page_10.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
         text: 'Grandpa Adekunle smiled, a deep, proud smile. "Exactly, my clever girl. The river was always there. It had been serving us for millennia. We only had to tell him where the sofa was." Tolu grinned. "He was a tourist, Grandpa. We were the guides."',
-        imageUrl: '/images/the-river-was-always-there/page_13.png',
+        imageUrl: '/images/the-river-was-always-there/page_11.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
@@ -201,7 +201,7 @@ const topics: WeeklyEducationalTopic[] = [
 const featuredVideos: FeaturedVideo[] = [
   {
     id: '1',
-    title: 'A Day in the Life of a Lagos Market',
+    title: 'Discover Osas’s Secret: A Story of Heritage, Loss & Hope',
     summary:
       "Experience the vibrant energy and bustling commerce of one of Nigeria's largest markets.",
     videoUrl:
