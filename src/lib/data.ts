@@ -164,7 +164,7 @@ const topics: WeeklyEducationalTopic[] = [
     id: '3',
     title: 'The Kings Signature',
     description:
-      'Uses an imaginative Lagos-Kano fusion setting andand corrects the myth about who stopped the killing of twins in Calabar. Set in a fantastical Afro-Asian Nigerian town, it proudly teaches that King Duke Ephraim signed the life-saving law in 1855, making him the Architect of change 21 years before Mary Slessor arrived as the kind Caretaker for the rescued babies',
+      'Uses an imaginative Lagos-Kano fusion setting to correct the myth about who stopped the killing of twins in Calabar. It proudly teaches that King Duke Ephraim signed the life-saving law in 1855, making him the Architect of change 21 years before Mary Slessor arrived as the kind Caretaker for the rescued babies.',
     date: new Date('2024-04-26').toISOString(),
     guidelineCategory: 'Critical Thinking',
     pages: [
@@ -284,17 +284,6 @@ const featuredVideos: FeaturedVideo[] = [
       'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-video.mp4',
     thumbnailUrl:
       'https://images.unsplash.com/photo-1629806461298-616a9a5019a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuaWdlcmlhbiUyMHRleHRpbGVzfGVufDB8fHx8MTc2NTM4NDA1NHww&ixlib=rb-4.1.0&q=80&w=1080',
-  },
-  {
-    id: '3',
-    title: 'Nok Terracotta Heads',
-    videographer: 'AncientPathways',
-    summary:
-      'Exploring the ancient terracotta sculptures of the Nok culture, some of the oldest in Africa.',
-    videoUrl:
-      'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-video.mp4',
-    thumbnailUrl:
-      'https://images.unsplash.com/photo-1711117078011-d6f8c0657069?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YmVuaW4lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzY0ODU2OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: '4',
