@@ -33,7 +33,7 @@ export function FeaturedVideos({ videos }: FeaturedVideosProps) {
     const shareData = {
       title: video.title,
       text: video.summary,
-      url: window.location.origin, // In a real app, this would be the direct URL to the video
+      url: `${window.location.origin}/video/${video.id}`,
     };
 
     if (navigator.share && navigator.canShare(shareData)) {
@@ -85,9 +85,8 @@ export function FeaturedVideos({ videos }: FeaturedVideosProps) {
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <PlayCircle className="h-16 w-16 text-white/80 group-hover:text-primary transition-colors" />
                   </div>
-                  {/* In a real app, you might link to a video player page */}
                   <Link
-                    href="#"
+                    href={`/video/${video.id}`}
                     className="absolute inset-0"
                     aria-label={`Play video: ${video.title}`}
                   ></Link>

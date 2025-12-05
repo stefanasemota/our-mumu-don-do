@@ -269,8 +269,7 @@ const featuredVideos: FeaturedVideo[] = [
     videographer: '© Mr. Abeg',
     summary:
       'Step into the vibrant African village where Osas, a kind-hearted boy with a famous laugh, embarks on a journey of heritage, loss, and hope. Discover how the mysterious disappearance of a sacred rattle staff unveils the profound impact of colonization on his community. Through warm hand-drawn animation inspired by Kirikou and the Sorceress, this moving story highlights the importance of unity, pride, and remembering one’s roots. Witness Osas and his friends as they learn about courage, history, and resilience under the glowing orange sun. Perfect for the African diaspora and anyone eager to explore rich cultural narratives. Like and share this heartfelt tale to spread awareness and inspire connection. #AfricanHeritage #OsasStory #ColonialHistory #UnityAndHope',
-    videoUrl:
-      'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-video.mp4',
+    videoUrl: '/videos/osas_Secret__A_Journey.mp4',
     thumbnailUrl:
       'https://images.unsplash.com/photo-1658402834502-866c5760bb2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmlnZXJpYW4lMjBtYXJrZXR8ZW58MHx8fHwxNzY0ODU2OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080',
   },
@@ -298,4 +297,11 @@ export async function getTopicById(
 export async function getFeaturedVideos(): Promise<FeaturedVideo[]> {
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos);
+}
+
+export async function getFeaturedVideoById(
+  id: string
+): Promise<FeaturedVideo | undefined> {
+  // In a real app, you'd fetch this from Firestore
+  return Promise.resolve(featuredVideos.find((video) => video.id === id));
 }
