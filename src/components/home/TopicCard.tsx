@@ -78,7 +78,7 @@ export function TopicCard({ topic }: TopicCardProps) {
   return (
     <div className="group flex flex-col h-full">
       <Card className="flex-grow flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
-        <Link href={`/story/${topic.id}`} className="block">
+        <Link href={`/story/${topic.id}`} className="block" key={topic.id}>
           <div className="relative h-48 w-full">
             <Image
               src={imageUrl}
