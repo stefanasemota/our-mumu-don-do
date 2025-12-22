@@ -13,7 +13,7 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/The-Glass-of-Milk.mp3',
     pages: [
       {
-        text: 'Meet Amina! \nAmina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
+        text: '[Intro]\nMeet Amina! \nAmina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
         imageUrl: '/images/the-glass-of-milk/page_0.png',
       },
       {
@@ -68,7 +68,7 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/The-River-was-always-there.mp3',
     pages: [
       {
-        text: '"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
+        text: '[Intro]\n "Yeah... listen to the story o. No be everything dem tell you be the full truth."',
         imageUrl: '/images/the-river-was-always-there/page_1.png',
       },
       {
@@ -183,14 +183,14 @@ const topics: WeeklyEducationalTopic[] = [
       'The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one\'s roots.',
     date: new Date('2024-06-01').toISOString(),
     guidelineCategory: 'Historical Context',
-    audioUrl: '/audio/placeholder.mp3',
+    audioUrl: '/audio/Colonisation.mp3',
     pages: [
       {
-        text: '[Intro]\n\n"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun..."',
+        text: '[Intro]\n"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun..."',
         imageUrl: 'https://picsum.photos/seed/4-1/600/600',
       },
       {
-        text: '[Narration]\n\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.',
+        text: '[Narration]\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.',
         imageUrl: 'https://picsum.photos/seed/4-2/600/600',
       },
       {
@@ -198,35 +198,35 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: 'https://picsum.photos/seed/4-3/600/600',
       },
       {
-        text: '[Narration]\n\nOne day, Osas found an old picture. A man stood with the King, holding a special, shiny rattle staff. Osas thought it was his great-grandfather. This picture showed him the beauty of his ancestors.',
+        text: '[Narration]\nOne day, Osas found an old picture. A man stood with the King, holding a special, shiny rattle staff. Osas thought it was his great-grandfather. This picture showed him the beauty of his ancestors.',
         imageUrl: 'https://picsum.photos/seed/4-4/600/600',
       },
       {
-        text: '[Osas - Curious Voice]\n\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
+        text: '[Osas - Curious Voice]\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
         imageUrl: 'https://picsum.photos/seed/4-5/600/600',
       },
       {
-        text: '[Fosa - Gentle Voice]\n\n"Ah, my son. That staff, and many other special things, are no longer here with us. They were moved by people who visited from very far away, long ago."',
+        text: '[Fosa - Gentle Voice]\n"Ah, my son. That staff, and many other special things, are no longer here with us. They were moved by people who visited from very far away, long ago."',
         imageUrl: 'https://picsum.photos/seed/4-6/600/600',
       },
       {
-        text: '[Osas - Puzzled Voice]\n\n"Moved? Who moved our things? Why?"',
+        text: '[Osas - Puzzled Voice]\n"Moved? Who moved our things? Why?"',
         imageUrl: 'https://picsum.photos/seed/4-7/600/600',
       },
       {
-        text: '[Fosa - Explaining Voice]\n\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \'found\' your room, even though you were living there."',
+        text: '[Fosa - Explaining Voice]\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \'found\' your room, even though you were living there."',
         imageUrl: 'https://picsum.photos/seed/4-8/600/600',
       },
       {
-        text: '[Osas - Worried Voice]\n\n"That\'s not fair! Why would anyone do that?"',
+        text: '[Osas - Worried Voice]\n"That\'s not fair! Why would anyone do that?"',
         imageUrl: 'https://picsum.photos/seed/4-9/600/600',
       },
       {
-        text: '[Fosa]\n\n"They believed they knew better. They had powerful tools, and there were many of them. Our ancestors were brave, they protected what was theirs. But the visitors were very strong. Our communities felt a deep change."',
+        text: '[Fosa]\n"They believed they knew better. They had powerful tools, and there were many of them. Our ancestors were brave, they protected what was theirs. But the visitors were very strong. Our communities felt a deep change."',
         imageUrl: 'https://picsum.photos/seed/4-10/600/600',
       },
       {
-        text: '[Cosmos - Thoughtful Voice]\n\n"It was like someone changing your favorite room, Osas. The toys your mother bought might be gone. You might get used to new ways, and forget your own choices."',
+        text: '[Cosmos - Thoughtful Voice]\n"It was like someone changing your favorite room, Osas. The toys your mother bought might be gone. You might get used to new ways, and forget your own choices."',
         imageUrl: 'https://picsum.photos/seed/4-11/600/600',
       },
       {
@@ -234,19 +234,19 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: 'https://picsum.photos/seed/4-12/600/600',
       },
       {
-        text: '[Fosa]\n\n"It is true. And sometimes, even within our own people, choices were made that made things harder. We must remember this."',
+        text: '[Fosa]\n"It is true. And sometimes, even within our own people, choices were made that made things harder. We must remember this."',
         imageUrl: 'https://picsum.photos/seed/4-13/600/600',
       },
       {
-        text: 'The rattle staff is gone, but the spirit remains (Yeah!)\nOur stories are living, through joy and through pains\nWe learn from the past, we build a new day\nTogether as one, we will find our own way!\n(Vocal ad-lib: "Osas, Fino, Cosmos! Unite!")',
+        text: 'The rattle staff is gone, but the spirit remains (Yeah!)\nOur stories are living, through joy and through pains\nWe learn from the past, we build a new day\nTogether as one, we will find our own way!\n',
         imageUrl: 'https://picsum.photos/seed/4-14/600/600',
       },
       {
-        text: '[Narration]\n\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\' talk that were not from their own tongue.',
+        text: '[Narration]\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\' talk that were not from their own tongue.',
         imageUrl: 'https://picsum.photos/seed/4-15/600/600',
       },
       {
-        text: '[Osas - Determined Voice]\n\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\'s even more important!"',
+        text: '[Osas - Determined Voice]\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\'s even more important!"',
         imageUrl: 'https://picsum.photos/seed/4-16/600/600',
       },
       {

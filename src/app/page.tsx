@@ -1,16 +1,10 @@
 import { Guidelines } from '@/components/home/Guidelines';
 import { TopicAccordion } from '@/components/home/TopicAccordion';
-import { getTopics, getFeaturedVideos } from '@/lib/data';
-import { FeaturedVideos } from '@/components/home/FeaturedVideos';
-import type { FeaturedVideo } from '@/types';
+import { getTopics } from '@/lib/data';
 import { Separator } from '@/components/ui/separator';
 
 export default async function Home() {
   const topics = await getTopics();
-  const featuredVideosData = await getFeaturedVideos();
-  const featuredVideos: FeaturedVideo[] = JSON.parse(
-    JSON.stringify(featuredVideosData)
-  );
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
@@ -40,13 +34,6 @@ export default async function Home() {
       </div>
 
       <Guidelines />
-
-      <section className="mt-12 md:mt-20">
-        <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
-          Featured Storytelling from other Videographers
-        </h2>
-        <FeaturedVideos videos={featuredVideos} />
-      </section>
     </div>
   );
 }
