@@ -17,7 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getTopics } from '@/lib/data';
+import { getTopics } from '@/lib/seed-data';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, Pencil } from 'lucide-react';
@@ -193,3 +193,5 @@ export default function AdminDashboardClientPage({
     </div>
   );
 }
+
+    

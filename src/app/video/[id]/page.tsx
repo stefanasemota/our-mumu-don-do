@@ -1,10 +1,12 @@
-import { getFeaturedVideoById } from '@/lib/data';
+'use server';
+
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { VideoPlayer } from '@/components/video/VideoPlayer';
 import type { FeaturedVideo } from '@/types';
+import { getAdminDB } from '@/lib/firebase-admin';
 
 interface VideoPageProps {
   params: {
@@ -12,15 +14,36 @@ interface VideoPageProps {
   };
 }
 
-export default async function VideoPage({ params }: VideoPageProps) {
-  const videoData = await getFeaturedVideoById(params.id);
+async function getVideo(id: string): Promise<FeaturedVideo | null> {
+  try {
+    const db = getAdminDB();
+    const doc = await db.collection('videos').doc(id).get();
 
-  if (!videoData) {
+    if (!doc.exists) {
+      return null;
+    }
+
+    const data = doc.data();
+    if (!data) {
+      return null;
+    }
+
+    return {
+      ...data,
+      id: doc.id,
+    } as FeaturedVideo;
+  } catch (error) {
+    console.error(`Failed to fetch video ${id}:`, error);
+    return null;
+  }
+}
+
+export default async function VideoPage({ params }: VideoPageProps) {
+  const video = await getVideo(params.id);
+
+  if (!video) {
     notFound();
   }
-
-  // Ensure video data is serializable for the client component
-  const video: FeaturedVideo = JSON.parse(JSON.stringify(videoData));
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,3 +59,5 @@ export default async function VideoPage({ params }: VideoPageProps) {
     </div>
   );
 }
+
+    
