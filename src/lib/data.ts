@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { initializeFirebase } from '@/firebase';
 
-// This function now returns the local data and is only used for seeding.
+// This function now returns the local data and is used for seeding and as a fallback.
 export function getTopics(local = false): WeeklyEducationalTopic[] {
   const localTopics: WeeklyEducationalTopic[] = [
       {
@@ -247,8 +247,6 @@ export async function getTopicById(
   id: string
 ): Promise<WeeklyEducationalTopic | undefined> {
   try {
-    // This check is important to avoid trying to initialize Firebase on the server
-    // when it might not be configured. We get the firestore instance this way.
     const { firestore } = initializeFirebase();
     if (!firestore) {
       throw new Error('Firestore is not initialized.');
@@ -257,32 +255,38 @@ export async function getTopicById(
     const topicRef = doc(firestore, 'weeklyEducationalTopics', id);
     const topicSnap = await getDoc(topicRef);
 
-    if (!topicSnap.exists()) {
-      console.log(`No topic found with id: ${id}`);
-      return undefined;
+    if (topicSnap.exists()) {
+      const topicData = topicSnap.data();
+      // Firestore returns Timestamps, which are not serializable for client components.
+      // We convert it to an ISO string.
+      const date = topicData.date.toDate().toISOString();
+
+      return {
+        id: topicSnap.id,
+        title: topicData.title,
+        description: topicData.description,
+        date: date,
+        guidelineCategory: topicData.guidelineCategory,
+        pages: topicData.pages,
+        audioUrl: topicData.audioUrl,
+      };
     }
-
-    const topicData = topicSnap.data();
-    
-    // Firestore returns Timestamps, which are not serializable for client components.
-    // We convert it to an ISO string.
-    const date = topicData.date.toDate().toISOString();
-
-    return {
-      id: topicSnap.id,
-      title: topicData.title,
-      description: topicData.description,
-      date: date,
-      guidelineCategory: topicData.guidelineCategory,
-      pages: topicData.pages,
-      audioUrl: topicData.audioUrl,
-    };
   } catch (error) {
-    console.error(`Error fetching topic by ID "${id}":`, error);
-    // Unlike before, we are not falling back to local data.
-    // If Firestore fails, we let it fail. This makes the data flow predictable.
-    return undefined;
+    console.error(`Error fetching topic by ID "${id}" from Firestore, falling back to local data:`, error);
   }
+
+  // Fallback to local data if Firestore fetch fails or document doesn't exist
+  console.log(`Topic with id "${id}" not found in Firestore, searching local data.`);
+  const localTopics = getTopics(true);
+  const localTopic = localTopics.find((topic) => topic.id === id);
+
+  if (localTopic) {
+    console.log(`Found topic with id "${id}" in local data.`);
+    return localTopic;
+  }
+  
+  console.log(`No topic found with id: ${id} in local data either.`);
+  return undefined;
 }
 
 
@@ -297,5 +301,3 @@ export async function getFeaturedVideoById(
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos.find((video) => video.id === id));
 }
-
-    
