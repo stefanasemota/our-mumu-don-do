@@ -12,7 +12,10 @@ export function StoryList() {
   const topicsQuery = useMemoFirebase(
     () =>
       firestore
-        ? query(collection(firestore, 'weeklyEducationalTopics'), orderBy('date', 'desc'))
+        ? query(
+            collection(firestore, 'weeklyEducationalTopics'),
+            orderBy('date', 'desc')
+          )
         : null,
     [firestore]
   );
@@ -47,7 +50,6 @@ export function StoryList() {
           ? topic.date.toISOString()
           : String(topic.date),
     })) || [];
-
 
   return <TopicAccordion topics={serializedTopics} />;
 }
