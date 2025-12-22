@@ -23,31 +23,36 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
 
   return (
     <Accordion type="single" collapsible className="w-full">
-      {topics.map((topic) => (
-        <AccordionItem value={topic.id} key={topic.id}>
-          <AccordionTrigger className="text-lg font-headline hover:no-underline text-left px-6">
-            <div className="flex flex-wrap items-center gap-4">
-              <span>{topic.title}</span>
-              <div className="flex flex-wrap items-center gap-2">
-                {topic.guidelineCategory.map((category) => (
-                  <Badge
-                    key={category}
-                    variant="secondary"
-                    className="font-normal text-sm"
-                  >
-                    {category}
-                  </Badge>
-                ))}
+      {topics.map((topic) => {
+        const categories = Array.isArray(topic.guidelineCategory)
+          ? topic.guidelineCategory
+          : [topic.guidelineCategory];
+        return (
+          <AccordionItem value={topic.id} key={topic.id}>
+            <AccordionTrigger className="text-lg font-headline hover:no-underline text-left px-6">
+              <div className="flex flex-wrap items-center gap-4">
+                <span>{topic.title}</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  {categories.map((category) => (
+                    <Badge
+                      key={category}
+                      variant="secondary"
+                      className="font-normal text-sm"
+                    >
+                      {category}
+                    </Badge>
+                  ))}
+                </div>
               </div>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="pt-4 pb-8">
-              <StoryPlayer topic={topic} />
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      ))}
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="pt-4 pb-8">
+                <StoryPlayer topic={topic} />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        );
+      })}
     </Accordion>
   );
 }

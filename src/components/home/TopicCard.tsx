@@ -30,10 +30,15 @@ const categoryImageMap: Record<string, string> = {
 
 export function TopicCard({ topic }: TopicCardProps) {
   const { toast } = useToast();
+  
+  const categories = Array.isArray(topic.guidelineCategory)
+    ? topic.guidelineCategory
+    : [topic.guidelineCategory];
+
   // Use the first category to determine the image
   const placeholderId =
-    topic.guidelineCategory.length > 0
-      ? categoryImageMap[topic.guidelineCategory[0]]
+    categories.length > 0
+      ? categoryImageMap[categories[0]]
       : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
   const imageUrl = topic.pages[0]?.imageUrl.startsWith('/')
@@ -102,7 +107,7 @@ export function TopicCard({ topic }: TopicCardProps) {
             {topic.description}
           </CardDescription>
           <div className="flex flex-wrap gap-2">
-            {topic.guidelineCategory.map((category) => (
+            {categories.map((category) => (
               <Badge key={category} variant="secondary" className="font-normal w-fit">
                 {category}
               </Badge>
