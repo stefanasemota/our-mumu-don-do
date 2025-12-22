@@ -21,7 +21,7 @@ export default async function Home() {
 
       <section className="mb-12 md:mb-16">
         <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
-          Educational Topics
+          Educational Stories
         </h2>
         <div>
           <TopicAccordion topics={topics} />
