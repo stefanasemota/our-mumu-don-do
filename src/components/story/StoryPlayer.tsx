@@ -34,13 +34,19 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const progress = ((currentPage + 1) / topic.pages.length) * 100;
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.src = page.audioUrl;
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      // Pause and reset when page changes
+      audioElement.pause();
+      setIsPlaying(false);
+      audioElement.src = page.audioUrl;
+
       if (isPlaying) {
-        audioRef.current.play().catch(() => setIsPlaying(false));
+        // This will only be true if user manually clicks play again
+        audioElement.play().catch(() => setIsPlaying(false));
       }
     }
-  }, [currentPage, page.audioUrl, isPlaying]);
+  }, [currentPage, page.audioUrl]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -50,28 +56,33 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     const handlePause = () => setIsPlaying(false);
     const handleEnded = () => {
       setIsPlaying(false);
-      // Optional: go to next page on audio end
-      // if (currentPage < topic.pages.length - 1) {
-      //   setCurrentPage(currentPage + 1);
-      // }
     };
 
     audioElement.addEventListener('play', handlePlay);
     audioElement.addEventListener('pause', handlePause);
     audioElement.addEventListener('ended', handleEnded);
 
+    // Set initial source
+    if (!audioElement.src) {
+      audioElement.src = page.audioUrl;
+    }
+
     return () => {
       audioElement.removeEventListener('play', handlePlay);
       audioElement.removeEventListener('pause', handlePause);
       audioElement.removeEventListener('ended', handleEnded);
     };
-  }, []);
+  }, [page.audioUrl]);
 
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
+        // Ensure src is set before playing
+        if (!audioRef.current.src || audioRef.current.src !== page.audioUrl) {
+          audioRef.current.src = page.audioUrl;
+        }
         audioRef.current.play().catch(console.error);
       }
       setIsPlaying(!isPlaying);
@@ -81,9 +92,11 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const handleRestart = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      if (!isPlaying) {
+      if (audioRef.current.paused) {
+         if (!audioRef.current.src || audioRef.current.src !== page.audioUrl) {
+          audioRef.current.src = page.audioUrl;
+        }
         audioRef.current.play().catch(console.error);
-        setIsPlaying(true);
       }
     }
   };
@@ -91,14 +104,12 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const handleNextPage = () => {
     if (currentPage < topic.pages.length - 1) {
       setCurrentPage(currentPage + 1);
-      setIsPlaying(false); // Stop audio when changing page
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
-      setIsPlaying(false); // Stop audio when changing page
     }
   };
 
@@ -133,7 +144,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
             </div>
           </div>
           <div className="mt-6 flex items-center gap-4 p-4 rounded-lg bg-secondary">
-            <audio ref={audioRef} src={page.audioUrl} preload="metadata" />
+            <audio ref={audioRef} preload="metadata" />
             <Button size="icon" variant="ghost" onClick={handlePlayPause}>
               {isPlaying ? (
                 <Pause className="h-6 w-6" />
