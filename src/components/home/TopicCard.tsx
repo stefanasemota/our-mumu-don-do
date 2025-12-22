@@ -76,12 +76,11 @@ export function TopicCard({ topic }: TopicCardProps) {
   };
 
   return (
-    <Link
-      href={`/story/${topic.id}`}
-      className="group flex flex-col h-full"
+    <Card
       key={topic.id}
+      className="flex-grow flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50 group"
     >
-      <Card className="flex-grow flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
+      <Link href={`/story/${topic.id}`} className="flex flex-col h-full">
         <div className="relative h-48 w-full">
           <Image
             src={imageUrl}
@@ -115,7 +114,7 @@ export function TopicCard({ topic }: TopicCardProps) {
             Share
           </Button>
         </CardFooter>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 }
