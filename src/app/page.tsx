@@ -3,6 +3,7 @@ import { TopicAccordion } from '@/components/home/TopicAccordion';
 import { getTopics, getFeaturedVideos } from '@/lib/data';
 import { FeaturedVideos } from '@/components/home/FeaturedVideos';
 import type { FeaturedVideo } from '@/types';
+import { Separator } from '@/components/ui/separator';
 
 export default async function Home() {
   const topics = await getTopics();
@@ -25,7 +26,7 @@ export default async function Home() {
         </p>
       </section>
 
-      <section className="mt-12 md:mt-20">
+      <section className="mb-12 md:mb-16">
         <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
           Educational Topics
         </h2>
@@ -33,6 +34,10 @@ export default async function Home() {
           <TopicAccordion topics={topics} />
         </div>
       </section>
+
+      <div className="my-12 md:my-16">
+        <Separator />
+      </div>
 
       <Guidelines />
 
