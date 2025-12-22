@@ -1,8 +1,11 @@
 import { Guidelines } from '@/components/home/Guidelines';
 import { StoryList } from '@/components/home/StoryList';
+import { FeaturedVideos } from '@/components/home/FeaturedVideos';
+import { getFeaturedVideos } from '@/lib/data';
 import { Separator } from '@/components/ui/separator';
 
 export default async function Home() {
+  const videos = await getFeaturedVideos();
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <section className="text-center mb-12 md:mb-16">
@@ -23,6 +26,17 @@ export default async function Home() {
         <div>
           <StoryList />
         </div>
+      </section>
+
+      <div className="my-12 md:my-16">
+        <Separator />
+      </div>
+
+      <section className="mb-12 md:mb-16">
+        <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
+          Featured Videos
+        </h2>
+        <FeaturedVideos videos={videos} />
       </section>
 
       <div className="my-12 md:my-16">

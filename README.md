@@ -14,7 +14,7 @@ This project is an educational web application for the children of Nigeria. It's
   - Historical Context
   - Unity & Identity
 - **AI-Powered Content Suggestions**: Utilizes Genkit and Google's Gemini model to help creators enhance story content.
-- **Admin Dashboard**: A password-protected section for managing application content.
+- **Admin Dashboard (In Development)**: A password-protected section for managing application content is in development.
 - **Responsive Design**: Built with a mobile-first approach to ensure a great experience on all devices.
 
 ## Tech Stack
@@ -60,15 +60,7 @@ Create a `.env` file in the root of the project and add the necessary environmen
 # A password to protect the /admin-dashboard route
 ADMIN_PASSWORD="your_secret_admin_password"
 
-# Firebase configuration (if using Firebase services)
-# NEXT_PUBLIC_FIREBASE_API_KEY=
-# NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-# NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-# NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-# NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-# NEXT_PUBLIC_FIREBASE_APP_ID=
-
-# Genkit/Gemini API Key
+# Genkit/Gemini API Key (if using AI features)
 # GEMINI_API_KEY=
 ```
 
@@ -84,7 +76,7 @@ The application will be available at `http://localhost:9002`.
 
 ## Available Scripts
 
-- `npm run dev`: Starts the Next.js development server with Turbopack.
+- `npm run dev`: Starts the Next.js development server.
 - `npm run build`: Builds the application for production.
 - `npm run start`: Starts the production server.
 - `npm run lint`: Runs ESLint to check for code quality issues.
