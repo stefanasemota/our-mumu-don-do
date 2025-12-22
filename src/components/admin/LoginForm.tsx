@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -23,6 +24,7 @@ function SubmitButton() {
 export function LoginForm() {
   const [state, formAction] = useFormState(login, undefined);
   const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     if (state?.error) {
@@ -32,8 +34,14 @@ export function LoginForm() {
         description: state.error,
       });
     }
-    // No need to handle success redirect here, server action does it.
-  }, [state, toast]);
+    if (state?.success) {
+      // Upon successful login, redirect to the dashboard.
+      // A full page reload is used to ensure all client-side caches are cleared
+      // and the new page content is rendered correctly.
+      router.push('/admin-dashboard');
+      router.refresh();
+    }
+  }, [state, toast, router]);
 
   return (
     <form action={formAction} className="space-y-4">

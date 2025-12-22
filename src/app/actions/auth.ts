@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const AUTH_COOKIE_NAME = 'auth_token';
+const AUTH_COOKIE_NAME = '__session';
 
 export async function login(prevState: any, formData: FormData) {
   const password = formData.get('password');
@@ -23,10 +23,9 @@ export async function login(prevState: any, formData: FormData) {
       sameSite: 'lax',
       maxAge: 60 * 60 * 24, // 1 day
     });
-    // Invalidate the cache for the entire site to ensure a clean redirect
-    revalidatePath('/');
-    // Redirect to the admin dashboard upon successful login
-    redirect('/admin-dashboard');
+    // Invalidate the cache for the entire site to ensure a clean state
+    revalidatePath('/', 'layout');
+    return { success: true };
   }
 
   // If the password is not correct, return an error message.
