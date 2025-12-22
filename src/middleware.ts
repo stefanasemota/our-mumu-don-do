@@ -19,13 +19,13 @@ export async function middleware(request: NextRequest) {
     // Ensure the admin password is set in the environment
     if (!ADMIN_PASSWORD) {
       console.error('ADMIN_PASSWORD environment variable not set.');
+      // If the password isn't set, we can't secure the route, so redirect away.
       const url = request.nextUrl.clone();
       url.pathname = '/admin-login';
-      // For API routes or server actions, might return a JSON response instead
       return NextResponse.redirect(url);
     }
     
-    // If the token doesn't match, redirect to the login page
+    // If the token doesn't match the password, redirect to the login page.
     if (authToken !== ADMIN_PASSWORD) {
       const url = request.nextUrl.clone();
       url.pathname = '/admin-login';
@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // If all checks pass, or if it's not an admin route, continue
+  // If all checks pass, or if it's not an admin route, continue to the requested page.
   return NextResponse.next({
     request: {
       headers: requestHeaders,
