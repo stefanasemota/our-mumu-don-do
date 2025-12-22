@@ -13,11 +13,6 @@ const guidelines: {
   description: string;
 }[] = [
   {
-    category: 'Nigerian Solutions',
-    icon: Lightbulb,
-    description: 'Celebrating local innovation and problem-solving.',
-  },
-  {
     category: 'Critical Thinking',
     icon: BrainCircuit,
     description: 'Encouraging questions and analytical skills.',
@@ -37,7 +32,7 @@ const guidelines: {
 export function Guidelines() {
   return (
     <section id="guidelines" className="mb-12 md:mb-16">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {guidelines.map((guideline) => (
           <Card
             key={guideline.category}
