@@ -131,6 +131,14 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                 </p>
             </div>
             <div className="flex items-center gap-2">
+              <Button size="icon" variant="outline" onClick={handlePrevPage} disabled={currentPage === 0} className="shrink-0 hover:bg-primary/20 hover:text-primary">
+                <ChevronLeft className="h-5 w-5" />
+                <span className="sr-only">Previous Page</span>
+              </Button>
+              <Button size="icon" variant="outline" onClick={handleNextPage} disabled={currentPage === topic.pages.length - 1} className="shrink-0 hover:bg-primary/20 hover:text-primary">
+                <ChevronRight className="h-5 w-5" />
+                <span className="sr-only">Next Page</span>
+              </Button>
               <Button size="icon" variant="outline" onClick={handleRewind} className="shrink-0 hover:bg-primary/20 hover:text-primary">
                 <Rewind className="h-5 w-5" />
                 <span className="sr-only">Rewind Narration</span>
@@ -175,23 +183,6 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         <Progress value={progress} className="w-full h-2" />
-        <div className="flex justify-between w-full">
-          <Button
-            onClick={handlePrevPage}
-            disabled={currentPage === 0}
-            variant="outline"
-          >
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Previous
-          </Button>
-          <Button
-            onClick={handleNextPage}
-            disabled={currentPage === topic.pages.length - 1}
-          >
-            Next
-            <ChevronRight className="ml-2 h-4" />
-          </Button>
-        </div>
       </CardFooter>
     </Card>
   );
