@@ -6,7 +6,10 @@ import { redirect } from 'next/navigation';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const AUTH_COOKIE_NAME = 'auth_token';
 
-export async function login(formData: FormData): Promise<{ error: string } | void> {
+export async function login(
+  prevState: any,
+  formData: FormData
+): Promise<{ error: string } | void> {
   const password = formData.get('password');
 
   if (!ADMIN_PASSWORD) {
