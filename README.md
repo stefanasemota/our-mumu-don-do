@@ -1,8 +1,8 @@
 # Our Mumu Don Do
 
-"Understand Yesterday. Improve Today."
+"Our foolishness is over."
 
-This project is an educational web application designed for the young children of Nigeria. It aims to foster critical thinking, celebrate local Nigerian solutions, and provide a rich understanding of historical context through engaging, illustrated stories and videos.
+This project is an educational web application for the children of Nigeria. It's built to arm the next generation with the truth by dismantling false histories and celebrating our own solutions. Through raw, illustrated stories, we foster the critical thinking needed to build a future free from the old nonsense.
 
 ## Features
 
