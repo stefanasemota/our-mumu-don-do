@@ -1,54 +1,44 @@
-
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// 1. MUST use __session for Firebase Hosting to pass the cookie through
+const AUTH_COOKIE_NAME = '__session'; 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const AUTH_COOKIE_NAME = 'auth_token';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  // DEBUG LOG - You will see this in Firebase Logs
+  console.log(`Middleware running for: ${pathname}. Password exists: ${!!ADMIN_PASSWORD}`);
 
-  // Add the pathname to the request headers for access in server components
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-next-pathname', pathname);
+  // 2. THE LOOP BREAKER
+  // If the user is already going to the login page, STOP checking and let them go there.
+  if (pathname.startsWith('/admin-login')) {
+    return NextResponse.next();
+  }
 
-  // 1. Guard against missing configuration (Fail-Closed principle)
+  // 3. SECURE CHECK: If password isn't set, we can't authenticate.
   if (!ADMIN_PASSWORD) {
-    console.error("CRITICAL: ADMIN_PASSWORD environment variable is not set.");
-    // If we are already on the login page, do not redirect to prevent a loop.
-    // This path is already excluded by the matcher, but this is an extra safeguard.
-    if (pathname === '/admin-login') {
-      return NextResponse.next({ request: { headers: requestHeaders } });
-    }
-    // For any other admin-related route, redirect to login because the system is not secure.
-    const url = request.nextUrl.clone();
-    url.pathname = '/admin-login';
-    return NextResponse.redirect(url);
+    console.error("CRITICAL: ADMIN_PASSWORD is missing in Environment Variables.");
+    return NextResponse.redirect(new URL('/admin-login', request.url));
   }
 
-  // 2. Normal Authentication Logic for Admin Routes
-  // This logic only runs for paths that match the config below.
+  // 4. AUTHENTICATION LOGIC
   const authToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-  if (authToken !== ADMIN_PASSWORD) {
-    // If the token is invalid, redirect to the login page.
-    const url = request.nextUrl.clone();
-    url.pathname = '/admin-login';
-    return NextResponse.redirect(url);
+
+  // Only protect admin dashboard routes
+  if (pathname.startsWith('/admin-dashboard')) {
+    if (authToken !== ADMIN_PASSWORD) {
+      console.log("Auth failed. Redirecting to login.");
+      return NextResponse.redirect(new URL('/admin-login', request.url));
+    }
   }
 
-  // 3. If all checks pass, continue to the requested page.
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  return NextResponse.next();
 }
 
 export const config = {
-  /*
-   * Match all admin-related request paths.
-   * This ensures the middleware only runs on the routes that need protection,
-   * and avoids running on public pages, the login page, or asset routes.
-   */
-  matcher: ['/admin-dashboard/:path*'],
+  // We match EVERYTHING here to ensure we catch all leaks, 
+  // but the 'Short-Circuit' above protects the login page.
+  matcher: ['/admin-dashboard/:path*', '/admin-login'],
 };
