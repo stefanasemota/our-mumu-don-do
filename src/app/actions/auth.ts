@@ -23,8 +23,8 @@ export async function login(prevState: any, formData: FormData) {
       sameSite: 'lax',
       maxAge: 60 * 60 * 24, // 1 day
     });
-    // Invalidate the cache for the admin dashboard to prevent stale data
-    revalidatePath('/admin-dashboard', 'layout');
+    // Invalidate the cache for the entire site to ensure a clean redirect
+    revalidatePath('/');
     // Redirect to the admin dashboard upon successful login
     redirect('/admin-dashboard');
   }

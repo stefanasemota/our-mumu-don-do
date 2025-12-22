@@ -7,4 +7,4 @@ runConfig:
   maxInstances: 1
 env:
   - variable: ADMIN_PASSWORD
-    secret: your_secret_admin_password
+    secret: ADMIN_PASSWORD
