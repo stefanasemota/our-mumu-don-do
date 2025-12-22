@@ -13,7 +13,7 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/The-Glass-of-Milk.mp3',
     pages: [
       {
-        text: 'Meet Amina! Amina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
+        text: 'Meet Amina! \nAmina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
         imageUrl: '/images/the-glass-of-milk/page_0.png',
       },
       {
@@ -68,51 +68,51 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/sample-audio.mp3',
     pages: [
       {
-        text: 'Tolu ran into the living room, a stack of very old history books sliding in her hands. She loved visiting Grandpa Adekunle because his house was shaped like a giant, colorful, triple-decker pagoda—a mix of old Nigeria and new China, Grandpa called it.',
+        text: '"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
         imageUrl: '/images/the-river-was-always-there/page_1.png',
       },
       {
-        text: '"Grandpa! Grandpa Adekunle!" Tolu called out. She pointed a small finger at a faded picture in one of the texts. "In my school book, it says that Mungo Park discovered the great River Niger! Is that really true? How can you find something that is so big?"',
+        text: '[Narration]\n\nThe girl ran to her Grandpa with an old history book. She had a big question about a legendary river—the great water wey flow since the beginning.',
         imageUrl: '/images/the-river-was-always-there/page_2.png',
       },
       {
-        text: 'Grandpa Adekunle adjusted his spectacles—they were gold-rimmed and slightly crooked. He reached out and gently took the book. "Ah, the famous discovery story," he chuckled, setting the book down. "Tolu, let me ask you something important."',
+        text: '[Girl]\n\n"Grandpa! This book say one visitor found our great river! How e go find something wey we already know? Something wey big like that?"',
         imageUrl: '/images/the-river-was-always-there/page_3.png',
       },
       {
-        text: '"If a total stranger walks right into our living room," he began, looking around the bright, spacious room, "and he sees our beautiful, comfy, Ankara-covered sofa… did he  discover the sofa? No! We were already sitting on it, werent we?"',
+        text: '[Grandpa - Chuckling]\n\n"Ah, my pikin, listen. If a stranger walk into our parlor and see our favorite sofa... did he find the sofa? No! We were already sitting on it, weren\'t we?"',
         imageUrl: '/images/the-river-was-always-there/page_4.png',
       },
       {
-        text: 'Tolu giggled. "Yes! Mama was probably knitting right there! So why would he say he found the river?" Grandpa Adekunle tapped his chin. "Because the River Niger, my dear, was never hiding. It was busy."',
+        text: '[Girl - Giggling]\n\n"Yes o! We were already there!"',
         imageUrl: '/images/the-river-was-always-there/page_5.png',
       },
       {
-        text: 'The view shifted, suddenly becoming lush and green, long, long ago. Along the banks of the vast, silver River Niger, people were already living vibrant lives. They fished, they traded, and they wrote songs about the water.',
+        text: '[Narration]\n\nLong ago, by the silver water, a fisherman named Musa was singing. The river was his home, his map, and his life.',
         imageUrl: '/images/the-river-was-always-there/page_6.png',
       },
       {
-        text: 'Musa the fisherman was singing a strong, ancient tune as he paddled his canoe near the tall reeds. He knew every turn, every bend, every sandbank. This river was his home, his map, and his pantry.',
+        text: '"The river is my friend, the water is my way... I know the current, from night until the day..."',
         imageUrl: '/images/the-river-was-always-there/page_7.png',
       },
       {
-        text: 'Suddenly, a very hot, confused-looking man in too many layers of clothes stumbled out of the thick bush. He carried a bulky telescope and sweated profusely. It was Mungo Park. He looked utterly lost.',
+        text: '[Narration]\n\nThen a traveler arrived, looking lost. He asked for the way to the water. Musa pointed his paddle and smiled. The traveler wrote: \'I have found the river!\'',
         imageUrl: '/images/the-river-was-always-there/page_8.png',
       },
       {
-        text: 'Mungo Park waved frantically at Musa. "Excuse me, good man! Which way to the great, previously unmapped water source? I must locate it!" Musa simply pointed downstream with his paddle and shrugged, then went back to his fishing.',
+        text: 'The river was never hiding, it was never lost\nE dey flow through our history, no matter the cost',
         imageUrl: '/images/the-river-was-always-there/page_9.png',
       },
       {
-        text: 'Mungo Park rushed back to his temporary camp, dipped his quill in ink, and scribbled furiously in his journal. I have done it! I have found the mighty river! Meanwhile, Musa, guiding his canoe back upstream, smiled and shook his head quietly.',
+        text: 'We were the guides, he was just a guest\nOur home was already here, we pass the test!\n(Vocal ad-lib: "Confirm!")',
         imageUrl: '/images/the-river-was-always-there/page_10.png',
       },
       {
-        text: 'The scene faded back to the bright, modern living room. Tolus eyes were wide. "So, he did not discover it. He just used it and wrote a proud story about it," she summarized.',
+        text: '[Girl]\n\n"So he was just a tourist, Grandpa. We were the guides the whole time."',
         imageUrl: '/images/the-river-was-always-there/page_11.png',
       },
       {
-        text: 'Grandpa Adekunle smiled, a deep, proud smile. "Exactly, my clever girl. The river was always there. It had been serving us for millennia. We only had to tell him where the sofa was." Tolu grinned. "He was a tourist, Grandpa. We were the guides."',
+        text: '[Grandpa]\n\n"Exactly, my clever girl. We only showed him where the sofa was."\n\n"Oya... keep the fire burning."',
         imageUrl: '/images/the-river-was-always-there/page_12.png',
       },
     ],
@@ -127,7 +127,7 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/The-Kings-Signature.mp3',
     pages: [
       {
-        text: '[Intro]\n\n(Market sounds: "Oya buy your pepper!", car horns) (Beat kicks in: Slow, steady Afro-shakers and a smooth sax) "Yeah... Simi, listen well o. History no be just old story."',
+        text: '[Intro]\n\n(Market sounds: "Oya buy your pepper!", car horns)\n(Beat kicks in: Slow, steady Afro-shakers and a smooth sax)\n\n"Yeah... Simi, listen well o. History no be just old story."',
         imageUrl: '/images/the-kings-signature/page_1.png',
       },
       {
@@ -143,7 +143,7 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: '/images/the-kings-signature/page_4.png',
       },
       {
-        text: '[Bridge - Sound of heavy doors]\n\n(Drums drop out, only the sax and atmospheric pads remain) \n[Narration]\n\nInside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.',
+        text: '[Narration]\n\nInside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.',
         imageUrl: '/images/the-kings-signature/page_5.png',
       },
       {
@@ -155,23 +155,23 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: '/images/the-kings-signature/page_7.png',
       },
       {
-        text: '[Verse - Mid-tempo Calm Afrobeat]\n\n(Heavy log drum and rhythmic guitar) The King was the Architect, he sign the royal scroll. Eighteen-fifty-five, yeah, he get a noble soul. He build the wall of justice, he make the law stand tall. But a house needs a family, inside the palace hall.',
+        text: 'The King was the Architect, he sign the royal scroll.\nEighteen-fifty-five, yeah, he get a noble soul.\nHe build the wall of justice, he make the law stand tall.\nBut a house needs a family, inside the palace hall.',
         imageUrl: '/images/the-kings-signature/page_8.png',
       },
       {
-        text: '[Narration]\n\n(Smooth beat continues) He showed her Mary Slessor. She came in 1876 with a heart of gold.\n\n[Uncle Edet]\n\n"Mary Slessor took the King’s foundation. She be the Caretaker. She furnish the house with hope and love."',
+        text: '[Narration]\n\nHe showed her Mary Slessor. She came in 1876 with a heart of gold.\n\n[Uncle Edet]\n\n"Mary Slessor took the King’s foundation. She be the Caretaker. She furnish the house with hope and love."',
         imageUrl: '/images/the-kings-signature/page_9.png',
       },
       {
-        text: '[Chorus - Anthemic Afrobeat Groove]\n\nOne build the structure, the other fill the room (Yeah!) One sign the promise, the other make it bloom.',
+        text: 'One build the structure, the other fill the room (Yeah!)\nOne sign the promise, the other make it bloom.',
         imageUrl: '/images/the-kings-signature/page_10.png',
       },
       {
-        text: 'Architect and Caretaker, moving hand in hand. Building the legacy, for all the people in the land!',
+        text: 'Architect and Caretaker, moving hand in hand.\nBuilding the legacy, for all the people in the land!',
         imageUrl: '/images/the-kings-signature/page_11.png',
       },
       {
-        text: '[Outro]\n\n[Simi]\n\n"I see am now, Uncle. One build the house; the other bring the fire. We be the guides of the future."\n\n(Sax solo fades out with a steady shaker) "Confirm."\n\n[End]',
+        text: '[Simi]\n\n"I see am now, Uncle. One build the house; the other bring the fire. We be the guides of the future."\n\n"Confirm."',
         imageUrl: '/images/the-kings-signature/page_12.png',
       },
     ],
