@@ -48,7 +48,7 @@ export function Header() {
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <Icons.gorilla className="h-8 w-8 text-primary" />
-            <span className="inline-block font-headline text-xl font-bold">
+            <span className="inline-block font-headline text-xl font-bold text-primary">
               Our Mumu Don Do
             </span>
           </Link>
