@@ -6,7 +6,6 @@ import { Button } from '../ui/button';
 import { ShareButton } from './ShareButton';
 import { LogoutButton } from '../admin/LogoutButton';
 import { LayoutDashboard } from 'lucide-react';
-import { AdminHeader } from '../admin/AdminHeader';
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -17,35 +16,30 @@ export function Header({ isLoggedIn, pathname }: HeaderProps) {
   const isAdminPage =
     pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
 
-  // Do not render the main header on admin pages.
-  // The AdminDashboardLayout will render its own AdminHeader.
   if (isAdminPage) {
     return null;
   }
 
-  // Render the public-facing header for all other pages
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm">
-      <div className="container mx-auto flex h-16 items-center justify-between space-x-4 px-4">
-        <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
-            <Icons.gorilla className="h-8 w-8 text-primary" />
-            <span className="inline-block font-headline text-xl font-bold text-primary">
-              Our Mumu Don Do
-            </span>
-          </Link>
-        </div>
-        <div className="flex items-center space-x-2">
+      <div className="container mx-auto flex flex-col items-start justify-center gap-2 px-4 py-4">
+        <Link href="/" className="flex items-center space-x-2">
+          <Icons.gorilla className="h-8 w-8 text-primary" />
+          <span className="inline-block font-headline text-xl font-bold text-primary">
+            Our Mumu Don Do
+          </span>
+        </Link>
+        <div className="flex items-center">
           {isLoggedIn ? (
-            <>
-              <Button asChild variant="secondary">
+            <div className="flex items-center space-x-2">
+              <Button asChild variant="secondary" size="sm">
                 <Link href="/admin-dashboard">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
-                  Admin Dashboard
+                  Admin
                 </Link>
               </Button>
               <LogoutButton />
-            </>
+            </div>
           ) : (
             <ShareButton />
           )}
