@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "WeeklyEducationalTopic": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WeeklyEducationalTopic",
+      "type": "object",
+      "description": "Represents a weekly educational topic with associated content for the interactive story player.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the weekly educational topic."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the weekly educational topic."
+        },
+        "date": {
+          "type": "string",
+          "description": "The date of the weekly educational topic.",
+          "format": "date-time"
+        },
+        "guidelineCategory": {
+          "type": "string",
+          "description": "The category or guideline this topic falls under (e.g., Nigerian Solutions, Critical Thinking).",
+          "format": "string"
+        },
+        "pages": {
+          "type": "array",
+          "description": "An array of pages that make up the interactive story for this topic.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "date",
+        "guidelineCategory",
+        "pages"
+      ]
+    },
+    "Page": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Page",
+      "type": "object",
+      "description": "Represents a single page within a WeeklyEducationalTopic's interactive story.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Page entity."
+        },
+        "weeklyEducationalTopicId": {
+          "type": "string",
+          "description": "Reference to WeeklyEducationalTopic. (Relationship: WeeklyEducationalTopic 1:N Page)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The story text for this page."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the image for this page (Firebase Storage URL)."
+        },
+        "audioUrl": {
+          "type": "string",
+          "description": "URL of the audio for this page (Firebase Storage URL)."
+        }
+      },
+      "required": [
+        "id",
+        "weeklyEducationalTopicId",
+        "text",
+        "imageUrl",
+        "audioUrl"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/weeklyEducationalTopics/{weeklyEducationalTopicId}",
+        "definition": {
+          "entityName": "WeeklyEducationalTopic",
+          "schema": {
+            "$ref": "#/backend/entities/WeeklyEducationalTopic"
+          },
+          "description": "Stores weekly educational topics. Includes the topic's title, date, guideline category, and references to its pages.",
+          "params": [
+            {
+              "name": "weeklyEducationalTopicId",
+              "description": "The unique identifier for the weekly educational topic."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/weeklyEducationalTopics/{weeklyEducationalTopicId}/pages/{pageId}",
+        "definition": {
+          "entityName": "Page",
+          "schema": {
+            "$ref": "#/backend/entities/Page"
+          },
+          "description": "Stores individual pages for each weekly educational topic.  Contains the story text, image URL, and audio URL for the page.",
+          "params": [
+            {
+              "name": "weeklyEducationalTopicId",
+              "description": "The unique identifier for the parent weekly educational topic."
+            },
+            {
+              "name": "pageId",
+              "description": "The unique identifier for the page."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support the 'Mumu No More' application, focusing on weekly educational topics and interactive story content. The key design principle is Authorization Independence, which is achieved by eliminating the need for `get()` calls in security rules. This structure uses path-based ownership for user-owned data and structural segregation to ensure that all documents in a collection share the same security requirements.\n\nSpecifically, weekly educational topics are stored in the `weeklyEducationalTopics` collection. Pages associated with each topic are stored as subcollections under each topic document. This structure facilitates clear ownership and simplifies security rules. No denormalization is required in this case since the user does not own the topics, they are global to the application.\n\nThe structure supports the required QAPs (Rules Are Not Filters) by segregating the data into collections where all documents share the same security posture. `list` operations are therefore secure because they do not need to filter based on authorization logic.\n\nThe admin functionality will use a separate authentication mechanism (password protected with an HttpOnly cookie) which will allow the admin to by pass standard authentication methods. This is acceptable because the application details explicity states this. The application only needs the `request.auth.uid` for authorization purposes."
+  }
+}

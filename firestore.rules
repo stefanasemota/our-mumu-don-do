@@ -1,0 +1,79 @@
+/**
+ * Core Philosophy:
+ * This ruleset enforces a public, read-only security model for all application content.
+ * The primary goal is to allow any user, whether anonymous or authenticated, to consume
+ * the educational content provided by the application. All write operations (create,
+ * update, delete) are strictly forbidden from the client-side, with the assumption
+ * that content is managed and populated by a trusted backend or admin process.
+ *
+ * Data Structure:
+ * The data is organized hierarchically. A top-level collection, `weeklyEducationalTopics`,
+ * holds the main content entities. Each topic document contains a subcollection named
+ * `pages`, which stores the individual story pages for that topic. This structure is
+ * simple and aligns with the content's relational nature.
+ *
+ * Key Security Decisions:
+ * - Public Read Access: All data in `weeklyEducationalTopics` and their `pages`
+ *   subcollections is publicly readable (`get`, `list`). This is essential for the
+ *   app's function as an educational content provider.
+ * - No Client Writes: All write operations (`create`, `update`, `delete`) are
+ *   explicitly denied. This is a critical security measure to protect the integrity
+ *   of the application's content from unauthorized modification.
+ * - No User-Specific Data: The data model does not contain any user-owned or private
+ *   data, simplifying the rules and eliminating the need for complex ownership checks.
+ *
+ * Denormalization for Authorization:
+ * No denormalization is required. Since the content is global and not owned by users,
+ * there are no ownership fields (like `userId` or `ownerId`) needed on documents
+ * for authorization checks.
+ *
+ * Structural Segregation:
+ * The structure naturally segregates data by type (topics and pages). As all data
+ * shares the same public, read-only security posture, there is no need for further
+ * segregation between public and private collections.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    //-------------------------------------------------------------------------
+    // Collection Rules
+    //-------------------------------------------------------------------------
+
+    /**
+     * @description Allows public read-only access to all weekly educational topics.
+     * @path        /weeklyEducationalTopics/{weeklyEducationalTopicId}
+     * @allow       Any user, authenticated or not, can read or list topic documents. (get, list)
+     * @deny        No user can create, update, or delete a topic document. (create, update, delete)
+     * @principle   Secures public, read-only content. Writes are managed by a backend admin process.
+     */
+    match /weeklyEducationalTopics/{weeklyEducationalTopicId} {
+      // READ: Anyone can read topics.
+      allow get: if true;
+      allow list: if true;
+
+      // WRITE: No one can write to topics from the client.
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+
+      /**
+       * @description Allows public read-only access to the pages of an educational topic.
+       * @path        /weeklyEducationalTopics/{weeklyEducationalTopicId}/pages/{pageId}
+       * @allow       Any user, authenticated or not, can read or list page documents. (get, list)
+       * @deny        No user can create, update, or delete a page document. (create, update, delete)
+       * @principle   Ensures that content subcollections inherit the public read-only posture of their parent.
+       */
+      match /pages/{pageId} {
+        // READ: Anyone can read the pages within a topic.
+        allow get: if true;
+        allow list: if true;
+
+        // WRITE: No one can write to pages from the client.
+        allow create: if false;
+        allow update: if false;
+        allow delete: if false;
+      }
+    }
+  }
+}
