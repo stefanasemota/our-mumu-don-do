@@ -1,79 +1,60 @@
 /**
  * Core Philosophy:
- * This ruleset enforces a public, read-only security model for all application content.
- * The primary goal is to allow any user, whether anonymous or authenticated, to consume
- * the educational content provided by the application. All write operations (create,
- * update, delete) are strictly forbidden from the client-side, with the assumption
- * that content is managed and populated by a trusted backend or admin process.
+ * This ruleset enforces a strict read-only model for all client-side requests.
+ * All educational content is considered public and can be read by any user,
+ * whether authenticated or anonymous. All write operations (create, update, delete)
+ * are explicitly disabled, reflecting a security model where data is managed
+ * exclusively by a trusted backend service or admin script, not by end-users.
  *
  * Data Structure:
- * The data is organized hierarchically. A top-level collection, `weeklyEducationalTopics`,
- * holds the main content entities. Each topic document contains a subcollection named
- * `pages`, which stores the individual story pages for that topic. This structure is
- * simple and aligns with the content's relational nature.
+ * The data is organized into a single top-level collection:
+ * - /weeklyEducationalTopics/{weeklyEducationalTopicId}: Stores the educational
+ *   content, including denormalized story pages.
  *
  * Key Security Decisions:
- * - Public Read Access: All data in `weeklyEducationalTopics` and their `pages`
- *   subcollections is publicly readable (`get`, `list`). This is essential for the
- *   app's function as an educational content provider.
- * - No Client Writes: All write operations (`create`, `update`, `delete`) are
- *   explicitly denied. This is a critical security measure to protect the integrity
- *   of the application's content from unauthorized modification.
- * - No User-Specific Data: The data model does not contain any user-owned or private
- *   data, simplifying the rules and eliminating the need for complex ownership checks.
+ * - Public Read Access: All documents in the `weeklyEducationalTopics` collection
+ *   are publicly readable to support the application's content delivery function.
+ * - Client Writes Disabled: To protect the integrity of the educational content,
+ *   all write operations from the client are denied. This is the most secure
+ *   posture when the provided application description indicates content management
+ *   happens through a backend process (e.g., via an ADMIN_PASSWORD), which
+ *   would use Admin SDKs to bypass these rules.
  *
  * Denormalization for Authorization:
- * No denormalization is required. Since the content is global and not owned by users,
- * there are no ownership fields (like `userId` or `ownerId`) needed on documents
- * for authorization checks.
- *
- * Structural Segregation:
- * The structure naturally segregates data by type (topics and pages). As all data
- * shares the same public, read-only security posture, there is no need for further
- * segregation between public and private collections.
+ * The data model denormalizes story pages directly into the topic documents.
+ * Since the access model is simple (public read), no specific denormalization
+ * is required for authorization checks.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    //-------------------------------------------------------------------------
-    // Collection Rules
-    //-------------------------------------------------------------------------
-
     /**
-     * @description Allows public read-only access to all weekly educational topics.
-     * @path        /weeklyEducationalTopics/{weeklyEducationalTopicId}
-     * @allow       Any user, authenticated or not, can read or list topic documents. (get, list)
-     * @deny        No user can create, update, or delete a topic document. (create, update, delete)
-     * @principle   Secures public, read-only content. Writes are managed by a backend admin process.
+     * @description
+     *   Allows public, read-only access to all weekly educational topics. All
+     *   write operations are disabled to ensure content is only managed by a
+     *   trusted backend service.
+     * @path
+     *   /weeklyEducationalTopics/{weeklyEducationalTopicId}
+     * @allow
+     *   An anonymous user reading a specific educational topic document.
+     *   Example: `(get) /weeklyEducationalTopics/some-topic-id`
+     * @deny
+     *   Any user, signed-in or not, attempting to create a new topic.
+     *   Example: `(create) /weeklyEducationalTopics/new-topic`
+     * @principle
+     *   Protects data integrity by enforcing a read-only model on the client,
+     *   assuming a trusted backend environment for all data mutations.
      */
     match /weeklyEducationalTopics/{weeklyEducationalTopicId} {
-      // READ: Anyone can read topics.
+      // READ: Anyone can read the educational topics and list them.
       allow get: if true;
       allow list: if true;
 
-      // WRITE: No one can write to topics from the client.
+      // WRITE: No client-side writes are allowed. Content is managed server-side.
       allow create: if false;
       allow update: if false;
       allow delete: if false;
-
-      /**
-       * @description Allows public read-only access to the pages of an educational topic.
-       * @path        /weeklyEducationalTopics/{weeklyEducationalTopicId}/pages/{pageId}
-       * @allow       Any user, authenticated or not, can read or list page documents. (get, list)
-       * @deny        No user can create, update, or delete a page document. (create, update, delete)
-       * @principle   Ensures that content subcollections inherit the public read-only posture of their parent.
-       */
-      match /pages/{pageId} {
-        // READ: Anyone can read the pages within a topic.
-        allow get: if true;
-        allow list: if true;
-
-        // WRITE: No one can write to pages from the client.
-        allow create: if false;
-        allow update: if false;
-        allow delete: if false;
-      }
     }
   }
 }
