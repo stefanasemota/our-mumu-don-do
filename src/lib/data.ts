@@ -191,7 +191,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       id: '4',
       title: 'Understanding Colonisation',
       description:
-        'The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one\'s roots.',
+        "The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one's roots.",
       date: new Date('2024-06-01').toISOString(),
       guidelineCategory: 'Historical Context',
       audioUrl: '/audio/Colonisation.mp3',
@@ -291,15 +291,7 @@ export async function getTopicById(
   id: string
 ): Promise<WeeklyEducationalTopic | undefined> {
   const localTopic = getTopics(true).find((t) => t.id === id);
-  if (localTopic) {
-    // Ensure all data is present and correctly formatted.
-    return {
-      ...localTopic,
-      date: new Date(localTopic.date).toISOString(),
-      audioUrl: localTopic.audioUrl || '',
-    };
-  }
-  return undefined;
+  return localTopic;
 }
 
 
