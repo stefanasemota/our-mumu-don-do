@@ -1,7 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useAuth, useUser, initiateAnonymousSignIn, useCollection, useFirestore } from '@/firebase';
+import { useEffect, useMemo } from 'react';
+import {
+  useAuth,
+  useUser,
+  initiateAnonymousSignIn,
+  useCollection,
+  useFirestore,
+  useMemoFirebase,
+} from '@/firebase';
 import { SeedDatabaseButton } from '@/components/admin/SeedDatabaseButton';
 import {
   Card,
@@ -25,11 +32,22 @@ interface AdminDashboardClientPageProps {
 
 function StoryList() {
   const firestore = useFirestore();
-  const topicsQuery = firestore
-    ? query(collection(firestore, 'weeklyEducationalTopics'), orderBy('date', 'desc'))
-    : null;
+  const topicsQuery = useMemoFirebase(
+    () =>
+      firestore
+        ? query(
+            collection(firestore, 'weeklyEducationalTopics'),
+            orderBy('date', 'desc')
+          )
+        : null,
+    [firestore]
+  );
 
-  const { data: topics, isLoading, error } = useCollection<WeeklyEducationalTopic>(topicsQuery);
+  const {
+    data: topics,
+    isLoading,
+    error,
+  } = useCollection<WeeklyEducationalTopic>(topicsQuery);
 
   if (isLoading) {
     return (
@@ -46,28 +64,33 @@ function StoryList() {
       <Alert variant="destructive">
         <Terminal className="h-4 w-4" />
         <AlertTitle>Error Loading Stories</AlertTitle>
-        <AlertDescription>Could not fetch stories from the database.</AlertDescription>
+        <AlertDescription>
+          Could not fetch stories from the database.
+        </AlertDescription>
       </Alert>
     );
   }
 
   return (
     <div className="space-y-2">
-      {topics && topics.map(topic => (
-        <div key={topic.id} className="flex items-center justify-between rounded-md border p-3">
-          <span className="font-medium">{topic.title}</span>
-          <Button variant="ghost" size="sm" asChild>
-            <Link href={`/admin-dashboard/edit/${topic.id}`}>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit
-            </Link>
-          </Button>
-        </div>
-      ))}
+      {topics &&
+        topics.map((topic) => (
+          <div
+            key={topic.id}
+            className="flex items-center justify-between rounded-md border p-3"
+          >
+            <span className="font-medium">{topic.title}</span>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href={`/admin-dashboard/edit/${topic.id}`}>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </Link>
+            </Button>
+          </div>
+        ))}
     </div>
   );
 }
-
 
 export default function AdminDashboardClientPage({
   isLoggedIn,
@@ -103,7 +126,7 @@ export default function AdminDashboardClientPage({
             <Skeleton className="h-4 w-full" />
           </CardHeader>
           <CardContent>
-             <div className="space-y-2">
+            <div className="space-y-2">
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-10 w-full" />
@@ -115,19 +138,19 @@ export default function AdminDashboardClientPage({
   }
 
   if (!isLoggedIn) {
-     return (
-       <div className="container mx-auto max-w-md py-12">
-         <Alert variant="destructive">
-           <Terminal className="h-4 w-4" />
-           <AlertTitle>Authentication Error</AlertTitle>
-           <AlertDescription>
-             You are not authorized to view this page. Please log in.
-           </AlertDescription>
-         </Alert>
-       </div>
-     );
+    return (
+      <div className="container mx-auto max-w-md py-12">
+        <Alert variant="destructive">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Authentication Error</AlertTitle>
+          <AlertDescription>
+            You are not authorized to view this page. Please log in.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
   }
-  
+
   const localTopics = getTopics(true);
 
   return (
@@ -158,8 +181,9 @@ export default function AdminDashboardClientPage({
           <div className="space-y-4 rounded-md border border-dashed p-4">
             <h3 className="font-semibold">Seed Database</h3>
             <p className="text-sm text-muted-foreground">
-              This will upload all stories from the local data file to Firestore. 
-              Use this for initial setup or to restore content. It will overwrite existing stories with the same ID.
+              This will upload all stories from the local data file to
+              Firestore. Use this for initial setup or to restore content. It
+              will overwrite existing stories with the same ID.
             </p>
             <SeedDatabaseButton localTopics={localTopics} />
           </div>
