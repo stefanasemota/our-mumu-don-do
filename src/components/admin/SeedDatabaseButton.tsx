@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth, useFirestore } from '@/firebase';
+import { useFirestore, useUser } from '@/firebase';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { Loader2 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
@@ -16,11 +16,11 @@ export function SeedDatabaseButton({ localTopics }: SeedDatabaseButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const firestore = useFirestore();
-  const auth = useAuth();
+  const { user, isUserLoading } = useUser();
 
   const handleSeed = async () => {
     setIsLoading(true);
-    if (!firestore || !auth) {
+    if (!firestore) {
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -31,8 +31,8 @@ export function SeedDatabaseButton({ localTopics }: SeedDatabaseButtonProps) {
     }
 
     // Our security rules require an authenticated user to write.
-    // The admin login process should ensure currentUser is available here.
-    if (!auth.currentUser) {
+    // The useUser hook ensures we have the definitive user state.
+    if (!user) {
       toast({
         variant: 'destructive',
         title: 'Authentication Error',
@@ -78,9 +78,9 @@ export function SeedDatabaseButton({ localTopics }: SeedDatabaseButtonProps) {
   };
 
   return (
-    <Button onClick={handleSeed} disabled={isLoading}>
-      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-      Seed Database
+    <Button onClick={handleSeed} disabled={isLoading || isUserLoading}>
+      {(isLoading || isUserLoading) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      {isUserLoading ? 'Verifying...' : 'Seed Database'}
     </Button>
   );
 }
