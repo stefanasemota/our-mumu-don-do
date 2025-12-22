@@ -40,11 +40,6 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
       audioElement.pause();
       setIsPlaying(false);
       audioElement.src = page.audioUrl;
-
-      if (isPlaying) {
-        // This will only be true if user manually clicks play again
-        audioElement.play().catch(() => setIsPlaying(false));
-      }
     }
   }, [currentPage, page.audioUrl]);
 
@@ -57,15 +52,16 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     const handleEnded = () => {
       setIsPlaying(false);
     };
+    
+    // Set initial source if it's not set
+    if (!audioElement.src) {
+      audioElement.src = page.audioUrl;
+    }
 
     audioElement.addEventListener('play', handlePlay);
     audioElement.addEventListener('pause', handlePause);
     audioElement.addEventListener('ended', handleEnded);
 
-    // Set initial source
-    if (!audioElement.src) {
-      audioElement.src = page.audioUrl;
-    }
 
     return () => {
       audioElement.removeEventListener('play', handlePlay);
