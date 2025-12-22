@@ -48,7 +48,7 @@ export function TopicCard({ topic }: TopicCardProps) {
     const shareData = {
       title: topic.title,
       text: topic.description,
-      url: `${window.location.origin}/story/${topic.id}`,
+      url: `${window.location.origin}/share/story/${topic.id}`,
     };
 
     if (navigator.share && navigator.canShare(shareData)) {

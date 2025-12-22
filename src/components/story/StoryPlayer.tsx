@@ -17,9 +17,11 @@ import {
   Play,
   Pause,
   Rewind,
+  Share2,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { Icons } from '../shared/Icons';
+import { useToast } from '@/hooks/use-toast';
 
 interface StoryPlayerProps {
   topic: WeeklyEducationalTopic;
@@ -29,6 +31,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { toast } = useToast();
 
   const page = topic.pages[currentPage];
   const progress = ((currentPage + 1) / topic.pages.length) * 100;
@@ -84,6 +87,37 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     }
   }
 
+  const handleShare = async () => {
+    const shareData = {
+      title: topic.title,
+      text: topic.description,
+      url: `${window.location.origin}/share/story/${topic.id}`,
+    };
+
+    if (navigator.share && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        toast({
+          title: 'Link Copied!',
+          description: 'The story link has been copied to your clipboard.',
+        });
+      } catch (error) {
+        console.error('Error copying to clipboard:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Failed to Copy',
+          description: 'Could not copy the link to your clipboard.',
+        });
+      }
+    }
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto overflow-hidden shadow-2xl shadow-primary/10">
       <CardHeader>
@@ -108,6 +142,10 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                   <Play className="h-6 w-6" />
                 )}
                 <span className="sr-only">Play/Pause Narration</span>
+              </Button>
+              <Button size="icon" variant="outline" onClick={handleShare} className="shrink-0 hover:bg-primary/20 hover:text-primary">
+                <Share2 className="h-5 w-5" />
+                <span className="sr-only">Share Story</span>
               </Button>
             </div>
         </div>
