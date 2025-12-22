@@ -13,6 +13,17 @@ interface TopicAccordionProps {
 }
 
 export function TopicAccordion({ topics }: TopicAccordionProps) {
+  if (!topics || topics.length === 0) {
+    return (
+      <div className="text-center text-muted-foreground">
+        <p>No stories found.</p>
+        <p className="text-sm mt-2">
+          Make sure you have seeded the database in the admin dashboard.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <Accordion type="single" collapsible className="w-full">
       {topics.map((topic) => (
