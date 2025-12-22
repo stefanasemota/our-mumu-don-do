@@ -34,14 +34,12 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const progress = ((currentPage + 1) / topic.pages.length) * 100;
 
   const handleNextPage = useCallback(() => {
-    setIsAutoPlaying(false);
     if (currentPage < topic.pages.length - 1) {
       setCurrentPage(currentPage + 1);
     }
   }, [currentPage, topic.pages.length]);
 
   const handlePrevPage = () => {
-    setIsAutoPlaying(false);
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
