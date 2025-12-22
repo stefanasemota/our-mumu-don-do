@@ -9,7 +9,6 @@ export type GuidelineCategory =
 export interface StoryPage {
   text: string;
   imageUrl: string;
-  audioUrl: string;
 }
 
 export interface WeeklyEducationalTopic {
@@ -19,6 +18,7 @@ export interface WeeklyEducationalTopic {
   date: string; // Changed from Timestamp | Date to string
   guidelineCategory: GuidelineCategory;
   pages: StoryPage[];
+  audioUrl: string;
 }
 
 export interface FeaturedVideo {

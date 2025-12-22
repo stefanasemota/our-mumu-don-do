@@ -10,72 +10,51 @@ const topics: WeeklyEducationalTopic[] = [
       'This story, written by NaijaSpeak, uses the metaphors of watery milk and sandy water in a vibrant Nigerian setting to explain the concept of corruption.',
     date: new Date('2024-05-10').toISOString(),
     guidelineCategory: 'Nigerian Solutions',
+    audioUrl: '/audio/The-Glass-of-Milk.mp3',
     pages: [
       {
         text: 'Meet Amina! Amina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
         imageUrl: '/images/the-glass-of-milk/page_0.png',
-        audioUrl:
-          '/audio/The-Glass-of-Milk.mp3',
       },
       {
         text: 'One afternoon, Mama Yewande said, "Amina, my dear, please go to Malam Musas shop and buy us a bottle of fresh milk for our breakfast tomorrow."',
         imageUrl: '/images/the-glass-of-milk/page_1.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Amina skipped to the shop and bought the milk. She paid Malam Musa and hurried home, excited for her favorite breakfast of akara and milk.',
         imageUrl: '/images/the-glass-of-milk/page_2.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'The next morning, Amina poured herself a glass of milk. But when she took a sip, her eyebrows furrowed. "Hmm," she thought. "This milk tastes different. It’s thin and watery!"',
         imageUrl: '/images/the-glass-of-milk/page_3.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: '“Mama Yewande,” Amina asked, “Why is this milk so watery? It’s not rich and creamy like the milk we bought last week.”',
         imageUrl: '/images/the-glass-of-milk/page_4.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Mama Yewande sighed softly. "Amina, sometimes, people who sell things are dishonest. They add water to the good milk so they have more bottles to sell and can make more money."',
         imageUrl: '/images/the-glass-of-milk/page_5.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Mama Yewande picked up two glasses of clear, clean water. "Imagine this clear water is something good, like honesty, or a good project for our community, like a new school."',
         imageUrl: '/images/the-glass-of-milk/page_6.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Then, Mama Yewande took a handful of dusty sand and poured it into one glass. "This sand," she explained, "is like a bad action—cheating, lying, or taking something that does not belong to you."',
         imageUrl: '/images/the-glass-of-milk/page_7.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: '"See? Just a little bit of sand—just one bad action—ruins the clean, pure water. This act of spoiling something good for selfish gain? That is what we call corruption."',
         imageUrl: '/images/the-glass-of-milk/page_8.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Mama Yewande squeezed Amina’s hand. "We must always try to be the clean water, Amina. We must choose honesty, work hard, and keep our actions pure. This is how we build a strong, good community."',
         imageUrl: '/images/the-glass-of-milk/page_9.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: '“Not every seller is like that, my dear! Most people are honest. But now that you know what corruption looks like, you can help keep your glass—and our community’s glass—clear and clean!”',
         imageUrl: '/images/the-glass-of-milk/page_10.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
     ],
   },
@@ -86,78 +65,55 @@ const topics: WeeklyEducationalTopic[] = [
       'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
     date: new Date('2024-05-03').toISOString(),
     guidelineCategory: 'Historical Context',
+    audioUrl: '/audio/sample-audio.mp3',
     pages: [
       {
         text: 'Tolu ran into the living room, a stack of very old history books sliding in her hands. She loved visiting Grandpa Adekunle because his house was shaped like a giant, colorful, triple-decker pagoda—a mix of old Nigeria and new China, Grandpa called it.',
         imageUrl: '/images/the-river-was-always-there/page_1.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: '"Grandpa! Grandpa Adekunle!" Tolu called out. She pointed a small finger at a faded picture in one of the texts. "In my school book, it says that Mungo Park discovered the great River Niger! Is that really true? How can you find something that is so big?"',
         imageUrl: '/images/the-river-was-always-there/page_2.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Grandpa Adekunle adjusted his spectacles—they were gold-rimmed and slightly crooked. He reached out and gently took the book. "Ah, the famous discovery story," he chuckled, setting the book down. "Tolu, let me ask you something important."',
         imageUrl: '/images/the-river-was-always-there/page_3.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: '"If a total stranger walks right into our living room," he began, looking around the bright, spacious room, "and he sees our beautiful, comfy, Ankara-covered sofa… did he  discover the sofa? No! We were already sitting on it, werent we?"',
         imageUrl: '/images/the-river-was-always-there/page_4.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Tolu giggled. "Yes! Mama was probably knitting right there! So why would he say he found the river?" Grandpa Adekunle tapped his chin. "Because the River Niger, my dear, was never hiding. It was busy."',
         imageUrl: '/images/the-river-was-always-there/page_5.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'The view shifted, suddenly becoming lush and green, long, long ago. Along the banks of the vast, silver River Niger, people were already living vibrant lives. They fished, they traded, and they wrote songs about the water.',
         imageUrl: '/images/the-river-was-always-there/page_6.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Musa the fisherman was singing a strong, ancient tune as he paddled his canoe near the tall reeds. He knew every turn, every bend, every sandbank. This river was his home, his map, and his pantry.',
         imageUrl: '/images/the-river-was-always-there/page_7.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Suddenly, a very hot, confused-looking man in too many layers of clothes stumbled out of the thick bush. He carried a bulky telescope and sweated profusely. It was Mungo Park. He looked utterly lost.',
         imageUrl: '/images/the-river-was-always-there/page_8.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Mungo Park waved frantically at Musa. "Excuse me, good man! Which way to the great, previously unmapped water source? I must locate it!" Musa simply pointed downstream with his paddle and shrugged, then went back to his fishing.',
         imageUrl: '/images/the-river-was-always-there/page_9.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Mungo Park rushed back to his temporary camp, dipped his quill in ink, and scribbled furiously in his journal. I have done it! I have found the mighty river! Meanwhile, Musa, guiding his canoe back upstream, smiled and shook his head quietly.',
         imageUrl: '/images/the-river-was-always-there/page_10.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'The scene faded back to the bright, modern living room. Tolus eyes were wide. "So, he did not discover it. He just used it and wrote a proud story about it," she summarized.',
         imageUrl: '/images/the-river-was-always-there/page_11.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
       {
         text: 'Grandpa Adekunle smiled, a deep, proud smile. "Exactly, my clever girl. The river was always there. It had been serving us for millennia. We only had to tell him where the sofa was." Tolu grinned. "He was a tourist, Grandpa. We were the guides."',
         imageUrl: '/images/the-river-was-always-there/page_12.png',
-        audioUrl:
-          '/audio/sample-audio.mp3',
       },
     ],
   },
@@ -168,66 +124,55 @@ const topics: WeeklyEducationalTopic[] = [
       'Uses an imaginative Lagos-Kano fusion setting to correct the myth about who stopped the killing of twins in Calabar. It proudly teaches that King Duke Ephraim signed the life-saving law in 1855, making him the Architect of change 21 years before Mary Slessor arrived as the kind Caretaker for the rescued babies.',
     date: new Date('2024-04-26').toISOString(),
     guidelineCategory: 'Critical Thinking',
+    audioUrl: '/audio/The-Kings-Signature.mp3',
     pages: [
       {
         text: '[Intro]\n\n(Market sounds: "Oya buy your pepper!", car horns) (Beat kicks in: Slow, steady Afro-shakers and a smooth sax) "Yeah... Simi, listen well o. History no be just old story."',
         imageUrl: '/images/the-kings-signature/page_1.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Narration]\n\nSimi was visiting Uncle Edet. Between the tall glass buildings and the ancient mud walls, she saw it—the building with the red curved roof.',
         imageUrl: '/images/the-kings-signature/page_2.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Simi]\n\n"Uncle Edet, why we dey look this old place? The future is out there, no be so?"',
         imageUrl: '/images/the-kings-signature/page_3.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Uncle Edet]\n\n"Ah, my pikin. If you no know where you come from, you no go know where you dey go. Come, make I show you the foundation."',
         imageUrl: '/images/the-kings-signature/page_4.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Bridge - Sound of heavy doors]\n\n(Drums drop out, only the sax and atmospheric pads remain) \n[Narration]\n\nInside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.',
         imageUrl: '/images/the-kings-signature/page_5.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Uncle Edet]\n\n"In 1855, our King, Duke Ephraim, he sign the law to protect the innocent. He be the Architect. He change the old ways so life go flourish. He build the structure, Simi."',
         imageUrl: '/images/the-kings-signature/page_6.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Simi]\n\n"So he be like the Architect... he design the safety for us?"\n\n[Uncle Edet]\n\n"Exactly. But house wey empty, no be home."',
         imageUrl: '/images/the-kings-signature/page_7.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Verse - Mid-tempo Calm Afrobeat]\n\n(Heavy log drum and rhythmic guitar) The King was the Architect, he sign the royal scroll. Eighteen-fifty-five, yeah, he get a noble soul. He build the wall of justice, he make the law stand tall. But a house needs a family, inside the palace hall.',
         imageUrl: '/images/the-kings-signature/page_8.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Narration]\n\n(Smooth beat continues) He showed her Mary Slessor. She came in 1876 with a heart of gold.\n\n[Uncle Edet]\n\n"Mary Slessor took the King’s foundation. She be the Caretaker. She furnish the house with hope and love."',
         imageUrl: '/images/the-kings-signature/page_9.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: '[Chorus - Anthemic Afrobeat Groove]\n\nOne build the structure, the other fill the room (Yeah!) One sign the promise, the other make it bloom.',
         imageUrl: '/images/the-kings-signature/page_10.png',
-        audioUrl: '/audio/sample-audio.mp3',
       },
       {
         text: 'Architect and Caretaker, moving hand in hand. Building the legacy, for all the people in the land!',
         imageUrl: '/images/the-kings-signature/page_11.png',
-        audioUrl: '/audio/sample-audio.mpd',
       },
       {
         text: '[Outro]\n\n[Simi]\n\n"I see am now, Uncle. One build the house; the other bring the fire. We be the guides of the future."\n\n(Sax solo fades out with a steady shaker) "Confirm."\n\n[End]',
         imageUrl: '/images/the-kings-signature/page_12.png',
-        audioUrl: '/audio/sample-audio.mpd',
       },
     ],
   },

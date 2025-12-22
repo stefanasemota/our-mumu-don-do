@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Play,
   Pause,
+  Rewind,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { Icons } from '../shared/Icons';
@@ -50,48 +51,40 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     const audioElement = audioRef.current;
     if (!audioElement) return;
 
-    // Handler for when audio finishes playing
+    if (audioElement.src !== topic.audioUrl) {
+      audioElement.src = topic.audioUrl;
+    }
+
     const handleEnded = () => {
-      if (isAutoPlaying) {
-        if (currentPage < topic.pages.length - 1) {
-          // Go to the next page if autoplaying
-          setCurrentPage(prev => prev + 1);
-        } else {
-          // Reached the end, stop autoplay
-          setIsAutoPlaying(false);
-        }
-      }
+      setIsAutoPlaying(false);
     };
-    
+
     audioElement.addEventListener('ended', handleEnded);
 
-    // When the page or autoplay status changes, manage audio
     if (isAutoPlaying) {
-      // Set the source and play
-      audioElement.src = page.audioUrl;
       audioElement.play().catch(error => {
         console.error("Audio play failed:", error);
-        setIsAutoPlaying(false); // Stop autoplay on error
+        setIsAutoPlaying(false);
       });
     } else {
-      // If not autoplaying, pause the audio
       audioElement.pause();
     }
 
-    // Cleanup listener on component unmount or dependency change
     return () => {
       audioElement.removeEventListener('ended', handleEnded);
     };
-  }, [currentPage, isAutoPlaying, page.audioUrl, topic.pages.length]);
-  
+  }, [isAutoPlaying, topic.audioUrl]);
+
 
   const handlePlayPause = () => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
-
-    // Toggle autoplay state
     setIsAutoPlaying(prev => !prev);
   };
+  
+  const handleRewind = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+    }
+  }
 
   return (
     <Card className="w-full max-w-4xl mx-auto overflow-hidden shadow-2xl shadow-primary/10">
@@ -105,14 +98,20 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                     Page {currentPage + 1} of {topic.pages.length}
                 </p>
             </div>
-            <Button size="icon" variant="outline" onClick={handlePlayPause} className="shrink-0 hover:bg-primary/20 hover:text-primary">
-              {isAutoPlaying ? (
-                <Pause className="h-6 w-6" />
-              ) : (
-                <Play className="h-6 w-6" />
-              )}
-              <span className="sr-only">Play/Pause Narration</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button size="icon" variant="outline" onClick={handleRewind} className="shrink-0 hover:bg-primary/20 hover:text-primary">
+                <Rewind className="h-5 w-5" />
+                <span className="sr-only">Rewind Narration</span>
+              </Button>
+              <Button size="icon" variant="outline" onClick={handlePlayPause} className="shrink-0 hover:bg-primary/20 hover:text-primary">
+                {isAutoPlaying ? (
+                  <Pause className="h-6 w-6" />
+                ) : (
+                  <Play className="h-6 w-6" />
+                )}
+                <span className="sr-only">Play/Pause Narration</span>
+              </Button>
+            </div>
         </div>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 gap-8 items-start">
@@ -130,7 +129,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
           <div className="flex-grow space-y-4">
             <div className="flex items-start gap-4">
               <Icons.gorilla className="h-10 w-10 text-primary/80 shrink-0 mt-1" />
-              <p className="text-lg leading-relaxed text-foreground/90">
+              <p className="text-lg leading-relaxed text-foreground/90 whitespace-pre-line">
                 {page.text}
               </p>
             </div>
