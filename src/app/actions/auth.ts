@@ -18,9 +18,10 @@ export async function login(
   }
 
   if (password === ADMIN_PASSWORD) {
-    cookies().set({
-      name: AUTH_COOKIE_NAME,
-      value: password as string, // In a real app, this should be a secure token
+    // In a real app, this value should be a secure, hashed token
+    const cookieValue = password as string; 
+    
+    cookies().set(AUTH_COOKIE_NAME, cookieValue, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
