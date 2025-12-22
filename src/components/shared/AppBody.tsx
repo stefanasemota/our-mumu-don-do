@@ -7,20 +7,22 @@ import { Footer } from './Footer';
 
 export function AppBody({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, isUserLoading } = useUser(); // We can use this hook to get auth state if needed.
+  const { user } = useUser();
 
   const isAdminPage =
     pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
+  const isSharePage = pathname.startsWith('/share/story');
 
-  // For now, we'll base `isLoggedIn` on whether a user object exists.
-  // This is simpler and more robust than dealing with cookies on the client.
   const isLoggedIn = !!user;
+
+  // Do not render the main header or footer on admin or share pages
+  const showChrome = !isAdminPage && !isSharePage;
 
   return (
     <div className="relative flex min-h-screen flex-col">
-      {!isAdminPage && <Header isLoggedIn={isLoggedIn} />}
+      {showChrome && <Header isLoggedIn={isLoggedIn} />}
       <div className="flex-1">{children}</div>
-      <Footer />
+      {showChrome && <Footer />}
     </div>
   );
 }

@@ -12,14 +12,6 @@ interface HeaderProps {
 }
 
 export function Header({ isLoggedIn }: HeaderProps) {
-  const pathname = usePathname();
-  const isAdminPage =
-    pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
-
-  if (isAdminPage) {
-    return null;
-  }
-
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm">
       <div className="container mx-auto flex flex-col items-start justify-center gap-2 px-4 py-4">
