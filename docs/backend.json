@@ -66,41 +66,6 @@
         "imageUrl",
         "audioUrl"
       ]
-    },
-    "FeaturedVideo": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "FeaturedVideo",
-      "type": "object",
-      "description": "Represents a featured video in the application.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "The unique identifier for the video."
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the video."
-        },
-        "summary": {
-          "type": "string",
-          "description": "A brief summary of the video content."
-        },
-        "videoUrl": {
-          "type": "string",
-          "description": "The URL to the video file.",
-          "format": "uri"
-        },
-        "thumbnailUrl": {
-          "type": "string",
-          "description": "The URL to the video's thumbnail image.",
-          "format": "uri"
-        },
-        "videographer": {
-          "type": "string",
-          "description": "The creator or videographer of the video."
-        }
-      },
-      "required": ["id", "title", "summary", "videoUrl", "thumbnailUrl"]
     }
   },
   "auth": {
@@ -126,25 +91,8 @@
             }
           ]
         }
-      },
-      {
-        "path": "/videos/{videoId}",
-        "definition": {
-          "entityName": "FeaturedVideo",
-          "schema": {
-            "$ref": "#/backend/entities/FeaturedVideo"
-          },
-          "description": "Stores featured video content for the application.",
-          "params": [
-            {
-              "name": "videoId",
-              "description": "Unique identifier for the video."
-            }
-          ]
-        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to support the 'Our mumu don do' application, focusing on weekly educational topics, interactive stories and featured videos. It follows the principles of Authorization Independence, Structural Segregation, and Access Modeling to ensure security and scalability. We store the stories as an array of objects inside the `weeklyEducationalTopics` collection.\n\n*   **/weeklyEducationalTopics/{weeklyEducationalTopicId}**: This collection stores the core educational topics.  Each document contains metadata about the topic (title, date, guidelineCategory) and denormalized story pages as an array of objects (text, imageUrl, audioUrl).\n*   **/videos/{videoId}**: This collection stores information about featured videos, including metadata and URLs.\n\nThis structure achieves **Authorization Independence** because there are no subcollections and thus no need for hierarchical authorization. All data required to display the content is self-contained within the documents.  Since authorization is managed via an ADMIN_PASSWORD environment variable instead of user-based security rules, all data is treated as public. No user-specific `get()` calls are necessary in security rules (if we had any). This ensures atomic operations and simplifies debugging.\n\nThis structure provides for the required **QAPs** (rules are not filters).  Since all data within the collections is treated as publicly accessible, listing operations are straightforward and efficient, without requiring complex filtering logic in security rules (again, assuming we have any security rules).\n\nDenormalization is employed by embedding the story pages within the `weeklyEducationalTopics` document. This reduces the number of reads required to display a story, improving performance and simplifying data retrieval. While this might lead to larger document sizes, it's acceptable given the expected size of the story pages and the read-heavy nature of the application."
+    "reasoning": "The Firestore structure is designed to support the 'Our mumu don do' application, focusing on weekly educational topics and interactive stories. It follows the principles of Authorization Independence, Structural Segregation, and Access Modeling to ensure security and scalability. We store the stories as an array of objects inside the `weeklyEducationalTopics` collection.\n\n*   **/weeklyEducationalTopics/{weeklyEducationalTopicId}**: This collection stores the core educational topics.  Each document contains metadata about the topic (title, date, guidelineCategory) and denormalized story pages as an array of objects (text, imageUrl, audioUrl).\n\nThis structure achieves **Authorization Independence** because there are no subcollections and thus no need for hierarchical authorization. All data required to display the content is self-contained within the documents.  Since authorization is managed via an ADMIN_PASSWORD environment variable instead of user-based security rules, all data is treated as public. No user-specific `get()` calls are necessary in security rules (if we had any). This ensures atomic operations and simplifies debugging.\n\nThis structure provides for the required **QAPs** (rules are not filters).  Since all data within the collections is treated as publicly accessible, listing operations are straightforward and efficient, without requiring complex filtering logic in security rules (again, assuming we have any security rules).\n\nDenormalization is employed by embedding the story pages within the `weeklyEducationalTopics` document. This reduces the number of reads required to display a story, improving performance and simplifying data retrieval. While this might lead to larger document sizes, it's acceptable given the expected size of the story pages and the read-heavy nature of the application."
   }
 }
-    

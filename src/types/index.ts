@@ -20,12 +20,3 @@ export interface WeeklyEducationalTopic {
   pages: StoryPage[];
   audioUrl: string;
 }
-
-export interface FeaturedVideo {
-  id: string;
-  title: string;
-  summary: string;
-  videoUrl: string;
-  thumbnailUrl: string;
-  videographer?: string;
-}

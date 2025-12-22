@@ -9,7 +9,6 @@ import {
   useFirestore,
   useMemoFirebase,
 } from '@/firebase';
-import { SeedDatabaseButton } from '@/components/admin/SeedDatabaseButton';
 import {
   Card,
   CardContent,
@@ -17,7 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getTopics } from '@/lib/seed-data';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, Pencil } from 'lucide-react';
@@ -106,31 +104,16 @@ export default function AdminDashboardClientPage({
 
   if (isUserLoading) {
     return (
-      <div className="container mx-auto grid max-w-4xl gap-8 py-12 lg:grid-cols-2">
+      <div className="container mx-auto max-w-2xl py-12">
         <Card>
           <CardHeader>
             <Skeleton className="h-8 w-48" />
             <Skeleton className="h-4 w-full" />
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <Skeleton className="h-6 w-32" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-10 w-40" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-4 w-full" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-            </div>
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full mt-2" />
+            <Skeleton className="h-10 w-full mt-2" />
           </CardContent>
         </Card>
       </div>
@@ -151,11 +134,8 @@ export default function AdminDashboardClientPage({
     );
   }
 
-  // Get the local data only for the seed button.
-  const localTopics = getTopics();
-
   return (
-    <div className="container mx-auto grid max-w-4xl gap-8 py-12 lg:grid-cols-2">
+    <div className="container mx-auto max-w-2xl py-12">
       <Card>
         <CardHeader>
           <CardTitle className="font-headline text-2xl">
@@ -169,29 +149,6 @@ export default function AdminDashboardClientPage({
           <StoryList />
         </CardContent>
       </Card>
-      <Card className="bg-secondary/50">
-        <CardHeader>
-          <CardTitle className="font-headline text-2xl">
-            Database Tools
-          </CardTitle>
-          <CardDescription>
-            Use these tools for initial setup or bulk data operations.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4 rounded-md border border-dashed p-4">
-            <h3 className="font-semibold">Seed Database</h3>
-            <p className="text-sm text-muted-foreground">
-              This will upload all stories from the local data file to
-              Firestore. Use this for initial setup or to restore content. It
-              will overwrite existing stories with the same ID.
-            </p>
-            <SeedDatabaseButton localTopics={localTopics} />
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
-
-    
