@@ -68,27 +68,27 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/The-River-was-always-there.mp3',
     pages: [
       {
-        text: '[Intro]\n"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
+        text: '"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
         imageUrl: '/images/the-river-was-always-there/page_1.png',
       },
       {
-        text: '[Narration]\nThe girl ran to her Grandpa with an old history book. She had a big question about a legendary river—the great water wey flow since the beginning.',
+        text: '[Narration]\n\nThe girl ran to her Grandpa with an old history book. She had a big question about a legendary river—the great water wey flow since the beginning.',
         imageUrl: '/images/the-river-was-always-there/page_2.png',
       },
       {
-        text: '[Girl]\n"Grandpa! This book say one visitor found our great river! How e go find something wey we already know? Something wey big like that?"',
+        text: '[Girl]\n\n"Grandpa! This book say one visitor found our great river! How e go find something wey we already know? Something wey big like that?"',
         imageUrl: '/images/the-river-was-always-there/page_3.png',
       },
       {
-        text: '[Grandpa - Chuckling]\n"Ah, my pikin, listen. If a stranger walk into our parlor and see our favorite sofa... did he find the sofa? No! We were already sitting on it, weren\'t we?"',
+        text: '[Grandpa - Chuckling]\n\n"Ah, my pikin, listen. If a stranger walk into our parlor and see our favorite sofa... did he find the sofa? No! We were already sitting on it, weren\'t we?"',
         imageUrl: '/images/the-river-was-always-there/page_4.png',
       },
       {
-        text: '[Girl - Giggling]\n"Yes o! We were already there!"',
+        text: '[Girl - Giggling]\n\n"Yes o! We were already there!"',
         imageUrl: '/images/the-river-was-always-there/page_5.png',
       },
       {
-        text: '[Narration]\nLong ago, by the silver water, a fisherman named Musa was singing. The river was his home, his map, and his life.',
+        text: '[Narration]\n\nLong ago, by the silver water, the fisherman Musa was singing. The river was his home, his map, and his life.',
         imageUrl: '/images/the-river-was-always-there/page_6.png',
       },
       {
@@ -96,7 +96,7 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: '/images/the-river-was-always-there/page_7.png',
       },
       {
-        text: '[Narration]\nThen a traveler arrived, looking lost. He asked for the way to the water. Musa pointed his paddle and smiled. The traveler wrote: \'I have found the river!\'',
+        text: "[Narration]\n\nThen a traveler arrived, looking lost. He asked for the way to the water. Musa pointed his paddle and smiled. The traveler wrote: 'I have found the river!'",
         imageUrl: '/images/the-river-was-always-there/page_8.png',
       },
       {
@@ -108,11 +108,11 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: '/images/the-river-was-always-there/page_10.png',
       },
       {
-        text: '[Girl]\n"So he was just a tourist, Grandpa. We were the guides the whole time."',
+        text: '[Girl]\n\n"So he was just a tourist, Grandpa. We were the guides the whole time."',
         imageUrl: '/images/the-river-was-always-there/page_11.png',
       },
       {
-        text: '[Grandpa]\n"Exactly, my clever girl. We only showed him where the sofa was."\n\n"Oya... keep the fire burning."',
+        text: '[Grandpa]\n\n"Exactly, my clever girl. We only showed him where the sofa was."\n\n"Oya... keep the fire burning."',
         imageUrl: '/images/the-river-was-always-there/page_12.png',
       },
     ],
@@ -127,31 +127,31 @@ const topics: WeeklyEducationalTopic[] = [
     audioUrl: '/audio/The-Kings-Signature.mp3',
     pages: [
       {
-        text: '[Intro]\n(Market sounds: "Oya buy your pepper!", car horns)\n(Beat kicks in: Slow, steady Afro-shakers and a smooth sax)\n"Yeah... Simi, listen well o. History no be just old story."',
+        text: '[Intro]\n\n(Market sounds: "Oya buy your pepper!", car horns)\n(Beat kicks in: Slow, steady Afro-shakers and a smooth sax)\n"Yeah... Simi, listen well o. History no be just old story."',
         imageUrl: '/images/the-kings-signature/page_1.png',
       },
       {
-        text: '[Narration]\nSimi was visiting Uncle Edet. Between the tall glass buildings and the ancient mud walls, she saw it—the building with the red curved roof.',
+        text: '[Narration]\n\nSimi was visiting Uncle Edet. Between the tall glass buildings and the ancient mud walls, she saw it—the building with the red curved roof.',
         imageUrl: '/images/the-kings-signature/page_2.png',
       },
       {
-        text: '[Simi]\n"Uncle Edet, why we dey look this old place? The future is out there, no be so?"',
+        text: '[Simi]\n\n"Uncle Edet, why we dey look this old place? The future is out there, no be so?"',
         imageUrl: '/images/the-kings-signature/page_3.png',
       },
       {
-        text: '[Uncle Edet]\n"Ah, my pikin. If you no know where you come from, you no go know where you dey go. Come, make I show you the foundation."',
+        text: '[Uncle Edet]\n\n"Ah, my pikin. If you no know where you come from, you no go know where you dey go. Come, make I show you the foundation."',
         imageUrl: '/images/the-kings-signature/page_4.png',
       },
       {
-        text: '[Narration]\nInside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.',
+        text: '[Narration]\n\nInside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.',
         imageUrl: '/images/the-kings-signature/page_5.png',
       },
       {
-        text: '[Uncle Edet]\n"In 1855, our King, Duke Ephraim, he sign the law to protect the innocent. He be the Architect. He change the old ways so life go flourish. He build the structure, Simi."',
+        text: '[Uncle Edet]\n\n"In 1855, our King, Duke Ephraim, he sign the law to protect the innocent. He be the Architect. He change the old ways so life go flourish. He build the structure, Simi."',
         imageUrl: '/images/the-kings-signature/page_6.png',
       },
       {
-        text: '[Simi]\n"So he be like the Architect... he design the safety for us?"\n\n[Uncle Edet]\n"Exactly. But house wey empty, no be home."',
+        text: '[Simi]\n\n"So he be like the Architect... he design the safety for us?"\n\n[Uncle Edet]\n\n"Exactly. But house wey empty, no be home."',
         imageUrl: '/images/the-kings-signature/page_7.png',
       },
       {
@@ -159,7 +159,7 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: '/images/the-kings-signature/page_8.png',
       },
       {
-        text: '[Narration]\nHe showed her Mary Slessor. She came in 1876 with a heart of gold.\n\n[Uncle Edet]\n"Mary Slessor took the King’s foundation. She be the Caretaker. She furnish the house with hope and love."',
+        text: '[Narration]\n\nHe showed her Mary Slessor. She came in 1876 with a heart of gold.\n\n[Uncle Edet]\n"Mary Slessor took the King’s foundation. She be the Caretaker. She furnish the house with hope and love."',
         imageUrl: '/images/the-kings-signature/page_9.png',
       },
       {
@@ -171,7 +171,7 @@ const topics: WeeklyEducationalTopic[] = [
         imageUrl: '/images/the-kings-signature/page_11.png',
       },
       {
-        text: '[Simi]\n"I see am now, Uncle. One build the house; the other bring the fire. We be the guides of the future."\n\n"Confirm."',
+        text: '[Simi]\n\n"I see am now, Uncle. One build the house; the other bring the fire. We be the guides of the future."\n\n"Confirm."',
         imageUrl: '/images/the-kings-signature/page_12.png',
       },
     ],
@@ -180,14 +180,78 @@ const topics: WeeklyEducationalTopic[] = [
     id: '4',
     title: 'Understanding Colonisation',
     description:
-      'A story explaining the concept of colonization. Content coming soon.',
+      'The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one\'s roots.',
     date: new Date('2024-06-01').toISOString(),
     guidelineCategory: 'Historical Context',
     audioUrl: '/audio/placeholder.mp3',
     pages: [
       {
-        text: 'Story text coming soon...',
-        imageUrl: 'https://picsum.photos/seed/4/600/600',
+        text: '[Intro]\n\n"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun..."',
+        imageUrl: 'https://picsum.photos/seed/4-1/600/600',
+      },
+      {
+        text: '[Narration]\n\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.',
+        imageUrl: 'https://picsum.photos/seed/4-2/600/600',
+      },
+      {
+        text: 'Fino could read the animal tracks, on the ground he would see\nCosmos found his way by stars, for all the world to be free\nOsas loved to help the old ones, carrying water with grace\nThree friends, in their village, in this happy, sunny place.',
+        imageUrl: 'https://picsum.photos/seed/4-3/600/600',
+      },
+      {
+        text: '[Narration]\n\nOne day, Osas found an old picture. A man stood with the King, holding a special, shiny rattle staff. Osas thought it was his great-grandfather. This picture showed him the beauty of his ancestors.',
+        imageUrl: 'https://picsum.photos/seed/4-4/600/600',
+      },
+      {
+        text: '[Osas - Curious Voice]\n\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
+        imageUrl: 'https://picsum.photos/seed/4-5/600/600',
+      },
+      {
+        text: '[Fosa - Gentle Voice]\n\n"Ah, my son. That staff, and many other special things, are no longer here with us. They were moved by people who visited from very far away, long ago."',
+        imageUrl: 'https://picsum.photos/seed/4-6/600/600',
+      },
+      {
+        text: '[Osas - Puzzled Voice]\n\n"Moved? Who moved our things? Why?"',
+        imageUrl: 'https://picsum.photos/seed/4-7/600/600',
+      },
+      {
+        text: '[Fosa - Explaining Voice]\n\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \'found\' your room, even though you were living there."',
+        imageUrl: 'https://picsum.photos/seed/4-8/600/600',
+      },
+      {
+        text: '[Osas - Worried Voice]\n\n"That\'s not fair! Why would anyone do that?"',
+        imageUrl: 'https://picsum.photos/seed/4-9/600/600',
+      },
+      {
+        text: '[Fosa]\n\n"They believed they knew better. They had powerful tools, and there were many of them. Our ancestors were brave, they protected what was theirs. But the visitors were very strong. Our communities felt a deep change."',
+        imageUrl: 'https://picsum.photos/seed/4-10/600/600',
+      },
+      {
+        text: '[Cosmos - Thoughtful Voice]\n\n"It was like someone changing your favorite room, Osas. The toys your mother bought might be gone. You might get used to new ways, and forget your own choices."',
+        imageUrl: 'https://picsum.photos/seed/4-11/600/600',
+      },
+      {
+        text: '"But they can never take away who we truly are. Our stories and songs stay with us, passed down through generations."',
+        imageUrl: 'https://picsum.photos/seed/4-12/600/600',
+      },
+      {
+        text: '[Fosa]\n\n"It is true. And sometimes, even within our own people, choices were made that made things harder. We must remember this."',
+        imageUrl: 'https://picsum.photos/seed/4-13/600/600',
+      },
+      {
+        text: 'The rattle staff is gone, but the spirit remains (Yeah!)\nOur stories are living, through joy and through pains\nWe learn from the past, we build a new day\nTogether as one, we will find our own way!\n(Vocal ad-lib: "Osas, Fino, Cosmos! Unite!")',
+        imageUrl: 'https://picsum.photos/seed/4-14/600/600',
+      },
+      {
+        text: '[Narration]\n\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\' talk that were not from their own tongue.',
+        imageUrl: 'https://picsum.photos/seed/4-15/600/600',
+      },
+      {
+        text: '[Osas - Determined Voice]\n\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\'s even more important!"',
+        imageUrl: 'https://picsum.photos/seed/4-16/600/600',
+      },
+      {
+        text: '"Remember your history. Build your future. One community, standing strong."',
+        imageUrl: 'https://picsum.photos/seed/4-17/600/600',
       },
     ],
   },
