@@ -1,4 +1,3 @@
-
 import type { WeeklyEducationalTopic, FeaturedVideo } from '@/types';
 import {
   collection,
@@ -9,12 +8,12 @@ import {
   orderBy,
   Firestore,
 } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
+import { getAdminDB } from './firebase-admin';
 
-// This function now returns the local data and is used for seeding and as a fallback.
-export function getTopics(local = false): WeeklyEducationalTopic[] {
+// This function now returns the local data and is used for seeding.
+export function getTopics(): WeeklyEducationalTopic[] {
   const localTopics: WeeklyEducationalTopic[] = [
-      {
+    {
       id: '1',
       title: 'The Glass of Milk',
       description:
@@ -240,26 +239,20 @@ const featuredVideos: FeaturedVideo[] = [
   },
 ];
 
-let firestoreInstance: Firestore | null = null;
-function getFirestoreInstance() {
-  if (!firestoreInstance) {
-    firestoreInstance = initializeFirebase().firestore;
-  }
-  return firestoreInstance;
-}
-
 // This is a server-side only function
 // It must be called from a server component or a server action
 export async function getTopicById(
   id: string
 ): Promise<WeeklyEducationalTopic | undefined> {
   try {
-    const firestore = getFirestoreInstance();
-    const topicRef = doc(firestore, 'weeklyEducationalTopics', id);
-    const topicSnap = await getDoc(topicRef);
+    const firestore = getAdminDB();
+    const topicRef = firestore.collection('weeklyEducationalTopics').doc(id);
+    const topicSnap = await topicRef.get();
 
-    if (topicSnap.exists()) {
+    if (topicSnap.exists) {
       const topicData = topicSnap.data();
+      if (!topicData) return undefined;
+
       // Firestore returns Timestamps, which are not serializable for client components.
       // We convert it to an ISO string.
       const date = topicData.date.toDate().toISOString();
@@ -283,7 +276,6 @@ export async function getTopicById(
     return undefined;
   }
 }
-
 
 export async function getFeaturedVideos(): Promise<FeaturedVideo[]> {
   // In a real app, you'd fetch this from Firestore
