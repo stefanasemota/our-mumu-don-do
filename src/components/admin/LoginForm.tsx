@@ -1,7 +1,7 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useEffect } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 import { login } from '@/app/actions/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ function SubmitButton() {
 }
 
 export function LoginForm() {
-  const [state, formAction] = useActionState(login, undefined);
+  const [state, formAction] = useFormState(login, undefined);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -35,6 +35,7 @@ export function LoginForm() {
       });
     }
     if (state?.success) {
+      // Redirect on success
       router.push('/admin-dashboard');
     }
   }, [state, toast, router]);
