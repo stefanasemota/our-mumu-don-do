@@ -241,16 +241,3 @@ export async function getFeaturedVideoById(
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos.find((video) => video.id === id));
 }
-
-export async function getTopicById(
-  id: string
-): Promise<WeeklyEducationalTopic | undefined> {
-  // In a real app, you'd fetch this from Firestore
-  const topics = getTopics();
-  const topic = topics.find((topic) => topic.id === id);
-
-  if (!topic) {
-    return undefined;
-  }
-  return Promise.resolve(topic);
-}

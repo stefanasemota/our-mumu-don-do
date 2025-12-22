@@ -5,16 +5,6 @@ import { getAdminDB } from '@/lib/firebase-admin';
 import type { WeeklyEducationalTopic } from '@/types';
 import { ShareCard } from './_components/ShareCard';
 import { notFound } from 'next/navigation';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 interface SharePageProps {
   params: {
