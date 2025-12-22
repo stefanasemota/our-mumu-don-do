@@ -32,15 +32,15 @@ const nextConfig = {
         hostname: 'storage.googleapis.com',
         port: '',
         pathname: '/**',
-      }
+      },
     ],
   },
   experimental: {
     allowedDevOrigins: [
       'https://*.cloudworkstations.dev',
       'https://*.firebase.app',
-    ]
-  }
+    ],
+  },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
