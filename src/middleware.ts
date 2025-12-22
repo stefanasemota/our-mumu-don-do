@@ -39,8 +39,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // This is the key change: protect the dashboard and ALL its sub-pages.
     '/admin-dashboard/:path*',
-    // We also need to match the root layout to pass the pathname
+    
+    // We also need to match the other pages to pass the pathname header
     '/',
     '/about',
     '/story/:path*',
