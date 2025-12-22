@@ -99,7 +99,7 @@ export function ShareCard({ topic }: ShareCardProps) {
             </>
           )}
         </Button>
-        <audio ref={audioRef} preload="metadata" />
+        <audio ref={audioRef} src={topic.audioUrl} preload="metadata" />
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" asChild>
