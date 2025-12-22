@@ -26,7 +26,7 @@ export default async function Home() {
         <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
           Weekly Educational Topics
         </h2>
-        <div className="max-w-2xl mx-auto">
+        <div>
           <TopicAccordion topics={topics} />
         </div>
       </section>
