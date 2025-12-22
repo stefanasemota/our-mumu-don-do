@@ -96,6 +96,49 @@ export default function AboutPage() {
               </li>
             </ul>
           </section>
+
+          <Separator className="my-12" />
+
+          <section>
+            <h2 className="text-3xl text-primary">How We Build Am</h2>
+            <p>
+              Dis app dey use correct modern tech tools to make sure say
+              everything fast and reliable no be small:
+            </p>
+            <ul className="!mt-6">
+              <li className="!mb-2">
+                <strong>Next.js &amp; React:</strong> Na wetin we use build the
+                interface make e for load sharp-sharp and work well.
+              </li>
+              <li className="!mb-2">
+                <strong>Google Gemini &amp; Genkit:</strong> Na dem be the engine
+                wey dey help us write and adapt the stories wey you dey read.
+              </li>
+              <li>
+                <strong>AI Narration:</strong> Another special AI dey help us
+                voice the stories, to make am come alive for your ears.
+              </li>
+            </ul>
+          </section>
+
+          <Separator className="my-12" />
+
+          <section>
+            <h2 className="text-3xl text-primary">
+              &copy; Copyright &amp; Usage
+            </h2>
+            <p>
+              The original storylines on this platform are the creative property
+              of <strong>Our Mumu Don Do</strong>. The generative text and audio
+              are created using AI models and are provided for personal,
+              non-commercial, and educational purposes.
+            </p>
+            <p>
+              While you are free to share and enjoy them, please be aware that
+              they are the product of both human and AI collaboration and do not
+              constitute a transfer of copyright.
+            </p>
+          </section>
         </article>
       </div>
     </div>
