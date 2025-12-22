@@ -15,8 +15,9 @@ interface TopicAccordionProps {
 export function TopicAccordion({ topics }: TopicAccordionProps) {
   if (!topics || topics.length === 0) {
     return (
-      <div className="text-center text-muted-foreground">
-        <p>oboi NEPA take light oh!</p>
+      <div className="text-center text-foreground/80 py-10">
+        <p className="font-headline text-2xl">Oboi, NEPA take light oh!</p>
+        <p className="text-sm mt-2">No stories found. Please check back later.</p>
       </div>
     );
   }
