@@ -30,6 +30,11 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
                   Corruption
                 </Badge>
               )}
+              {topic.id === '4' && (
+                <Badge className="bg-primary/20 text-primary hover:bg-primary/30">
+                  Stolen History
+                </Badge>
+              )}
             </div>
           </AccordionTrigger>
           <AccordionContent>
