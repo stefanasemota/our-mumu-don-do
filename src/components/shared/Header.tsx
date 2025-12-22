@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Icons } from './Icons';
 import { Button } from '../ui/button';
-import { ShareButton } from './ShareButton';
 import { LogoutButton } from '../admin/LogoutButton';
 import { LayoutDashboard } from 'lucide-react';
 
@@ -30,7 +29,7 @@ export function Header({ isLoggedIn, pathname }: HeaderProps) {
           </span>
         </Link>
         <div className="flex items-center">
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <div className="flex items-center space-x-2">
               <Button asChild variant="secondary" size="sm">
                 <Link href="/admin-dashboard">
@@ -40,8 +39,6 @@ export function Header({ isLoggedIn, pathname }: HeaderProps) {
               </Button>
               <LogoutButton />
             </div>
-          ) : (
-            <ShareButton />
           )}
         </div>
       </div>
