@@ -28,11 +28,18 @@ export default function AboutPage() {
 
           <section className="mb-12">
             <p className="lead mb-6 border-l-4 border-primary pl-6 text-xl !text-foreground/90">
-              <strong>Our Mumu Don Do</strong> is an educational web
-              application designed for the young children of Nigeria. It aims to
-              foster critical thinking, celebrate local Nigerian solutions, and
-              provide a rich understanding of historical context through
-              engaging, illustrated stories.
+              <a
+                href="https://naijaspeak.sabiai.work/share/yrzMKoe4pnZZJ2UQ9wrt"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold no-underline hover:underline"
+              >
+                <strong>Our Mumu Don Do</strong>
+              </a>{' '}
+              is an educational web application designed for the young children
+              of Nigeria. It aims to foster critical thinking, celebrate local
+              Nigerian solutions, and provide a rich understanding of historical
+              context through engaging, illustrated stories.
             </p>
             <p>
               In a world filled with information, it is more important than ever
