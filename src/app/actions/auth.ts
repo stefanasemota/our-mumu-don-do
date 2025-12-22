@@ -1,7 +1,6 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const AUTH_COOKIE_NAME = 'auth_token';
@@ -16,7 +15,7 @@ export async function login(prevState: any, formData: FormData) {
 
   if (password === ADMIN_PASSWORD) {
     const cookieStore = cookies();
-    await cookieStore.set(AUTH_COOKIE_NAME, ADMIN_PASSWORD, {
+    cookieStore.set(AUTH_COOKIE_NAME, ADMIN_PASSWORD, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
@@ -31,6 +30,7 @@ export async function login(prevState: any, formData: FormData) {
 }
 
 export async function logout() {
+  const { redirect } = await import('next/navigation');
   cookies().delete(AUTH_COOKIE_NAME);
   redirect('/admin-login');
 }

@@ -22,7 +22,7 @@ function SubmitButton() {
 }
 
 export function LoginForm() {
-  const [state, formAction] = useFormState(login, undefined);
+  const [state, formAction] = useFormState(login, { error: '', success: false });
   const { toast } = useToast();
   const router = useRouter();
 
