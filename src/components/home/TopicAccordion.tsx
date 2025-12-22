@@ -15,7 +15,7 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
   if (!topics || topics.length === 0) {
     return (
       <div className="text-center text-muted-foreground">
-        <p>No stories found.</p>
+        <p>stories coming soon...</p>
       </div>
     );
   }
