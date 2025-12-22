@@ -1,3 +1,4 @@
+
 import type { WeeklyEducationalTopic, FeaturedVideo } from '@/types';
 import {
   collection,
@@ -190,7 +191,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       id: '4',
       title: 'Understanding Colonisation',
       description:
-        'The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one\\'s roots.',
+        'The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one\'s roots.',
       date: new Date('2024-06-01').toISOString(),
       guidelineCategory: 'Historical Context',
       audioUrl: '/audio/Colonisation.mp3',
@@ -200,7 +201,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
           imageUrl: 'https://picsum.photos/seed/4-1/600/600',
         },
         {
-          text: '[Narration]\\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.',
+          text: '[Narration]\\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.',
           imageUrl: 'https://picsum.photos/seed/4-2/600/600',
         },
         {
@@ -224,11 +225,11 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
           imageUrl: 'https://picsum.photos/seed/4-7/600/600',
         },
         {
-          text: '[Fosa - Explaining Voice]\\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \\'found\\' your room, even though you were living there."',
+          text: '[Fosa - Explaining Voice]\\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \'found\' your room, even though you were living there."',
           imageUrl: 'https://picsum.photos/seed/4-8/600/600',
         },
         {
-          text: '[Osas - Worried Voice]\\n"That\\'s not fair! Why would anyone do that?"',
+          text: '[Osas - Worried Voice]\\n"That\'s not fair! Why would anyone do that?"',
           imageUrl: 'https://picsum.photos/seed/4-9/600/600',
         },
         {
@@ -252,11 +253,11 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
           imageUrl: 'https://picsum.photos/seed/4-14/600/600',
         },
         {
-          text: '[Narration]\\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\\' talk that were not from their own tongue.',
+          text: '[Narration]\\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\' talk that were not from their own tongue.',
           imageUrl: 'https://picsum.photos/seed/4-15/600/600',
         },
         {
-          text: '[Osas - Determined Voice]\\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\\'s even more important!"',
+          text: '[Osas - Determined Voice]\\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\'s even more important!"',
           imageUrl: 'https://picsum.photos/seed/4-16/600/600',
         },
         {
@@ -335,3 +336,5 @@ export async function getFeaturedVideoById(
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos.find((video) => video.id === id));
 }
+
+    
