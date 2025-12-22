@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import {
   Card,
@@ -16,7 +16,6 @@ import {
   ChevronRight,
   Play,
   Pause,
-  RotateCcw,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { Icons } from '../shared/Icons';
@@ -28,20 +27,37 @@ interface StoryPlayerProps {
 export function StoryPlayer({ topic }: StoryPlayerProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const page = topic.pages[currentPage];
   const progress = ((currentPage + 1) / topic.pages.length) * 100;
 
-  useEffect(() => {
+  const handleNextPage = useCallback(() => {
+    setIsAutoPlaying(false);
+    if (currentPage < topic.pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  }, [currentPage, topic.pages.length]);
+
+  const handlePrevPage = () => {
+    setIsAutoPlaying(false);
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const playAudio = useCallback(() => {
     const audioElement = audioRef.current;
     if (audioElement) {
-      // Pause and reset when page changes
-      audioElement.pause();
-      setIsPlaying(false);
       audioElement.src = page.audioUrl;
+      audioElement.play().catch(error => {
+        console.error("Audio play failed:", error);
+        setIsPlaying(false);
+        setIsAutoPlaying(false);
+      });
     }
-  }, [currentPage, page.audioUrl]);
+  }, [page.audioUrl]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -50,74 +66,72 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     const handleEnded = () => {
-      setIsPlaying(false);
+      if (isAutoPlaying) {
+        if (currentPage < topic.pages.length - 1) {
+          setCurrentPage(prev => prev + 1);
+        } else {
+          setIsAutoPlaying(false);
+          setIsPlaying(false);
+        }
+      } else {
+        setIsPlaying(false);
+      }
     };
     
-    // Set initial source if it's not set
-    if (!audioElement.src) {
-      audioElement.src = page.audioUrl;
-    }
-
     audioElement.addEventListener('play', handlePlay);
     audioElement.addEventListener('pause', handlePause);
     audioElement.addEventListener('ended', handleEnded);
 
+    // If we are in autoplay mode and the page changes, play the new audio
+    if (isAutoPlaying) {
+      playAudio();
+    } else {
+        // Ensure audio stops if not in autoplay mode when page changes
+        audioElement.pause();
+    }
 
     return () => {
       audioElement.removeEventListener('play', handlePlay);
       audioElement.removeEventListener('pause', handlePause);
       audioElement.removeEventListener('ended', handleEnded);
     };
-  }, [page.audioUrl]);
+  }, [currentPage, isAutoPlaying, playAudio, topic.pages.length]);
+  
 
   const handlePlayPause = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        // Ensure src is set before playing
-        if (!audioRef.current.src || audioRef.current.src !== page.audioUrl) {
-          audioRef.current.src = page.audioUrl;
-        }
-        audioRef.current.play().catch(console.error);
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
 
-  const handleRestart = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      if (audioRef.current.paused) {
-         if (!audioRef.current.src || audioRef.current.src !== page.audioUrl) {
-          audioRef.current.src = page.audioUrl;
-        }
-        audioRef.current.play().catch(console.error);
-      }
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < topic.pages.length - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
+    if (isPlaying) {
+      audioElement.pause();
+      setIsAutoPlaying(false);
+    } else {
+      setIsAutoPlaying(true);
+      playAudio();
     }
   };
 
   return (
     <Card className="w-full max-w-4xl mx-auto overflow-hidden shadow-2xl shadow-primary/10">
       <CardHeader>
-        <CardTitle className="font-headline text-2xl md:text-3xl text-primary">
-          {topic.title}
-        </CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Page {currentPage + 1} of {topic.pages.length}
-        </p>
+        <div className="flex justify-between items-start gap-4">
+            <div className="flex-grow">
+                <CardTitle className="font-headline text-2xl md:text-3xl text-primary">
+                    {topic.title}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                    Page {currentPage + 1} of {topic.pages.length}
+                </p>
+            </div>
+            <Button size="icon" variant="outline" onClick={handlePlayPause} className="shrink-0">
+              {isAutoPlaying ? (
+                <Pause className="h-6 w-6" />
+              ) : (
+                <Play className="h-6 w-6" />
+              )}
+              <span className="sr-only">Play/Pause Narration</span>
+            </Button>
+        </div>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 gap-8 items-start">
         <div className="relative aspect-square w-full rounded-lg overflow-hidden border">
@@ -139,22 +153,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
               </p>
             </div>
           </div>
-          <div className="mt-6 flex items-center gap-4 p-4 rounded-lg bg-secondary">
-            <audio ref={audioRef} preload="metadata" />
-            <Button size="icon" variant="ghost" onClick={handlePlayPause}>
-              {isPlaying ? (
-                <Pause className="h-6 w-6" />
-              ) : (
-                <Play className="h-6 w-6" />
-              )}
-            </Button>
-            <Button size="icon" variant="ghost" onClick={handleRestart}>
-              <RotateCcw className="h-5 w-5" />
-            </Button>
-            <span className="text-sm text-muted-foreground">
-              Audio Narration
-            </span>
-          </div>
+          <audio ref={audioRef} preload="metadata" />
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
