@@ -1,3 +1,4 @@
+
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -35,11 +36,12 @@ export default function AboutPage() {
                 className="font-bold no-underline hover:underline text-primary"
               >
                 <strong>Our Mumu Don Do</strong>
-              </a>{' '}
-              is an educational web application designed for the young children
-              of Nigeria. It aims to foster critical thinking, celebrate local
-              Nigerian solutions, and provide a rich understanding of historical
-              context through engaging, illustrated stories.
+              </a>
+              , a Pidgin English phrase meaning "Our foolishness is over," is
+              an educational web application for young Nigerians. It aims to
+              foster critical thinking, celebrate local solutions, and provide
+              a rich understanding of historical context through engaging,
+              illustrated stories.
             </p>
             <p>
               In a world filled with information, it is more important than ever
