@@ -20,9 +20,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
   }
 
   // Ensure video data is serializable for the client component
-  const video: FeaturedVideo = {
-    ...videoData,
-  };
+  const video: FeaturedVideo = JSON.parse(JSON.stringify(videoData));
 
   return (
     <div className="container mx-auto px-4 py-8">
