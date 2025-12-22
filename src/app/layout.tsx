@@ -8,7 +8,7 @@ import { Header } from '@/components/shared/Header';
 import { cookies, headers } from 'next/headers';
 
 export const metadata: Metadata = {
-  title: 'Mumu Do More',
+  title: 'Our Mumu Don Do',
   description:
     'A platform promoting Nigerian solutions, critical thinking, and historical context.',
 };
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <title>Mumu Do More</title>
+        <title>Our Mumu Don Do</title>
         <meta
           name="description"
           content="A platform promoting Nigerian solutions, critical thinking, and historical context."
