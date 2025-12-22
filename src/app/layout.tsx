@@ -1,6 +1,4 @@
 
-'use client';
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -8,25 +6,25 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/shared/Header';
 import { Footer } from '@/components/shared/Footer';
 import { FirebaseClientProvider } from '@/firebase';
-import { usePathname } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { ConditionalHeader } from '@/components/shared/ConditionalHeader';
 
-// Metadata cannot be exported from a client component.
-// We can define it here or move it to a server component parent if needed.
-// For now, this is a reasonable approach.
-// export const metadata: Metadata = {
-//   title: 'Mumu Do More',
-//   description:
-//     'A platform promoting Nigerian solutions, critical thinking, and historical context.',
-// };
+export const metadata: Metadata = {
+  title: 'Mumu Do More',
+  description:
+    'A platform promoting Nigerian solutions, critical thinking, and historical context.',
+};
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const AUTH_COOKIE_NAME = 'auth_token';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isAdminPage =
-    pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
+  const authToken = cookies().get(AUTH_COOKIE_NAME)?.value;
+  const isLoggedIn = authToken === ADMIN_PASSWORD;
 
   return (
     <html lang="en" className="dark">
@@ -54,9 +52,9 @@ export default function RootLayout({
       >
         <FirebaseClientProvider>
           <div className="relative flex min-h-screen flex-col">
-            {!isAdminPage && <Header />}
+            <ConditionalHeader isLoggedIn={isLoggedIn} />
             <main className="flex-1">{children}</main>
-            {!isAdminPage && <Footer />}
+            <Footer />
           </div>
           <Toaster />
         </FirebaseClientProvider>

@@ -1,13 +1,18 @@
+
 'use client';
 
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Share2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const { toast } = useToast();
+  const pathname = usePathname();
+  const isAdminPage =
+    pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
 
   const handleShare = async () => {
     const shareData = {
@@ -39,6 +44,10 @@ export function Footer() {
       }
     }
   };
+
+  if (isAdminPage) {
+    return null;
+  }
 
   return (
     <footer className="border-t border-border/40 bg-background/95">
