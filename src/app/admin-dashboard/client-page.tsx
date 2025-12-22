@@ -97,10 +97,12 @@ export default function AdminDashboardClientPage({
   const { user, isUserLoading } = useUser();
 
   useEffect(() => {
-    if (isLoggedIn && !user && auth) {
+    // Only attempt sign-in after Firebase has finished loading the user state
+    // and confirmed there is no user.
+    if (isLoggedIn && !user && !isUserLoading && auth) {
       initiateAnonymousSignIn(auth);
     }
-  }, [isLoggedIn, user, auth]);
+  }, [isLoggedIn, user, isUserLoading, auth]);
 
   if (isUserLoading) {
     return (
