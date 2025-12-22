@@ -16,7 +16,7 @@ export interface WeeklyEducationalTopic {
   title: string;
   description: string;
   date: string; // Changed from Timestamp | Date to string
-  guidelineCategory: GuidelineCategory;
+  guidelineCategory: GuidelineCategory[]; // Changed to an array of strings
   pages: StoryPage[];
   audioUrl: string;
 }

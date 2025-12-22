@@ -21,10 +21,7 @@ interface TopicCardProps {
   topic: WeeklyEducationalTopic;
 }
 
-const categoryImageMap: Record<
-  WeeklyEducationalTopic['guidelineCategory'],
-  string
-> = {
+const categoryImageMap: Record<string, string> = {
   'Nigerian Solutions': 'topic-nigerian-solutions',
   'Critical Thinking': 'topic-critical-thinking',
   'Historical Context': 'topic-historical-context',
@@ -33,7 +30,11 @@ const categoryImageMap: Record<
 
 export function TopicCard({ topic }: TopicCardProps) {
   const { toast } = useToast();
-  const placeholderId = categoryImageMap[topic.guidelineCategory];
+  // Use the first category to determine the image
+  const placeholderId =
+    topic.guidelineCategory.length > 0
+      ? categoryImageMap[topic.guidelineCategory[0]]
+      : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
   const imageUrl = topic.pages[0]?.imageUrl.startsWith('/')
     ? topic.pages[0].imageUrl
@@ -100,9 +101,13 @@ export function TopicCard({ topic }: TopicCardProps) {
           <CardDescription className="text-sm text-muted-foreground mb-4 flex-grow">
             {topic.description}
           </CardDescription>
-          <Badge variant="secondary" className="font-normal w-fit">
-            {topic.guidelineCategory}
-          </Badge>
+          <div className="flex flex-wrap gap-2">
+            {topic.guidelineCategory.map((category) => (
+              <Badge key={category} variant="secondary" className="font-normal w-fit">
+                {category}
+              </Badge>
+            ))}
+          </div>
         </CardContent>
       </Link>
       <CardFooter>

@@ -20,10 +20,7 @@ interface ShareCardProps {
   topic: WeeklyEducationalTopic;
 }
 
-const categoryImageMap: Record<
-  WeeklyEducationalTopic['guidelineCategory'],
-  string
-> = {
+const categoryImageMap: Record<string, string> = {
   'Nigerian Solutions': 'topic-nigerian-solutions',
   'Critical Thinking': 'topic-critical-thinking',
   'Historical Context': 'topic-historical-context',
@@ -34,7 +31,10 @@ export function ShareCard({ topic }: ShareCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const placeholderId = categoryImageMap[topic.guidelineCategory];
+  const placeholderId =
+    topic.guidelineCategory.length > 0
+      ? categoryImageMap[topic.guidelineCategory[0]]
+      : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
   const imageUrl = topic.pages[0]?.imageUrl.startsWith('/')
     ? topic.pages[0].imageUrl

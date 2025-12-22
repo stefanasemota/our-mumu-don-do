@@ -20,7 +20,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       description:
         'This story, written by NaijaSpeak, uses the metaphors of watery milk and sandy water in a vibrant Nigerian setting to explain the concept of corruption.',
       date: new Date('2024-05-10').toISOString(),
-      guidelineCategory: 'Nigerian Solutions',
+      guidelineCategory: ['Nigerian Solutions'],
       audioUrl: '/audio/The-Glass-of-Milk.mp3',
       pages: [
         {
@@ -75,7 +75,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       description:
         'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
       date: new Date('2024-05-03').toISOString(),
-      guidelineCategory: 'Historical Context',
+      guidelineCategory: ['Historical Context'],
       audioUrl: '/audio/The-River-was-always-there.mp3',
       pages: [
         {
@@ -134,7 +134,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       description:
         'Uses an imaginative Lagos-Kano fusion setting to correct the myth about who stopped the killing of twins in Calabar. It proudly teaches that King Duke Ephraim signed the life-saving law in 1855, making him the Architect of change 21 years before Mary Slessor arrived as the kind Caretaker for the rescued babies.',
       date: new Date('2024-04-26').toISOString(),
-      guidelineCategory: 'Critical Thinking',
+      guidelineCategory: ['Critical Thinking'],
       audioUrl: '/audio/The-Kings-Signature.mp3',
       pages: [
         {
@@ -193,7 +193,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       description:
         "The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one's roots.",
       date: new Date('2024-06-01').toISOString(),
-      guidelineCategory: 'Historical Context',
+      guidelineCategory: ['Historical Context'],
       audioUrl: '/audio/Colonisation.mp3',
       pages: [
         {

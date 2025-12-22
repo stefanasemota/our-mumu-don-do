@@ -28,9 +28,17 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
           <AccordionTrigger className="text-lg font-headline hover:no-underline text-left px-6">
             <div className="flex flex-wrap items-center gap-4">
               <span>{topic.title}</span>
-              <Badge variant="secondary" className="font-normal text-sm">
-                {topic.guidelineCategory}
-              </Badge>
+              <div className="flex flex-wrap items-center gap-2">
+                {topic.guidelineCategory.map((category) => (
+                  <Badge
+                    key={category}
+                    variant="secondary"
+                    className="font-normal text-sm"
+                  >
+                    {category}
+                  </Badge>
+                ))}
+              </div>
             </div>
           </AccordionTrigger>
           <AccordionContent>
