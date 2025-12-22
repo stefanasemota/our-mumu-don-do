@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const AUTH_COOKIE_NAME = 'auth_token';
 
+// The function signature for useFormState requires the state as the first argument.
 export async function login(prevState: any, formData: FormData) {
   const password = formData.get('password');
 
@@ -23,7 +24,7 @@ export async function login(prevState: any, formData: FormData) {
       sameSite: 'lax',
       maxAge: 60 * 60 * 24, // 1 day
     });
-    // On success, we will redirect from the client
+    // On success, we will redirect from the client, so we return a success state.
     return { success: true };
   } else {
     return { error: 'Invalid password.' };
