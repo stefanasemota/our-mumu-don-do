@@ -1,10 +1,12 @@
+'use server';
+
 import { StoryPlayer } from '@/components/story/StoryPlayer';
-import { getTopicById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
+import { getAdminDB } from '@/lib/firebase-admin';
 
 interface StoryPageProps {
   params: {
@@ -12,18 +14,37 @@ interface StoryPageProps {
   };
 }
 
-export default async function StoryPage({ params }: StoryPageProps) {
-  const topicData = await getTopicById(params.id);
+async function getTopic(id: string): Promise<WeeklyEducationalTopic | null> {
+  try {
+    const db = getAdminDB();
+    const doc = await db.collection('weeklyEducationalTopics').doc(id).get();
 
-  if (!topicData) {
+    if (!doc.exists) {
+      return null;
+    }
+
+    const data = doc.data();
+    if (!data) {
+      return null;
+    }
+
+    return {
+      ...data,
+      id: doc.id,
+      date: data.date.toDate().toISOString(),
+    } as WeeklyEducationalTopic;
+  } catch (error) {
+    console.error(`Failed to fetch topic ${id}:`, error);
+    return null;
+  }
+}
+
+export default async function StoryPage({ params }: StoryPageProps) {
+  const topic = await getTopic(params.id);
+
+  if (!topic) {
     notFound();
   }
-
-  // Ensure topic data is serializable
-  const topic: WeeklyEducationalTopic = {
-    ...topicData,
-    date: topicData.date.toString(), // Convert date to string
-  };
 
   return (
     <div className="container mx-auto px-4 py-8">

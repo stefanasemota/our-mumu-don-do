@@ -1,4 +1,5 @@
 import type { WeeklyEducationalTopic, FeaturedVideo } from '@/types';
+import { getAdminDB } from './firebase-admin';
 
 // This function now returns the local data and is used for seeding.
 export function getTopics(): WeeklyEducationalTopic[] {
@@ -239,4 +240,17 @@ export async function getFeaturedVideoById(
 ): Promise<FeaturedVideo | undefined> {
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos.find((video) => video.id === id));
+}
+
+export async function getTopicById(
+  id: string
+): Promise<WeeklyEducationalTopic | undefined> {
+  // In a real app, you'd fetch this from Firestore
+  const topics = getTopics();
+  const topic = topics.find((topic) => topic.id === id);
+
+  if (!topic) {
+    return undefined;
+  }
+  return Promise.resolve(topic);
 }

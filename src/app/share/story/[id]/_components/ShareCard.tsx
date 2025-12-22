@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, ExternalLink } from 'lucide-react';
+import { Play, Pause, ExternalLink, Home } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -31,15 +31,20 @@ export function ShareCard({ topic }: ShareCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  const categories = Array.isArray(topic.guidelineCategory)
+    ? topic.guidelineCategory
+    : [topic.guidelineCategory];
   const placeholderId =
-    topic.guidelineCategory && topic.guidelineCategory.length > 0
-      ? categoryImageMap[topic.guidelineCategory[0]]
+    categories.length > 0
+      ? categoryImageMap[categories[0]]
       : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
+
+  // Ensure imageUrl is valid, fallback to placeholder
   const imageUrl =
-    topic.pages && topic.pages[0]?.imageUrl.startsWith('/')
+    topic.pages && topic.pages[0]?.imageUrl?.startsWith('/')
       ? topic.pages[0].imageUrl
-      : placeholder?.imageUrl || '';
+      : placeholder?.imageUrl || '/images/the-glass-of-milk/page_0.png';
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -74,43 +79,52 @@ export function ShareCard({ topic }: ShareCardProps) {
   };
 
   return (
-    <Card className="w-full max-w-md overflow-hidden">
-      <div className="relative h-60 w-full">
-        <Image
-          src={imageUrl}
-          alt={topic.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div>
-      <CardHeader>
-        <CardTitle className="font-headline text-2xl">{topic.title}</CardTitle>
-        <CardDescription>{topic.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {topic.audioUrl && (
-          <Button onClick={togglePlayPause} className="w-full" size="lg">
-            {isPlaying ? (
-              <>
-                <Pause className="mr-2" /> Pause Story
-              </>
-            ) : (
-              <>
-                <Play className="mr-2" /> Listen to Story
-              </>
-            )}
-          </Button>
-        )}
-        <audio ref={audioRef} src={topic.audioUrl} preload="metadata" />
-      </CardContent>
-      <CardFooter>
-        <Button variant="outline" className="w-full" asChild>
-          <Link href={`/story/${topic.id}`}>
-            <ExternalLink className="mr-2" /> View Full Interactive Story
+    <>
+      <div className="absolute top-4 right-4">
+        <Button asChild variant="outline">
+          <Link href="/">
+            <Home className="mr-2" /> Go to App
           </Link>
         </Button>
-      </CardFooter>
-    </Card>
+      </div>
+      <Card className="w-full max-w-md overflow-hidden">
+        <div className="relative h-60 w-full">
+          <Image
+            src={imageUrl}
+            alt={topic.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+        <CardHeader>
+          <CardTitle className="font-headline text-2xl">{topic.title}</CardTitle>
+          <CardDescription>{topic.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {topic.audioUrl && (
+            <Button onClick={togglePlayPause} className="w-full" size="lg">
+              {isPlaying ? (
+                <>
+                  <Pause className="mr-2" /> Pause Story
+                </>
+              ) : (
+                <>
+                  <Play className="mr-2" /> Listen to Story
+                </>
+              )}
+            </Button>
+          )}
+          <audio ref={audioRef} src={topic.audioUrl} preload="metadata" />
+        </CardContent>
+        <CardFooter>
+          <Button variant="outline" className="w-full" asChild>
+            <Link href={`/story/${topic.id}`}>
+              <ExternalLink className="mr-2" /> View Full Interactive Story
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    </>
   );
 }
