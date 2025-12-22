@@ -2,9 +2,7 @@ import * as admin from 'firebase-admin';
 import { config } from 'dotenv';
 
 // Load environment variables from .env file for local development
-if (process.env.NODE_ENV !== 'production') {
-  config();
-}
+config();
 
 // This is the service account for the Firebase project.
 // It's safe to expose this in server-side code, but it should never be
