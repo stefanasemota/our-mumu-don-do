@@ -22,11 +22,9 @@ export function AdminHeader() {
       try {
         await navigator.share(shareData);
       } catch (error) {
-        // User cancelled the share, no need to show an error.
         console.error('Error sharing:', error);
       }
     } else {
-      // Fallback for browsers that don't support the Web Share API
       try {
         await navigator.clipboard.writeText(shareData.url);
         toast({
