@@ -16,9 +16,6 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
     return (
       <div className="text-center text-muted-foreground">
         <p>No stories found.</p>
-        <p className="text-sm mt-2">
-          Make sure you have seeded the database in the admin dashboard.
-        </p>
       </div>
     );
   }
