@@ -51,7 +51,11 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border/40 bg-background/95">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4">
+      <div className="container mx-auto flex flex-col items-start justify-center gap-4 px-4 py-6">
+        <Button onClick={handleShare}>
+          <Share2 className="mr-2" />
+          Share App
+        </Button>
         <p className="space-x-2 text-sm text-muted-foreground">
           <span>&copy; {currentYear} Our Mumu Don Do.</span>
           <span className="font-semibold text-primary">v1.0</span>
@@ -63,10 +67,6 @@ export function Footer() {
             About
           </Link>
         </p>
-        <Button onClick={handleShare}>
-          <Share2 className="mr-2" />
-          Share App
-        </Button>
       </div>
     </footer>
   );
