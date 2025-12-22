@@ -20,7 +20,7 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
           <AccordionTrigger className="text-lg font-headline hover:no-underline text-left px-6">
             <div className="flex items-center gap-4">
               <span>{topic.title}</span>
-              {topic.id === '2' && (
+              {(topic.id === '2' || topic.id === '3') && (
                 <Badge className="bg-primary/20 text-primary hover:bg-primary/30">
                   correcting false narratives
                 </Badge>
