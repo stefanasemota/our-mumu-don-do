@@ -1,19 +1,22 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useUser } from '@/firebase';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
-export function AppBody({ children }: { children: React.ReactNode }) {
+export function AppBody({
+  children,
+  isLoggedIn,
+}: {
+  children: React.ReactNode;
+  isLoggedIn: boolean;
+}) {
   const pathname = usePathname();
-  const { user } = useUser();
 
   const isAdminPage =
-    pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
+    pathname.startsWith('/admin-dashboard') ||
+    pathname.startsWith('/admin-login');
   const isSharePage = pathname.startsWith('/share/story');
-
-  const isLoggedIn = !!user;
 
   // Do not render the main header or footer on admin or share pages
   const showChrome = !isAdminPage && !isSharePage;

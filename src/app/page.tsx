@@ -1,23 +1,30 @@
+'use server';
+
 import { Guidelines } from '@/components/home/Guidelines';
 import { StoryList } from '@/components/home/StoryList';
 import { Separator } from '@/components/ui/separator';
+import { cookies } from 'next/headers';
 
 export default async function Home() {
+  const authToken = cookies().get('__session')?.value;
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+  const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
+
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
-      <section className="text-center mb-12 md:mb-16">
-        <h1 className="text-4xl md:text-6xl font-headline font-bold text-primary mb-4 tracking-tight">
+      <section className="mb-12 text-center md:mb-16">
+        <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-6xl">
           <span>Discover Your Story.</span>
           <span className="block">Shape Your Future.</span>
         </h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
+        <p className="mx-auto max-w-3xl text-lg text-foreground/80 md:text-xl">
           An app for young Nigerians to uncover hidden stories, celebrate our
           own heroes, and master the art of critical thinking.
         </p>
       </section>
 
       <section className="mb-12 md:mb-16">
-        <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
+        <h2 className="mb-8 text-center font-headline text-3xl font-bold md:text-4xl">
           Educational Stories
         </h2>
         <div>

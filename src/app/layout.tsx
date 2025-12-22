@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { FirebaseClientProvider } from '@/firebase';
 import { AppBody } from '@/components/shared/AppBody';
+import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Our Mumu Don Do',
@@ -33,6 +34,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const authToken = cookies().get('__session')?.value;
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+  const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
+
   return (
     <html lang="en" className="dark">
       <head>
@@ -49,7 +54,7 @@ export default function RootLayout({
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <FirebaseClientProvider>
-          <AppBody>{children}</AppBody>
+          <AppBody isLoggedIn={isLoggedIn}>{children}</AppBody>
           <Toaster />
         </FirebaseClientProvider>
       </body>
