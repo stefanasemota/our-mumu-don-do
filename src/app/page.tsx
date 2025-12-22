@@ -3,13 +3,8 @@
 import { Guidelines } from '@/components/home/Guidelines';
 import { StoryList } from '@/components/home/StoryList';
 import { Separator } from '@/components/ui/separator';
-import { cookies } from 'next/headers';
 
 export default async function Home() {
-  const authToken = cookies().get('__session')?.value;
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-  const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
-
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <section className="mb-12 text-center md:mb-16">
@@ -40,5 +35,3 @@ export default async function Home() {
     </div>
   );
 }
-
-    
