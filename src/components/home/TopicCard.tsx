@@ -54,18 +54,21 @@ export function TopicCard({ topic }: TopicCardProps) {
     const shareData = {
       title: topic.title,
       text: topic.description,
-      url: `https://our-mumu-don-do.sabiai.work/share/story/${topic.id}`,
+      url: `/share/story/${topic.id}`,
     };
 
-    if (navigator.share && navigator.canShare(shareData)) {
+    // Use absolute URL for sharing
+    const absoluteUrl = new URL(shareData.url, window.location.origin).href;
+
+    if (navigator.share && navigator.canShare({...shareData, url: absoluteUrl})) {
       try {
-        await navigator.share(shareData);
+        await navigator.share({...shareData, url: absoluteUrl});
       } catch (error) {
         console.error('Error sharing:', error);
       }
     } else {
       try {
-        await navigator.clipboard.writeText(shareData.url);
+        await navigator.clipboard.writeText(absoluteUrl);
         toast({
           title: 'Link Copied!',
           description: 'The story link has been copied to your clipboard.',

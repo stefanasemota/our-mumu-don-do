@@ -33,19 +33,11 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
-  const totalPages = topic.pages.length + 1; // Add 1 for the description page
+  const totalPages = topic.pages.length;
 
-  // The content for the current page.
-  // Page 0 is the description, subsequent pages are from the `pages` array.
-  const page: StoryPage =
-    currentPage === 0
-      ? {
-          text: topic.description,
-          imageUrl: topic.pages[0].imageUrl, // Use first page's image for the description
-        }
-      : topic.pages[currentPage - 1];
+  const page: StoryPage = topic.pages[currentPage];
 
-  const progress = (currentPage / (totalPages - 1)) * 100;
+  const progress = ((currentPage + 1) / totalPages) * 100;
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages - 1) {
@@ -102,18 +94,21 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     const shareData = {
       title: topic.title,
       text: topic.description,
-      url: `https://our-mumu-don-do.sabiai.work/share/story/${topic.id}`,
+      url: `/share/story/${topic.id}`,
     };
+    
+    // Use absolute URL for sharing
+    const absoluteUrl = new URL(shareData.url, window.location.origin).href;
 
-    if (navigator.share && navigator.canShare(shareData)) {
+    if (navigator.share && navigator.canShare({...shareData, url: absoluteUrl})) {
       try {
-        await navigator.share(shareData);
+        await navigator.share({...shareData, url: absoluteUrl});
       } catch (error) {
         console.error('Error sharing:', error);
       }
     } else {
       try {
-        await navigator.clipboard.writeText(shareData.url);
+        await navigator.clipboard.writeText(absoluteUrl);
         toast({
           title: 'Link Copied!',
           description: 'The story link has been copied to your clipboard.',
