@@ -5,7 +5,8 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { Footer } from '@/components/shared/Footer';
 import { FirebaseClientProvider } from '@/firebase';
-import { ConditionalHeader } from '@/components/shared/ConditionalHeader';
+import { Header } from '@/components/shared/Header';
+import { cookies, headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Mumu Do More',
@@ -18,6 +19,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const authToken = cookies().get('auth_token')?.value;
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+  const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
+  
+  const headersList = headers();
+  const pathname = headersList.get('x-next-pathname') || '';
+
   return (
     <html lang="en" className="dark">
       <head>
@@ -44,7 +52,7 @@ export default function RootLayout({
       >
         <FirebaseClientProvider>
           <div className="relative flex min-h-screen flex-col">
-            <ConditionalHeader />
+            <Header isLoggedIn={isLoggedIn} pathname={pathname} />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>

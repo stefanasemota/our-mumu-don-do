@@ -7,15 +7,14 @@ import { Button } from '../ui/button';
 import { ShareButton } from './ShareButton';
 import { LogoutButton } from '../admin/LogoutButton';
 import { LayoutDashboard } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 import { AdminHeader } from '../admin/AdminHeader';
 
 interface HeaderProps {
   isLoggedIn: boolean;
+  pathname: string;
 }
 
-export function Header({ isLoggedIn }: HeaderProps) {
-  const pathname = usePathname();
+export function Header({ isLoggedIn, pathname }: HeaderProps) {
   const isAdminPage =
     pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
 
@@ -27,6 +26,7 @@ export function Header({ isLoggedIn }: HeaderProps) {
     return null; // Don't render any header on login page if not logged in
   }
 
+  // Render the public-facing header for all other pages
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between space-x-4">
