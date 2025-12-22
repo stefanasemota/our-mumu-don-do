@@ -19,7 +19,7 @@ import {
   Rewind,
   Share2,
 } from 'lucide-react';
-import type { WeeklyEducationalTopic } from '@/types';
+import type { WeeklyEducationalTopic, StoryPage } from '@/types';
 import { Icons } from '../shared/Icons';
 import { useToast } from '@/hooks/use-toast';
 
@@ -33,14 +33,25 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
-  const page = topic.pages[currentPage];
-  const progress = ((currentPage + 1) / topic.pages.length) * 100;
+  const totalPages = topic.pages.length + 1; // Add 1 for the description page
+
+  // The content for the current page.
+  // Page 0 is the description, subsequent pages are from the `pages` array.
+  const page: StoryPage =
+    currentPage === 0
+      ? {
+          text: topic.description,
+          imageUrl: topic.pages[0].imageUrl, // Use first page's image for the description
+        }
+      : topic.pages[currentPage - 1];
+
+  const progress = (currentPage / (totalPages - 1)) * 100;
 
   const handleNextPage = useCallback(() => {
-    if (currentPage < topic.pages.length - 1) {
+    if (currentPage < totalPages - 1) {
       setCurrentPage(currentPage + 1);
     }
-  }, [currentPage, topic.pages.length]);
+  }, [currentPage, totalPages]);
 
   const handlePrevPage = () => {
     if (currentPage > 0) {
@@ -127,7 +138,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                     {topic.title}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                    Page {currentPage + 1} of {topic.pages.length}
+                    Page {currentPage + 1} of {totalPages}
                 </p>
             </div>
             <div className="flex items-center gap-2">
@@ -135,7 +146,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                 <ChevronLeft className="h-5 w-5" />
                 <span className="sr-only">Previous Page</span>
               </Button>
-              <Button size="icon" variant="outline" onClick={handleNextPage} disabled={currentPage === topic.pages.length - 1} className="shrink-0 hover:bg-primary/20 hover:text-primary">
+              <Button size="icon" variant="outline" onClick={handleNextPage} disabled={currentPage === totalPages - 1} className="shrink-0 hover:bg-primary/20 hover:text-primary">
                 <ChevronRight className="h-5 w-5" />
                 <span className="sr-only">Next Page</span>
               </Button>
