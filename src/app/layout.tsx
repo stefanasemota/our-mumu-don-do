@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -53,7 +52,7 @@ export default function RootLayout({
         <FirebaseClientProvider>
           <div className="relative flex min-h-screen flex-col">
             <Header isLoggedIn={isLoggedIn} pathname={pathname} />
-            <main className="flex-1">{children}</main>
+            <div className="flex-1">{children}</div>
             <Footer />
           </div>
           <Toaster />

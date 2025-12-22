@@ -30,8 +30,16 @@ export function SeedDatabaseButton({ localTopics }: SeedDatabaseButtonProps) {
       return;
     }
 
-    // Our security rules require an authenticated user to write.
-    // The useUser hook ensures we have the definitive user state.
+    if (isUserLoading) {
+        toast({
+            variant: 'destructive',
+            title: 'Authentication Pending',
+            description: 'Please wait for authentication to complete and try again.',
+        });
+        setIsLoading(false);
+        return;
+    }
+
     if (!user) {
       toast({
         variant: 'destructive',

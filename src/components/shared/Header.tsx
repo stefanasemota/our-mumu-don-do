@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -18,12 +17,10 @@ export function Header({ isLoggedIn, pathname }: HeaderProps) {
   const isAdminPage =
     pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
 
-  if (isAdminPage && isLoggedIn) {
-    return <AdminHeader />;
-  }
-
-  if (isAdminPage && !isLoggedIn) {
-    return null; // Don't render any header on login page if not logged in
+  // Do not render the main header on admin pages.
+  // The AdminDashboardLayout will render its own AdminHeader.
+  if (isAdminPage) {
+    return null;
   }
 
   // Render the public-facing header for all other pages
