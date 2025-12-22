@@ -38,7 +38,9 @@ export async function login(prevState: any, formData: FormData) {
   }
 
   if (isSuccess) {
+    // This is the fix: Clear the cache for the dashboard layout
     revalidatePath('/admin-dashboard', 'layout');
+    // Then redirect
     redirect('/admin-dashboard');
   }
 
