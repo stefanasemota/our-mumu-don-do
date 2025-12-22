@@ -25,6 +25,11 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
                   correcting false narratives
                 </Badge>
               )}
+              {topic.id === '1' && (
+                <Badge className="bg-destructive/20 text-destructive-foreground hover:bg-destructive/30">
+                  Corruption
+                </Badge>
+              )}
             </div>
           </AccordionTrigger>
           <AccordionContent>
