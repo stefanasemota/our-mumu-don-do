@@ -158,7 +158,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
             </div>
         </div>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-8 items-start">
+      <CardContent className="flex flex-col gap-8">
         <div className="relative aspect-video w-full rounded-lg overflow-hidden border">
           <Image
             src={page.imageUrl}
