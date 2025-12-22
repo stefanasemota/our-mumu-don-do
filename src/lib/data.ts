@@ -279,13 +279,8 @@ export async function getTopicById(
     };
   } catch (error) {
     console.error(`Error fetching topic by ID "${id}":`, error);
-    // In case of error (e.g., permissions), we fall back to local data.
-    // This is not ideal for production, but serves as a robust fallback.
-    const localTopic = getTopics(true).find((t) => t.id === id);
-    if (localTopic) {
-        console.warn(`Falling back to local data for topic ID "${id}".`);
-        return localTopic;
-    }
+    // Unlike before, we are not falling back to local data.
+    // If Firestore fails, we let it fail. This makes the data flow predictable.
     return undefined;
   }
 }
