@@ -26,7 +26,6 @@ interface StoryPlayerProps {
 
 export function StoryPlayer({ topic }: StoryPlayerProps) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -47,68 +46,51 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
     }
   };
 
-  const playAudio = useCallback(() => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.src = page.audioUrl;
-      audioElement.play().catch(error => {
-        console.error("Audio play failed:", error);
-        setIsPlaying(false);
-        setIsAutoPlaying(false);
-      });
-    }
-  }, [page.audioUrl]);
-
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
 
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
+    // Handler for when audio finishes playing
     const handleEnded = () => {
       if (isAutoPlaying) {
         if (currentPage < topic.pages.length - 1) {
+          // Go to the next page if autoplaying
           setCurrentPage(prev => prev + 1);
         } else {
+          // Reached the end, stop autoplay
           setIsAutoPlaying(false);
-          setIsPlaying(false);
         }
-      } else {
-        setIsPlaying(false);
       }
     };
     
-    audioElement.addEventListener('play', handlePlay);
-    audioElement.addEventListener('pause', handlePause);
     audioElement.addEventListener('ended', handleEnded);
 
-    // If we are in autoplay mode and the page changes, play the new audio
+    // When the page or autoplay status changes, manage audio
     if (isAutoPlaying) {
-      playAudio();
+      // Set the source and play
+      audioElement.src = page.audioUrl;
+      audioElement.play().catch(error => {
+        console.error("Audio play failed:", error);
+        setIsAutoPlaying(false); // Stop autoplay on error
+      });
     } else {
-        // Ensure audio stops if not in autoplay mode when page changes
-        audioElement.pause();
+      // If not autoplaying, pause the audio
+      audioElement.pause();
     }
 
+    // Cleanup listener on component unmount or dependency change
     return () => {
-      audioElement.removeEventListener('play', handlePlay);
-      audioElement.removeEventListener('pause', handlePause);
       audioElement.removeEventListener('ended', handleEnded);
     };
-  }, [currentPage, isAutoPlaying, playAudio, topic.pages.length]);
+  }, [currentPage, isAutoPlaying, page.audioUrl, topic.pages.length]);
   
 
   const handlePlayPause = () => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
 
-    if (isPlaying) {
-      audioElement.pause();
-      setIsAutoPlaying(false);
-    } else {
-      setIsAutoPlaying(true);
-      playAudio();
-    }
+    // Toggle autoplay state
+    setIsAutoPlaying(prev => !prev);
   };
 
   return (

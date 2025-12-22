@@ -14,7 +14,7 @@ const topics: WeeklyEducationalTopic[] = [
         text: 'Meet Amina! Amina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',
         imageUrl: '/images/the-glass-of-milk/page_0.png',
         audioUrl:
-          'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
+          '/audio/The-Glass-of-Milk.mp3',
       },
       {
         text: 'One afternoon, Mama Yewande said, "Amina, my dear, please go to Malam Musas shop and buy us a bottle of fresh milk for our breakfast tomorrow."',
