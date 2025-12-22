@@ -197,72 +197,28 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       audioUrl: '/audio/Colonisation.mp3',
       pages: [
         {
-          text: '[Intro]\n"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun..."',
+          text: '[Intro]\n"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun..."\n\n[Narration]\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.\n\nFino could read the animal tracks, on the ground he would see\nCosmos found his way by stars, for all the world to be free\nOsas loved to help the old ones, carrying water with grace\nThree friends, in their village, in this happy, sunny place.',
           imageUrl: '/images/understanding-colonisation/page_0.png',
         },
         {
-          text: '[Narration]\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.',
+          text: '[Narration]\nOne day, Osas found an old picture. A man stood with the King, holding a special, shiny rattle staff. Osas thought it was his great-grandfather. This picture showed him the beauty of his ancestors.\n\n[Osas - Curious Voice]\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
           imageUrl: '/images/understanding-colonisation/page_1.png',
         },
         {
-          text: 'Fino could read the animal tracks, on the ground he would see\nCosmos found his way by stars, for all the world to be free\nOsas loved to help the old ones, carrying water with grace\nThree friends, in their village, in this happy, sunny place.',
+          text: '[Fosa - Gentle Voice]\n"Ah, my son. That staff, and many other special things, are no longer here with us. They were moved by people who visited from very far away, long ago."\n\n[Osas - Puzzled Voice]\n"Moved? Who moved our things? Why?"\n\n[Fosa - Explaining Voice]\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \'found\' your room, even though you were living there."',
           imageUrl: '/images/understanding-colonisation/page_2.png',
         },
         {
-          text: '[Narration]\nOne day, Osas found an old picture. A man stood with the King, holding a special, shiny rattle staff. Osas thought it was his great-grandfather. This picture showed him the beauty of his ancestors.',
+          text: '[Osas - Worried Voice]\n"That\'s not fair! Why would anyone do that?"\n\n[Fosa]\n"They believed they knew better. They had powerful tools, and there were many of them. Our ancestors were brave, they protected what was theirs. But the visitors were very strong. Our communities felt a deep change."\n\n[Cosmos - Thoughtful Voice]\n"It was like someone changing your favorite room, Osas. The toys your mother bought might be gone. You might get used to new ways, and forget your own choices."',
           imageUrl: '/images/understanding-colonisation/page_3.png',
         },
         {
-          text: '[Osas - Curious Voice]\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
+          text: '"But they can never take away who we truly are. Our stories and songs stay with us, passed down through generations."\n\n[Fosa]\n"It is true. And sometimes, even within our own people, choices were made that made things harder. We must remember this."\n\nThe rattle staff is gone, but the spirit remains (Yeah!)\nOur stories are living, through joy and through pains\nWe learn from the past, we build a new day\nTogether as one, we will find our own way!',
           imageUrl: '/images/understanding-colonisation/page_4.png',
         },
         {
-          text: '[Fosa - Gentle Voice]\n"Ah, my son. That staff, and many other special things, are no longer here with us. They were moved by people who visited from very far away, long ago."',
+          text: '[Narration]\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\' talk that were not from their own tongue.\n\n[Osas - Determined Voice]\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\'s even more important!"\n\n"Remember your history. Build your future. One community, standing strong."',
           imageUrl: '/images/understanding-colonisation/page_5.png',
-        },
-        {
-          text: '[Osas - Puzzled Voice]\n"Moved? Who moved our things? Why?"',
-          imageUrl: '/images/understanding-colonisation/page_6.png',
-        },
-        {
-          text: '[Fosa - Explaining Voice]\n"Imagine if a stranger came into your room without asking. Not just looking, but changing things around, and taking your favorite toys to their own house. They might say they \'found\' your room, even though you were living there."',
-          imageUrl: '/images/understanding-colonisation/page_7.png',
-        },
-        {
-          text: '[Osas - Worried Voice]\n"That\'s not fair! Why would anyone do that?"',
-          imageUrl: '/images/understanding-colonisation/page_8.png',
-        },
-        {
-          text: '[Fosa]\n"They believed they knew better. They had powerful tools, and there were many of them. Our ancestors were brave, they protected what was theirs. But the visitors were very strong. Our communities felt a deep change."',
-          imageUrl: '/images/understanding-colonisation/page_9.png',
-        },
-        {
-          text: '[Cosmos - Thoughtful Voice]\n"It was like someone changing your favorite room, Osas. The toys your mother bought might be gone. You might get used to new ways, and forget your own choices."',
-          imageUrl: '/images/understanding-colonisation/page_10.png',
-        },
-        {
-          text: '"But they can never take away who we truly are. Our stories and songs stay with us, passed down through generations."',
-          imageUrl: '/images/understanding-colonisation/page_11.png',
-        },
-        {
-          text: '[Fosa]\n"It is true. And sometimes, even within our own people, choices were made that made things harder. We must remember this."',
-          imageUrl: '/images/understanding-colonisation/page_12.png',
-        },
-        {
-          text: 'The rattle staff is gone, but the spirit remains (Yeah!)\nOur stories are living, through joy and through pains\nWe learn from the past, we build a new day\nTogether as one, we will find our own way!\n',
-          imageUrl: '/images/understanding-colonisation/page_13.png',
-        },
-        {
-          text: '[Narration]\nFrom that day, Osas saw the world differently. It was like a new light shone on everything. He noticed strange marks on coins, new clothes on judges, and words in the elders\' talk that were not from their own tongue.',
-          imageUrl: '/images/understanding-colonisation/page_14.png',
-        },
-        {
-          text: '[Osas - Determined Voice]\n"Grandpa, getting the staff back is important. But helping us remember who we are? That\'s even more important!"',
-          imageUrl: '/images/understanding-colonisation/page_15.png',
-        },
-        {
-          text: '"Remember your history. Build your future. One community, standing strong."',
-          imageUrl: '/images/understanding-colonisation/page_16.png',
         },
       ],
     },
@@ -290,8 +246,48 @@ const featuredVideos: FeaturedVideo[] = [
 export async function getTopicById(
   id: string
 ): Promise<WeeklyEducationalTopic | undefined> {
-  const localTopic = getTopics(true).find((t) => t.id === id);
-  return localTopic;
+  try {
+    // This check is important to avoid trying to initialize Firebase on the server
+    // when it might not be configured. We get the firestore instance this way.
+    const { firestore } = initializeFirebase();
+    if (!firestore) {
+      throw new Error('Firestore is not initialized.');
+    }
+
+    const topicRef = doc(firestore, 'weeklyEducationalTopics', id);
+    const topicSnap = await getDoc(topicRef);
+
+    if (!topicSnap.exists()) {
+      console.log(`No topic found with id: ${id}`);
+      return undefined;
+    }
+
+    const topicData = topicSnap.data();
+    
+    // Firestore returns Timestamps, which are not serializable for client components.
+    // We convert it to an ISO string.
+    const date = topicData.date.toDate().toISOString();
+
+    return {
+      id: topicSnap.id,
+      title: topicData.title,
+      description: topicData.description,
+      date: date,
+      guidelineCategory: topicData.guidelineCategory,
+      pages: topicData.pages,
+      audioUrl: topicData.audioUrl,
+    };
+  } catch (error) {
+    console.error(`Error fetching topic by ID "${id}":`, error);
+    // In case of error (e.g., permissions), we fall back to local data.
+    // This is not ideal for production, but serves as a robust fallback.
+    const localTopic = getTopics(true).find((t) => t.id === id);
+    if (localTopic) {
+        console.warn(`Falling back to local data for topic ID "${id}".`);
+        return localTopic;
+    }
+    return undefined;
+  }
 }
 
 
@@ -306,3 +302,5 @@ export async function getFeaturedVideoById(
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos.find((video) => video.id === id));
 }
+
+    
