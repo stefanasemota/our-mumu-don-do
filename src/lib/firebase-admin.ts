@@ -16,6 +16,7 @@ function initializeAdminApp() {
 
   // Check if necessary environment variables are set
   if (!serviceAccount.projectId || !serviceAccount.clientEmail || !serviceAccount.privateKey) {
+    console.error('Firebase admin environment variables are not set. projectId:', !!serviceAccount.projectId, 'clientEmail:', !!serviceAccount.clientEmail, 'privateKey:', !!serviceAccount.privateKey);
     throw new Error('Firebase admin environment variables are not set.');
   }
 

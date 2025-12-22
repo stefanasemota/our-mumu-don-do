@@ -1,13 +1,4 @@
 import type { WeeklyEducationalTopic, FeaturedVideo } from '@/types';
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  orderBy,
-  Firestore,
-} from 'firebase/firestore';
 import { getAdminDB } from './firebase-admin';
 
 // This function now returns the local data and is used for seeding.
