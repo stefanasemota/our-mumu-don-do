@@ -35,7 +35,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const authToken = cookies().get('auth_token')?.value;
+  const authToken = cookies().get('__session')?.value;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
   const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
 

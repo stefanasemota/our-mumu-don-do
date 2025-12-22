@@ -32,17 +32,18 @@ export function ShareCard({ topic }: ShareCardProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const placeholderId =
-    topic.guidelineCategory.length > 0
+    topic.guidelineCategory && topic.guidelineCategory.length > 0
       ? categoryImageMap[topic.guidelineCategory[0]]
       : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
-  const imageUrl = topic.pages[0]?.imageUrl.startsWith('/')
-    ? topic.pages[0].imageUrl
-    : placeholder?.imageUrl || '';
+  const imageUrl =
+    topic.pages && topic.pages[0]?.imageUrl.startsWith('/')
+      ? topic.pages[0].imageUrl
+      : placeholder?.imageUrl || '';
 
   useEffect(() => {
     const audioElement = audioRef.current;
-    if (!audioElement) return;
+    if (!audioElement || !topic.audioUrl) return;
 
     if (audioElement.src !== topic.audioUrl) {
       audioElement.src = topic.audioUrl;
@@ -88,17 +89,19 @@ export function ShareCard({ topic }: ShareCardProps) {
         <CardDescription>{topic.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Button onClick={togglePlayPause} className="w-full" size="lg">
-          {isPlaying ? (
-            <>
-              <Pause className="mr-2" /> Pause Story
-            </>
-          ) : (
-            <>
-              <Play className="mr-2" /> Listen to Story
-            </>
-          )}
-        </Button>
+        {topic.audioUrl && (
+          <Button onClick={togglePlayPause} className="w-full" size="lg">
+            {isPlaying ? (
+              <>
+                <Pause className="mr-2" /> Pause Story
+              </>
+            ) : (
+              <>
+                <Play className="mr-2" /> Listen to Story
+              </>
+            )}
+          </Button>
+        )}
         <audio ref={audioRef} src={topic.audioUrl} preload="metadata" />
       </CardContent>
       <CardFooter>

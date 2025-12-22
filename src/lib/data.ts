@@ -1,5 +1,4 @@
 import type { WeeklyEducationalTopic, FeaturedVideo } from '@/types';
-import { getAdminDB } from './firebase-admin';
 
 // This function now returns the local data and is used for seeding.
 export function getTopics(): WeeklyEducationalTopic[] {
@@ -229,44 +228,6 @@ const featuredVideos: FeaturedVideo[] = [
       'https://images.unsplash.com/photo-1658402834502-866c5760bb2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmlnZXJpYW4lMjBtYXJrZXR8ZW58MHx8fHwxNzY0ODU2OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080',
   },
 ];
-
-// This is a server-side only function
-// It must be called from a server component or a server action
-export async function getTopicById(
-  id: string
-): Promise<WeeklyEducationalTopic | undefined> {
-  try {
-    const firestore = getAdminDB();
-    const topicRef = firestore.collection('weeklyEducationalTopics').doc(id);
-    const topicSnap = await topicRef.get();
-
-    if (topicSnap.exists) {
-      const topicData = topicSnap.data();
-      if (!topicData) return undefined;
-
-      // Firestore returns Timestamps, which are not serializable for client components.
-      // We convert it to an ISO string.
-      const date = topicData.date.toDate().toISOString();
-
-      return {
-        id: topicSnap.id,
-        title: topicData.title,
-        description: topicData.description,
-        date: date,
-        guidelineCategory: topicData.guidelineCategory,
-        pages: topicData.pages,
-        audioUrl: topicData.audioUrl,
-      };
-    } else {
-      console.error(`Topic with id "${id}" not found in Firestore.`);
-      return undefined;
-    }
-  } catch (error) {
-    console.error(`Error fetching topic by ID "${id}" from Firestore:`, error);
-    // Return undefined if there's an error. The calling page should handle this (e.g., show notFound()).
-    return undefined;
-  }
-}
 
 export async function getFeaturedVideos(): Promise<FeaturedVideo[]> {
   // In a real app, you'd fetch this from Firestore

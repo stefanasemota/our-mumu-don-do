@@ -1,71 +1,39 @@
+'use client';
 
-import { getTopicById } from '@/lib/data';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { ShareCard } from './_components/ShareCard';
 import type { WeeklyEducationalTopic } from '@/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Home } from 'lucide-react';
-import type { Metadata } from 'next';
+import { Home, Loader2 } from 'lucide-react';
+import { useDoc, useFirestore } from '@/firebase';
+import { doc } from 'firebase/firestore';
 
-interface SharePageProps {
-  params: {
-    id: string;
-  };
-}
+export default function SharePage() {
+  const params = useParams();
+  const id = params.id as string;
+  const firestore = useFirestore();
 
-export async function generateMetadata({
-  params,
-}: SharePageProps): Promise<Metadata> {
-  const topic = await getTopicById(params.id);
+  const topicRef = doc(firestore, 'weeklyEducationalTopics', id);
+  const { data: topic, isLoading, error } = useDoc<WeeklyEducationalTopic>(topicRef);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-secondary p-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="mt-4 text-lg text-foreground">Loading Story...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    console.error('Failed to load topic:', error);
+    // You could show a more user-friendly error message here
+  }
 
   if (!topic) {
-    return {
-      title: 'Story Not Found',
-    };
-  }
-
-  // Use the first page's image as the preview image for social sharing
-  const imageUrl =
-    topic.pages.length > 0 && topic.pages[0].imageUrl
-      ? `https://our-mumu-don-do.sabiai.work${topic.pages[0].imageUrl}`
-      : 'https://our-mumu-don-do.sabiai.work/images/og-image.png'; // A fallback image
-
-  return {
-    title: topic.title,
-    description: topic.description,
-    openGraph: {
-      title: topic.title,
-      description: topic.description,
-      type: 'article',
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: topic.title,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: topic.title,
-      description: topic.description,
-      images: [imageUrl],
-    },
-  };
-}
-
-
-export default async function SharePage({ params }: SharePageProps) {
-  const topicData = await getTopicById(params.id);
-
-  if (!topicData) {
     notFound();
   }
-
-  // The data is now correctly formatted by getTopicById, so we can pass it directly.
-  const topic: WeeklyEducationalTopic = topicData;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-secondary p-4">
