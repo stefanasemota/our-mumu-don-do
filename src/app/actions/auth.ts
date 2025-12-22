@@ -15,12 +15,7 @@ export async function login(prevState: any, formData: FormData) {
     return { error: 'Server configuration error.' };
   }
 
-  if (password !== ADMIN_PASSWORD) {
-    return { error: 'Invalid password.' };
-  }
-
-  // If password is correct, proceed with setting cookie and redirecting.
-  try {
+  if (password === ADMIN_PASSWORD) {
     cookies().set(AUTH_COOKIE_NAME, ADMIN_PASSWORD, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -28,21 +23,14 @@ export async function login(prevState: any, formData: FormData) {
       sameSite: 'lax',
       maxAge: 60 * 60 * 24, // 1 day
     });
-
+    // Invalidate the cache for the admin dashboard to prevent stale data
     revalidatePath('/admin-dashboard', 'layout');
-    
+    // Redirect to the admin dashboard upon successful login
     redirect('/admin-dashboard');
-  } catch (error) {
-    // The redirect() function throws a NEXT_REDIRECT error, which we need to handle.
-    // We re-throw it to allow Next.js to complete the redirect.
-    // For any other error, we return a generic error message.
-    if (error instanceof Error && error.name === 'NEXT_REDIRECT') {
-      throw error;
-    }
-
-    console.error('An unexpected error occurred during login:', error);
-    return { error: 'An unexpected error occurred.' };
   }
+
+  // If the password is not correct, return an error message.
+  return { error: 'Invalid password.' };
 }
 
 export async function logout() {
