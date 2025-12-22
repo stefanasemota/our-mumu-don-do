@@ -292,9 +292,11 @@ export async function getTopicById(
 ): Promise<WeeklyEducationalTopic | undefined> {
   const localTopic = getTopics(true).find((t) => t.id === id);
   if (localTopic) {
+    // Ensure all data is present and correctly formatted.
     return {
       ...localTopic,
       date: new Date(localTopic.date).toISOString(),
+      audioUrl: localTopic.audioUrl || '',
     };
   }
   return undefined;
@@ -312,5 +314,3 @@ export async function getFeaturedVideoById(
   // In a real app, you'd fetch this from Firestore
   return Promise.resolve(featuredVideos.find((video) => video.id === id));
 }
-
-    

@@ -1,3 +1,4 @@
+
 import { getTopicById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { ShareCard } from './_components/ShareCard';
@@ -19,10 +20,8 @@ export default async function SharePage({ params }: SharePageProps) {
     notFound();
   }
 
-  const topic: WeeklyEducationalTopic = {
-    ...topicData,
-    date: topicData.date.toString(),
-  };
+  // The data is now correctly formatted by getTopicById, so we can pass it directly.
+  const topic: WeeklyEducationalTopic = topicData;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-secondary p-4">
