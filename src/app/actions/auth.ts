@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const AUTH_COOKIE_NAME = 'auth_token';
@@ -37,6 +38,7 @@ export async function login(prevState: any, formData: FormData) {
   }
 
   if (isSuccess) {
+    revalidatePath('/admin-dashboard', 'layout');
     redirect('/admin-dashboard');
   }
 
