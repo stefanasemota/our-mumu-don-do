@@ -65,7 +65,7 @@ const topics: WeeklyEducationalTopic[] = [
       'Another Story written by NaijaSabi, corrects the historical myth about the "discovery" of the River Niger, emphasizing the role of African guides and local presence.',
     date: new Date('2024-05-03').toISOString(),
     guidelineCategory: 'Historical Context',
-    audioUrl: '/audio/sample-audio.mp3',
+    audioUrl: '/audio/The-River-was-always-there.mp3',
     pages: [
       {
         text: '"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
