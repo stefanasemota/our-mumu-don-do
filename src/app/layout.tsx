@@ -10,7 +10,24 @@ import { cookies, headers } from 'next/headers';
 export const metadata: Metadata = {
   title: 'Our Mumu Don Do',
   description:
-    'A platform promoting Nigerian solutions, critical thinking, and historical context.',
+    'An educational platform for young Nigerians to learn critical thinking, history, and local solutions through engaging stories.',
+  keywords: [
+    'Nigeria',
+    'education',
+    'critical thinking',
+    'history',
+    'storytelling',
+    'children',
+    'learning app',
+    'African solutions',
+  ],
+  openGraph: {
+    title: 'Our Mumu Don Do',
+    description:
+      'An educational platform for young Nigerians to learn critical thinking, history, and local solutions through engaging stories.',
+    type: 'website',
+    url: 'https://ourmumudondo.com', // Replace with your actual domain
+  },
 };
 
 export default function RootLayout({
@@ -21,18 +38,16 @@ export default function RootLayout({
   const authToken = cookies().get('auth_token')?.value;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
   const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
-  
+
   const headersList = headers();
   const pathname = headersList.get('x-next-pathname') || '';
+  const isAdminPage =
+    pathname.startsWith('/admin-dashboard') ||
+    pathname.startsWith('/admin-login');
 
   return (
     <html lang="en" className="dark">
       <head>
-        <title>Our Mumu Don Do</title>
-        <meta
-          name="description"
-          content="A platform promoting Nigerian solutions, critical thinking, and historical context."
-        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -44,14 +59,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body
-        className={cn(
-          'min-h-screen bg-background font-body antialiased'
-        )}
-      >
+      <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <FirebaseClientProvider>
           <div className="relative flex min-h-screen flex-col">
-            <Header isLoggedIn={isLoggedIn} pathname={pathname} />
+            {!isAdminPage && (
+              <Header isLoggedIn={isLoggedIn} pathname={pathname} />
+            )}
             <div className="flex-1">{children}</div>
             <Footer />
           </div>
