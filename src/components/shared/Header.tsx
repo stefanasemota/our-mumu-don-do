@@ -26,7 +26,7 @@ export function Header({ isLoggedIn, pathname }: HeaderProps) {
   // Render the public-facing header for all other pages
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm">
-      <div className="container mx-auto flex h-16 items-center justify-between space-x-4">
+      <div className="container mx-auto flex h-16 items-center justify-between space-x-4 px-4">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <Icons.gorilla className="h-8 w-8 text-primary" />

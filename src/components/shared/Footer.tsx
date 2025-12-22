@@ -51,7 +51,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border/40 bg-background/95">
-      <div className="container mx-auto flex h-20 items-center justify-between">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4">
         <p className="space-x-2 text-sm text-muted-foreground">
           <span>&copy; {currentYear} Our Mumu Don Do.</span>
           <span className="font-semibold text-primary">v1.0</span>
