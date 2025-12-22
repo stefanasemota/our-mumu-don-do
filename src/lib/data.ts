@@ -20,7 +20,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
       description:
         'This story, written by NaijaSpeak, uses the metaphors of watery milk and sandy water in a vibrant Nigerian setting to explain the concept of corruption.',
       date: new Date('2024-05-10').toISOString(),
-      guidelineCategory: ['Nigerian Solutions'],
+      guidelineCategory: ['Nigerian Solutions', 'Critical Thinking'],
       audioUrl: '/audio/The-Glass-of-Milk.mp3',
       pages: [
         {
