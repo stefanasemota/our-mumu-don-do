@@ -42,8 +42,8 @@ export function TopicCard({ topic }: TopicCardProps) {
   const handleShare = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    e.preventDefault(); // Prevent link navigation
-    e.stopPropagation(); // Stop event from bubbling up to the link
+    e.preventDefault(); // Prevent link navigation if inside a link, though we moved it out.
+    e.stopPropagation();
 
     const shareData = {
       title: topic.title,
@@ -78,9 +78,9 @@ export function TopicCard({ topic }: TopicCardProps) {
   return (
     <Card
       key={topic.id}
-      className="flex-grow flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50 group"
+      className="flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50 group"
     >
-      <Link href={`/story/${topic.id}`} className="flex flex-col h-full">
+      <Link href={`/story/${topic.id}`} className="block h-full flex flex-col">
         <div className="relative h-48 w-full">
           <Image
             src={imageUrl}
@@ -104,17 +104,17 @@ export function TopicCard({ topic }: TopicCardProps) {
             {topic.guidelineCategory}
           </Badge>
         </CardContent>
-        <CardFooter>
-          <Button
-            variant="ghost"
-            className="w-full justify-start text-muted-foreground hover:text-accent-foreground"
-            onClick={handleShare}
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Share
-          </Button>
-        </CardFooter>
       </Link>
+      <CardFooter>
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-muted-foreground hover:text-accent-foreground"
+          onClick={handleShare}
+        >
+          <Share2 className="mr-2 h-4 w-4" />
+          Share
+        </Button>
+      </CardFooter>
     </Card>
   );
 }
