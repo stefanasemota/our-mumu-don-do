@@ -1,5 +1,5 @@
+
 import type { WeeklyEducationalTopic, FeaturedVideo } from '@/types';
-import { getAdminDB } from './firebase-admin';
 
 // This function now returns the local data and is used for seeding.
 export function getTopics(): WeeklyEducationalTopic[] {
