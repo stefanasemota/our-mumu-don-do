@@ -123,7 +123,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                     Page {currentPage + 1} of {topic.pages.length}
                 </p>
             </div>
-            <Button size="icon" variant="outline" onClick={handlePlayPause} className="shrink-0">
+            <Button size="icon" variant="outline" onClick={handlePlayPause} className="shrink-0 hover:bg-primary/20 hover:text-primary">
               {isAutoPlaying ? (
                 <Pause className="h-6 w-6" />
               ) : (
