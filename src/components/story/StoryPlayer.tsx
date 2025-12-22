@@ -162,7 +162,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
           />
         </div>
         <div className="flex flex-col h-full">
-          <div className="flex-grow space-y-4">
+          <div className="flex-grow space-y-4 min-h-[160px] md:min-h-[240px]">
             <div className="flex items-start gap-4">
               <Icons.gorilla className="h-10 w-10 text-primary/80 shrink-0 mt-1" />
               <p className="text-lg leading-relaxed text-foreground/90 whitespace-pre-line">
@@ -189,7 +189,7 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
             disabled={currentPage === topic.pages.length - 1}
           >
             Next
-            <ChevronRight className="ml-2 h-4 w-4" />
+            <ChevronRight className="ml-2 h-4" />
           </Button>
         </div>
       </CardFooter>
