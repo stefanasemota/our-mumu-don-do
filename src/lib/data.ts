@@ -169,73 +169,73 @@ const topics: WeeklyEducationalTopic[] = [
     guidelineCategory: 'Critical Thinking',
     pages: [
       {
-        text: "Simi was spending the long summer holiday in her Uncle Edet city, a vibrant place where tall buildings stood beside ancient, mud-walled palaces. Uncle Edet, she asked, pointing across a bustling market square, what is that huge, beautiful old building with the red curved roof?",
+        text: '[Intro] (Market sounds: "Oya buy your pepper!", car horns) (Beat kicks in: Slow, steady Afro-shakers and a smooth sax) "Yeah... Simi, listen well o. History no be just old story."',
         imageUrl: '/images/the-kings-signature/page_1.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Uncle Edet adjusted his traditional hat, its embroidery catching the sun. Ah, Simi. That is the Old Secretariat. It is where the deep roots of our community were first planted. Every good community needs a strong foundation, just like that building.",
+        text: "[Narration] Simi was visiting Uncle Edet. Between the tall glass buildings and the ancient mud walls, she saw it—the building with the red curved roof.",
         imageUrl: '/images/the-kings-signature/page_2.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Simi squinted. But the foundation looks cracked now. Why do people remember old rules? Shouldn’t we just focus on the future?",
+        text: '[Simi] "Uncle Edet, why we dey look this old place? The future is out there, no be so?"',
         imageUrl: '/images/the-kings-signature/page_3.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "We remember, Simi, because the future stands on the shoulders of the past, Uncle Edet said, leading her toward the ancient gate. Come. I want to show you the most important signature ever signed in this city.",
+        text: '[Uncle Edet] "Ah, my pikin. If you no know where you come from, you no go know where you dey go. Come, make I show you the foundation."',
         imageUrl: '/images/the-kings-signature/page_4.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "They entered a cool, echoing hall filled with dusty scrolls and carved wooden cabinets. The air smelled of old paper and teakwood. Uncle Edet stopped at a display case holding a brittle, yellowed document sealed with thick red wax.",
+        text: "[Bridge - Sound of heavy doors] (Drums drop out, only the sax and atmospheric pads remain) [Narration] Inside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.",
         imageUrl: '/images/the-kings-signature/page_5.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "In 1855, Edet whispered, our great King, Duke Ephraim, laid down a law that saved countless lives. Before this, tradition demanded a very cruel thing when twins were born.",
+        text: '[Uncle Edet] "In 1855, our King, Duke Ephraim, he sign the law to protect the innocent. He be the Architect. He change the old ways so life go flourish. He build the structure, Simi."',
         imageUrl: '/images/the-kings-signature/page_6.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Simi gasped when Uncle Edet explained the tradition of abandoning twin babies, believing them to be a curse. The King knew tradition was wrong when it harmed the innocent, Edet continued. He used his power to build a safe house for all. This signature is the foundation, the very structure of the building.",
+        text: '[Simi] "So he be like the Architect... he design the safety for us?" [Uncle Edet] "Exactly. But house wey empty, no be home."',
         imageUrl: '/images/the-kings-signature/page_7.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Simi traced the huge, looping royal seal on the document with her finger outside the glass. So, King Duke Ephraim was the Architect of safety, she summarized.",
+        text: '[Verse - Mid-tempo Calm Afrobeat] (Heavy log drum and rhythmic guitar) The King was the Architect, he sign the royal scroll. Eighteen-fifty-five, yeah, he get a noble soul. He build the wall of justice, he make the law stand tall. But a house needs a family, inside the palace hall.',
         imageUrl: '/images/the-kings-signature/page_8.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Exactly, Edet agreed. But listen, Simi. A house with a strong foundation is still empty. It needs people who will lovingly furnish it. It needs care.",
+        text: '[Narration] (Smooth beat continues) He showed her Mary Slessor. She came in 1876 with a heart of gold. [Uncle Edet] "Mary Slessor took the King’s foundation. She be the Caretaker. She furnish the house with hope and love."',
         imageUrl: '/images/the-kings-signature/page_9.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Uncle Edet led her to another section, where photographs of a kind woman with bright, focused eyes were displayed. Meet the Caretaker. Mary Slessor. She came later, in 1876, and used the King’s foundation to build a home of hope.",
+        text: '[Chorus - Anthemic Afrobeat Groove] One build the structure, the other fill the room (Yeah!) One sign the promise, the other make it bloom.',
         imageUrl: '/images/the-kings-signature/page_10.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "The King was the Architect who built the law in 1855, Edet stated firmly, and Mary Slessor was the amazing Caretaker who furnished the house in 1876. The history clicked perfectly in Simi’s mind.",
+        text: 'Architect and Caretaker, moving hand in hand. Building the legacy, for all the people in the land!',
         imageUrl: '/images/the-kings-signature/page_11.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
       },
       {
-        text: "Uncle Edet wrapped his arm around Simi. See? True change requires both the mighty signature of the King and the gentle, tireless hands of the Caretaker. One builds the structure; the other fills it with warmth.",
+        text: '[Outro] [Simi] "I see am now, Uncle. One build the house; the other bring the fire. We be the guides of the future." (Sax solo fades out with a steady shaker) "Confirm." [End]',
         imageUrl: '/images/the-kings-signature/page_12.png',
         audioUrl:
           'https://storage.googleapis.com/starthack-a-lota-dora/assets/sample-audio.mp3',
