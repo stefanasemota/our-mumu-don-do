@@ -24,8 +24,6 @@ export default async function Home() {
         </p>
       </section>
 
-      <Guidelines />
-
       <section className="mt-12 md:mt-20">
         <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
           Weekly Educational Topics
@@ -34,6 +32,8 @@ export default async function Home() {
           <TopicAccordion topics={topics} />
         </div>
       </section>
+
+      <Guidelines />
 
       <section className="mt-12 md:mt-20">
         <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
