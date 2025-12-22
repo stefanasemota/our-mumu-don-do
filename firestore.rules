@@ -1,10 +1,10 @@
 /**
  * Core Philosophy:
- * This ruleset enforces a strict read-only model for all client-side requests.
+ * This ruleset enforces a public read model for all client-side requests.
  * All educational content is considered public and can be read by any user,
- * whether authenticated or anonymous. All write operations (create, update, delete)
- * are explicitly disabled, reflecting a security model where data is managed
- * exclusively by a trusted backend service or admin script, not by end-users.
+ * whether authenticated or anonymous. Write operations (create, update, delete)
+ * are restricted to authenticated users, reflecting a security model where
+ * data is managed exclusively by a trusted party (e.g., via the admin dashboard).
  *
  * Data Structure:
  * The data is organized into a single top-level collection:
@@ -14,11 +14,9 @@
  * Key Security Decisions:
  * - Public Read Access: All documents in the `weeklyEducationalTopics` collection
  *   are publicly readable to support the application's content delivery function.
- * - Client Writes Disabled: To protect the integrity of the educational content,
- *   all write operations from the client are denied. This is the most secure
- *   posture when the provided application description indicates content management
- *   happens through a backend process (e.g., via an ADMIN_PASSWORD), which
- *   would use Admin SDKs to bypass these rules.
+ * - Authenticated Writes: To protect the integrity of the educational content,
+ *   write operations from the client are only allowed for authenticated users.
+ *   This is designed to work with the password-protected admin dashboard.
  *
  * Denormalization for Authorization:
  * The data model denormalizes story pages directly into the topic documents.
@@ -31,30 +29,28 @@ service cloud.firestore {
 
     /**
      * @description
-     *   Allows public, read-only access to all weekly educational topics. All
-     *   write operations are disabled to ensure content is only managed by a
-     *   trusted backend service.
+     *   Allows public, read-only access to all weekly educational topics. Write
+     *   operations are restricted to authenticated users to allow seeding from
+     *   the admin dashboard.
      * @path
      *   /weeklyEducationalTopics/{weeklyEducationalTopicId}
      * @allow
      *   An anonymous user reading a specific educational topic document.
      *   Example: `(get) /weeklyEducationalTopics/some-topic-id`
      * @deny
-     *   Any user, signed-in or not, attempting to create a new topic.
+     *   An unauthenticated user attempting to create a new topic.
      *   Example: `(create) /weeklyEducationalTopics/new-topic`
      * @principle
-     *   Protects data integrity by enforcing a read-only model on the client,
-     *   assuming a trusted backend environment for all data mutations.
+     *   Protects data integrity by enforcing a read-only model for the public,
+     *   while allowing a trusted, authenticated user to manage content.
      */
     match /weeklyEducationalTopics/{weeklyEducationalTopicId} {
       // READ: Anyone can read the educational topics and list them.
       allow get: if true;
       allow list: if true;
 
-      // WRITE: No client-side writes are allowed. Content is managed server-side.
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+      // WRITE: Only authenticated users can write.
+      allow write: if request.auth != null;
     }
   }
 }
