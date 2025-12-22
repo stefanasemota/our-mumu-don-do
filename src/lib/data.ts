@@ -240,6 +240,13 @@ const featuredVideos: FeaturedVideo[] = [
   },
 ];
 
+let firestoreInstance: Firestore | null = null;
+function getFirestoreInstance() {
+  if (!firestoreInstance) {
+    firestoreInstance = initializeFirebase().firestore;
+  }
+  return firestoreInstance;
+}
 
 // This is a server-side only function
 // It must be called from a server component or a server action
@@ -247,11 +254,7 @@ export async function getTopicById(
   id: string
 ): Promise<WeeklyEducationalTopic | undefined> {
   try {
-    const { firestore } = initializeFirebase();
-    if (!firestore) {
-      throw new Error('Firestore is not initialized.');
-    }
-
+    const firestore = getFirestoreInstance();
     const topicRef = doc(firestore, 'weeklyEducationalTopics', id);
     const topicSnap = await getDoc(topicRef);
 
@@ -270,23 +273,15 @@ export async function getTopicById(
         pages: topicData.pages,
         audioUrl: topicData.audioUrl,
       };
+    } else {
+      console.error(`Topic with id "${id}" not found in Firestore.`);
+      return undefined;
     }
   } catch (error) {
-    console.error(`Error fetching topic by ID "${id}" from Firestore, falling back to local data:`, error);
+    console.error(`Error fetching topic by ID "${id}" from Firestore:`, error);
+    // Return undefined if there's an error. The calling page should handle this (e.g., show notFound()).
+    return undefined;
   }
-
-  // Fallback to local data if Firestore fetch fails or document doesn't exist
-  console.log(`Topic with id "${id}" not found in Firestore, searching local data.`);
-  const localTopics = getTopics(true);
-  const localTopic = localTopics.find((topic) => topic.id === id);
-
-  if (localTopic) {
-    console.log(`Found topic with id "${id}" in local data.`);
-    return localTopic;
-  }
-  
-  console.log(`No topic found with id: ${id} in local data either.`);
-  return undefined;
 }
 
 

@@ -151,7 +151,8 @@ export default function AdminDashboardClientPage({
     );
   }
 
-  const localTopics = getTopics(true);
+  // Get the local data only for the seed button.
+  const localTopics = getTopics();
 
   return (
     <div className="container mx-auto grid max-w-4xl gap-8 py-12 lg:grid-cols-2">
