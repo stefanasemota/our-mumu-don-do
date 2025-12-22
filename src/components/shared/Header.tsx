@@ -5,13 +5,14 @@ import { Icons } from './Icons';
 import { Button } from '../ui/button';
 import { LogoutButton } from '../admin/LogoutButton';
 import { LayoutDashboard } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   isLoggedIn: boolean;
-  pathname: string;
 }
 
-export function Header({ isLoggedIn, pathname }: HeaderProps) {
+export function Header({ isLoggedIn }: HeaderProps) {
+  const pathname = usePathname();
   const isAdminPage =
     pathname.startsWith('/admin-dashboard') || pathname.startsWith('/admin-login');
 

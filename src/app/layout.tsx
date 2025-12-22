@@ -2,10 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
-import { Footer } from '@/components/shared/Footer';
 import { FirebaseClientProvider } from '@/firebase';
-import { Header } from '@/components/shared/Header';
-import { cookies, headers } from 'next/headers';
+import { AppBody } from '@/components/shared/AppBody';
 
 export const metadata: Metadata = {
   title: 'Our Mumu Don Do',
@@ -35,16 +33,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const authToken = cookies().get('__session')?.value;
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-  const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
-
-  const headersList = headers();
-  const pathname = headersList.get('x-next-pathname') || '';
-  const isAdminPage =
-    pathname.startsWith('/admin-dashboard') ||
-    pathname.startsWith('/admin-login');
-
   return (
     <html lang="en" className="dark">
       <head>
@@ -61,13 +49,7 @@ export default function RootLayout({
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <FirebaseClientProvider>
-          <div className="relative flex min-h-screen flex-col">
-            {!isAdminPage && (
-              <Header isLoggedIn={isLoggedIn} pathname={pathname} />
-            )}
-            <div className="flex-1">{children}</div>
-            <Footer />
-          </div>
+          <AppBody>{children}</AppBody>
           <Toaster />
         </FirebaseClientProvider>
       </body>
