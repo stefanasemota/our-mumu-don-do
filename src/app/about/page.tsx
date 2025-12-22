@@ -32,7 +32,7 @@ export default function AboutPage() {
                 href="https://naijaspeak.sabiai.work/share/yrzMKoe4pnZZJ2UQ9wrt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold no-underline hover:underline"
+                className="font-bold no-underline hover:underline text-primary"
               >
                 <strong>Our Mumu Don Do</strong>
               </a>{' '}
