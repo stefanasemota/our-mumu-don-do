@@ -42,7 +42,7 @@ export function TopicCard({ topic }: TopicCardProps) {
   const handleShare = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    e.preventDefault(); // Prevent link navigation if inside a link, though we moved it out.
+    e.preventDefault();
     e.stopPropagation();
 
     const shareData = {
@@ -80,7 +80,7 @@ export function TopicCard({ topic }: TopicCardProps) {
       key={topic.id}
       className="flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50 group"
     >
-      <Link href={`/story/${topic.id}`} className="block h-full flex flex-col">
+      <Link href={`/story/${topic.id}`} className="block flex flex-col flex-grow">
         <div className="relative h-48 w-full">
           <Image
             src={imageUrl}
