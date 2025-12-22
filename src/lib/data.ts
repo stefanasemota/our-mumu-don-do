@@ -90,7 +90,7 @@ export function getTopics(local = false): WeeklyEducationalTopic[] {
           imageUrl: '/images/the-river-was-always-there/page_3.png',
         },
         {
-          text: '[Grandpa - Chuckling]\\n\\n"Ah, my pikin, listen. If a stranger walk into our parlor and see our favorite sofa... did he find the sofa? No! We were already sitting on it, weren\\'t we?"',
+          text: '[Grandpa - Chuckling]\\n\\n"Ah, my pikin, listen. If a stranger walk into our parlor and see our favorite sofa... did he find the sofa? No! We were already sitting on it, weren\'t we?"',
           imageUrl: '/images/the-river-was-always-there/page_4.png',
         },
         {
