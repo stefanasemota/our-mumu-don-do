@@ -11,7 +11,7 @@ export function ShareButton() {
     const shareData = {
       title: 'Our Mumu Don Do',
       text: 'An educational platform for young Nigerians, fostering critical thinking and celebrating our heritage.',
-      url: window.location.origin,
+      url: 'https://our-mumu-don-do.sabiai.work/',
     };
 
     if (navigator.share && navigator.canShare(shareData)) {

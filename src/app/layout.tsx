@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description:
       'An educational platform for young Nigerians to learn critical thinking, history, and local solutions through engaging stories.',
     type: 'website',
-    url: 'https://ourmumudondo.com', // Replace with your actual domain
+    url: 'https://our-mumu-don-do.sabiai.work/',
   },
 };
 
