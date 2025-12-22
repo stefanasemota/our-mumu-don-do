@@ -26,10 +26,7 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
                 </Badge>
               )}
               {topic.id === '1' && (
-                <Badge
-                  variant="destructive"
-                  className="border-transparent bg-destructive/20 text-destructive hover:bg-destructive/30"
-                >
+                <Badge className="bg-primary/20 text-primary hover:bg-primary/30">
                   Corruption
                 </Badge>
               )}
