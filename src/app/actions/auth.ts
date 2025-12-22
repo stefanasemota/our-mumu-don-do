@@ -8,7 +8,6 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const AUTH_COOKIE_NAME = 'auth_token';
 
 export async function login(prevState: any, formData: FormData) {
-  let isSuccess = false;
   try {
     const password = formData.get('password');
 
@@ -25,28 +24,25 @@ export async function login(prevState: any, formData: FormData) {
         sameSite: 'lax',
         maxAge: 60 * 60 * 24, // 1 day
       });
-      isSuccess = true;
+      // This is the fix: Clear the cache for the dashboard layout
+      revalidatePath('/admin-dashboard', 'layout');
+      // Then redirect
+      redirect('/admin-dashboard');
     } else {
       return { error: 'Invalid password.' };
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
-      return { error: error.message };
+      // The redirect() function throws a NEXT_REDIRECT error, which we can safely ignore.
+      // We only want to catch other unexpected errors.
+      if (error.name === 'NEXT_REDIRECT') {
+        throw error;
+      }
+      console.error('An unexpected error occurred during login:', error);
+      return { error: 'An unexpected error occurred.' };
     }
     return { error: 'An unknown error occurred.' };
   }
-
-  if (isSuccess) {
-    // This is the fix: Clear the cache for the dashboard layout
-    revalidatePath('/admin-dashboard', 'layout');
-    // Then redirect
-    redirect('/admin-dashboard');
-  }
-
-  // This part should not be reached if redirect happens,
-  // but it's good practice for type safety and clarity.
-  return { error: 'Invalid credentials' };
 }
 
 export async function logout() {
