@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore } from '@/firebase';
+import { useAuth, useFirestore } from '@/firebase';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { Loader2 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
+import { signInAnonymously } from 'firebase/auth';
 
 interface SeedDatabaseButtonProps {
   localTopics: WeeklyEducationalTopic[];
@@ -16,20 +17,26 @@ export function SeedDatabaseButton({ localTopics }: SeedDatabaseButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const firestore = useFirestore();
+  const auth = useAuth();
 
   const handleSeed = async () => {
     setIsLoading(true);
-    if (!firestore) {
+    if (!firestore || !auth) {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Firestore is not initialized.',
+        description: 'Firebase is not initialized.',
       });
       setIsLoading(false);
       return;
     }
 
     try {
+      // Ensure we have an authenticated user for the write operation
+      if (!auth.currentUser) {
+        await signInAnonymously(auth);
+      }
+
       const batch = writeBatch(firestore);
       const topicsCollection = collection(firestore, 'weeklyEducationalTopics');
 
