@@ -11,7 +11,7 @@ export function Header() {
           <Link href="/" className="flex items-center space-x-2">
             <Icons.gorilla className="h-8 w-8 text-primary" />
             <span className="inline-block font-headline text-xl font-bold">
-              our mumu don do
+              Our Mumu Don Do
             </span>
           </Link>
         </div>
