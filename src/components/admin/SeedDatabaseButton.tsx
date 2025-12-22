@@ -7,7 +7,6 @@ import { useAuth, useFirestore } from '@/firebase';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { Loader2 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
-import { signInAnonymously } from 'firebase/auth';
 
 interface SeedDatabaseButtonProps {
   localTopics: WeeklyEducationalTopic[];
@@ -31,21 +30,31 @@ export function SeedDatabaseButton({ localTopics }: SeedDatabaseButtonProps) {
       return;
     }
 
-    try {
-      // Ensure we have an authenticated user for the write operation
-      if (!auth.currentUser) {
-        await signInAnonymously(auth);
-      }
+    // Our security rules require an authenticated user to write.
+    // The admin login process should ensure currentUser is available here.
+    if (!auth.currentUser) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: 'You must be logged in as an admin to seed the database.',
+      });
+      setIsLoading(false);
+      return;
+    }
 
+    try {
       const batch = writeBatch(firestore);
-      const topicsCollection = collection(firestore, 'weeklyEducationalTopics');
+      const topicsCollection = collection(
+        firestore,
+        'weeklyEducationalTopics'
+      );
 
       localTopics.forEach((topic) => {
         const docRef = doc(topicsCollection, topic.id);
         // Convert date string back to Date object for Firestore
         const topicDataForFirestore = {
-            ...topic,
-            date: new Date(topic.date),
+          ...topic,
+          date: new Date(topic.date),
         };
         batch.set(docRef, topicDataForFirestore);
       });
