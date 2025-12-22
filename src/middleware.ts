@@ -5,35 +5,38 @@ import type { NextRequest } from 'next/server';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const AUTH_COOKIE_NAME = 'auth_token';
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Add the pathname to the request headers for access in server components
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-next-pathname', pathname);
+  
+  // 1. Guard against missing configuration (Fail-Closed principle)
+  if (!ADMIN_PASSWORD) {
+    console.error("CRITICAL: ADMIN_PASSWORD environment variable is not set.");
+    // If we are already on the login page, do not redirect to prevent a loop.
+    if (pathname === '/admin-login') {
+      return NextResponse.next({ request: { headers: requestHeaders } });
+    }
+    // For any other route, redirect to login because the system is not secure.
+    const url = request.nextUrl.clone();
+    url.pathname = '/admin-login';
+    return NextResponse.redirect(url);
+  }
 
-  // Check if the path is within the admin area
+  // 2. Normal Authentication Logic for Admin Routes
   if (pathname.startsWith('/admin-dashboard')) {
     const authToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-
-    // Ensure the admin password is set in the environment
-    if (!ADMIN_PASSWORD) {
-      console.error('ADMIN_PASSWORD environment variable not set.');
-      // If the password isn't set, we can't secure the route, so redirect away.
-      const url = request.nextUrl.clone();
-      url.pathname = '/admin-login';
-      return NextResponse.redirect(url);
-    }
-    
-    // If the token doesn't match the password, redirect to the login page.
     if (authToken !== ADMIN_PASSWORD) {
+      // If the token is invalid, redirect to the login page.
       const url = request.nextUrl.clone();
       url.pathname = '/admin-login';
       return NextResponse.redirect(url);
     }
   }
 
-  // If all checks pass, or if it's not an admin route, continue to the requested page.
+  // 3. If all checks pass, continue to the requested page.
   return NextResponse.next({
     request: {
       headers: requestHeaders,
