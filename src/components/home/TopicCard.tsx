@@ -76,25 +76,27 @@ export function TopicCard({ topic }: TopicCardProps) {
   };
 
   return (
-    <div className="group flex flex-col h-full">
+    <Link
+      href={`/story/${topic.id}`}
+      className="group flex flex-col h-full"
+      key={topic.id}
+    >
       <Card className="flex-grow flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-primary/20 hover:shadow-lg hover:-translate-y-1 border-border/50">
-        <Link href={`/story/${topic.id}`} className="block" key={topic.id}>
-          <div className="relative h-48 w-full">
-            <Image
-              src={imageUrl}
-              alt={topic.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              data-ai-hint={placeholder?.imageHint}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
-          </div>
-          <CardHeader>
-            <CardTitle className="font-headline text-lg leading-snug group-hover:text-primary transition-colors">
-              {topic.title}
-            </CardTitle>
-          </CardHeader>
-        </Link>
+        <div className="relative h-48 w-full">
+          <Image
+            src={imageUrl}
+            alt={topic.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            data-ai-hint={placeholder?.imageHint}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
+        <CardHeader>
+          <CardTitle className="font-headline text-lg leading-snug group-hover:text-primary transition-colors">
+            {topic.title}
+          </CardTitle>
+        </CardHeader>
         <CardContent className="flex flex-col flex-grow">
           <CardDescription className="text-sm text-muted-foreground mb-4 flex-grow">
             {topic.description}
@@ -114,6 +116,6 @@ export function TopicCard({ topic }: TopicCardProps) {
           </Button>
         </CardFooter>
       </Card>
-    </div>
+    </Link>
   );
 }
