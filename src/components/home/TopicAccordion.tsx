@@ -25,6 +25,11 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
                   correcting false narratives
                 </Badge>
               )}
+              {topic.id === '3' && (
+                <Badge className="bg-primary/20 text-primary hover:bg-primary/30">
+                  King Duke Ephraim
+                </Badge>
+              )}
               {topic.id === '2' && (
                 <Badge className="bg-primary/20 text-primary hover:bg-primary/30">
                   river niger discovery
