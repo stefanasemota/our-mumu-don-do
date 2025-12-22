@@ -1,5 +1,5 @@
 import { Guidelines } from '@/components/home/Guidelines';
-import { TopicGrid } from '@/components/home/TopicGrid';
+import { TopicAccordion } from '@/components/home/TopicAccordion';
 import { getTopics, getFeaturedVideos } from '@/lib/data';
 import { FeaturedVideos } from '@/components/home/FeaturedVideos';
 
@@ -26,7 +26,9 @@ export default async function Home() {
         <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8 text-center">
           Weekly Educational Topics
         </h2>
-        <TopicGrid topics={topics} />
+        <div className="max-w-2xl mx-auto">
+          <TopicAccordion topics={topics} />
+        </div>
       </section>
 
       <section className="mt-12 md:mt-20">
