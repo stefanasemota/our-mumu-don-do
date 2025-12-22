@@ -151,12 +151,12 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
         </div>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 gap-8 items-start">
-        <div className="relative aspect-square w-full rounded-lg overflow-hidden border">
+        <div className="relative aspect-video w-full rounded-lg overflow-hidden border">
           <Image
             src={page.imageUrl}
             alt={`Story page ${currentPage + 1}`}
             fill
-            className="object-contain"
+            className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={currentPage === 0}
           />
