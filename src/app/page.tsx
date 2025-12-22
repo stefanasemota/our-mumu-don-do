@@ -2,10 +2,14 @@ import { Guidelines } from '@/components/home/Guidelines';
 import { TopicAccordion } from '@/components/home/TopicAccordion';
 import { getTopics, getFeaturedVideos } from '@/lib/data';
 import { FeaturedVideos } from '@/components/home/FeaturedVideos';
+import type { FeaturedVideo } from '@/types';
 
 export default async function Home() {
   const topics = await getTopics();
-  const featuredVideos = await getFeaturedVideos();
+  const featuredVideosData = await getFeaturedVideos();
+  const featuredVideos: FeaturedVideo[] = JSON.parse(
+    JSON.stringify(featuredVideosData)
+  );
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
