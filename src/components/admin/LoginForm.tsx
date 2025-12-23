@@ -2,8 +2,6 @@
 
 import { useFormState, useFormStatus } from 'react-dom';
 import { login } from '@/app/admin-login/actions';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -20,29 +18,21 @@ function LoginButton() {
 }
 
 export function LoginForm() {
-  const [state, formAction] = useFormState(login, undefined);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (state?.success) {
-      // We don't need to revalidate here, the redirect will fetch fresh server components
-      router.push('/admin-dashboard');
-    }
-  }, [state, router]);
-
+  const [state, formAction] = useFormState(login, { error: "" });
   return (
     <form action={formAction} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input
+        <Input 
           id="password"
-          name="password"
+          name="password" // This MUST match the library
           type="password"
           placeholder="••••••••"
           required
         />
       </div>
 
+      {/* 2. Simplified Error Display */}
       {state?.error && (
         <Alert variant="destructive">
           <Terminal className="h-4 w-4" />

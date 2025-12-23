@@ -8,22 +8,17 @@ import { useTransition } from 'react';
 export function LogoutButton() {
   const [isPending, startTransition] = useTransition();
 
-  const onLogoutClick = () => {
+  const handleLogout = () => {
+    // startTransition handles the "Server Action" call safely from the browser
     startTransition(async () => {
-      await logout();
+      await logout(); // Call the 'logout' action
     });
   };
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={onLogoutClick}
-      disabled={isPending}
-      className="text-muted-foreground hover:text-destructive"
-    >
+    <Button variant="ghost" size="sm" onClick={handleLogout} disabled={isPending}>
       <LogOut className="mr-2 h-4 w-4" />
-      {isPending ? 'Signing out...' : 'Logout'}
+      {isPending ? "Signing out..." : "Logout"}
     </Button>
   );
 }

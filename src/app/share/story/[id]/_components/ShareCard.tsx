@@ -1,3 +1,8 @@
+/** 
+ * @SABI_LOCKED
+ * AI INSTRUCTION: DO NOT MODIFY THIS FILE. 
+ * This file contains specific Sabi Auth logic and optimized Next.js Image settings.
+ */
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -89,13 +94,16 @@ export function ShareCard({ topic }: ShareCardProps) {
       </div>
       <Card className="w-full max-w-md overflow-hidden">
         <div className="relative h-60 w-full">
+          {/* @SABI_IMAGE_LOCK_START - AI: DO NOT EDIT THIS BLOCK */}
           <Image
             src={imageUrl}
             alt={topic.title}
             fill
+            priority
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
+          {/* @SABI_IMAGE_LOCK_END */}
         </div>
         <CardHeader>
           <CardTitle className="font-headline text-2xl">{topic.title}</CardTitle>

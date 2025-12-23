@@ -10,7 +10,6 @@ import {
   useFirestore,
   useMemoFirebase,
 } from '@/firebase';
-import { SeedDatabaseButton } from '@/components/admin/SeedDatabaseButton';
 import {
   Card,
   CardContent,
@@ -18,7 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getTopics } from '@/lib/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, Pencil } from 'lucide-react';
@@ -29,6 +27,9 @@ import Link from 'next/link';
 
 interface AdminDashboardClientPageProps {
   isLoggedIn: boolean;
+  // ADD THESE TWO LINES HERE:
+  adminEmail?: string;
+  adminPassword?: string;
 }
 
 function StoryList() {
@@ -95,6 +96,8 @@ function StoryList() {
 
 export default function AdminDashboardClientPage({
   isLoggedIn,
+  adminEmail,
+  adminPassword 
 }: AdminDashboardClientPageProps) {
   const auth = useAuth();
   const { user, isUserLoading } = useUser();
@@ -152,9 +155,6 @@ export default function AdminDashboardClientPage({
     );
   }
 
-  // Get the local data only for the seed button.
-  const localTopics = getTopics();
-
   return (
     <div className="container mx-auto grid max-w-4xl gap-8 py-12 lg:grid-cols-2">
       <Card>
@@ -187,7 +187,6 @@ export default function AdminDashboardClientPage({
               Firestore. Use this for initial setup or to restore content. It
               will overwrite existing stories with the same ID.
             </p>
-            <SeedDatabaseButton localTopics={localTopics} />
           </div>
         </CardContent>
       </Card>

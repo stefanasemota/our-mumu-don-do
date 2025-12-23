@@ -8,6 +8,8 @@ runConfig:
 env:
   - variable: ADMIN_PASSWORD
     secret: ADMIN_PASSWORD
+  - variable: ADMIN_EMAIL
+    secret: ADMIN_EMAIL # Make sure you also set this secret!
   # The FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY, and NEXT_PUBLIC_FIREBASE_PROJECT_ID secrets are not needed in App Hosting.
   # The Admin and Client SDKs automatically initialize using Application Default Credentials.
   # The `initializeFirebase` function in `src/firebase/index.ts` has been updated to handle this.
