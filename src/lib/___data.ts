@@ -187,11 +187,11 @@ export function getTopics(): WeeklyEducationalTopic[] {
       audioUrl: '/audio/Colonisation.mp3',
       pages: [
         {
-          text: '[Intro]\n"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun..."\n\n[Narration]\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas\'s laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.\n\nFino could read the animal tracks, on the ground he would see\nCosmos found his way by stars, for all the world to be free\nOsas loved to help the old ones, carrying water with grace\nThree friends, in their village, in this happy, sunny place.',
+          text: "The story of Osas, a young boy who learns about his heritage, the impact of colonization, and the power of remembering one's roots.\n\n[Intro]\n\"Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun...\"\n\n[Narration]\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art. His mother grew cocoa, teaching him kindness. Osas's laugh made everyone smile. He helped elders and shared stories with his friends, Fino and Cosmos.\n\nFino could read the animal tracks, on the ground he would see\nCosmos found his way by stars, for all the world to be free\nOsas loved to help the old ones, carrying water with grace\nThree friends, in their village, in this happy, sunny place.",
           imageUrl: '/images/understanding-colonisation/page_0.png',
         },
         {
-          text: '[Narration]\nOne day, Osas found an old picture. A man stood with the King, holding a special, shiny rattle staff. Osas thought it was his great-grandfather. This picture showed him the beauty of his ancestors.\n\n[Osas - Curious Voice]\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
+          text: '[Osas - Curious Voice]\n"Father! I saw this picture! Where is this beautiful rattle staff? I cannot find it!"',
           imageUrl: '/images/understanding-colonisation/page_1.png',
         },
         {
