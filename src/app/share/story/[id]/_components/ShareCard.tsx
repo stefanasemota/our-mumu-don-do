@@ -127,7 +127,7 @@ export function ShareCard({ topic }: ShareCardProps) {
         </CardContent>
         <CardFooter>
           <Button variant="outline" className="w-full" asChild>
-            <Link href={`/story/${topic.id}`}>
+            <Link href="/">
               <ExternalLink className="mr-2" /> View Full Interactive Story
             </Link>
           </Button>
