@@ -41,15 +41,28 @@ export function StoryList() {
     throw error;
   }
 
-  // Convert date objects to strings for serializability, which StoryPlayer expects
-  const serializedTopics =
-    topics?.map((topic) => ({
-      ...topic,
-      date:
-        topic.date instanceof Date
-          ? topic.date.toISOString()
-          : String(topic.date),
-    })) || [];
+  // Prepend description to the first page's text for consistent display
+  const processedTopics =
+    topics?.map((topic) => {
+      const newTopic = { ...topic };
+      if (newTopic.description && newTopic.pages && newTopic.pages.length > 0) {
+        // Clone the pages array and the first page object to avoid direct mutation
+        newTopic.pages = [...newTopic.pages];
+        newTopic.pages[0] = { ...newTopic.pages[0] };
+        
+        // Prepend description only if it's not already there
+        if (!newTopic.pages[0].text.startsWith(newTopic.description)) {
+            newTopic.pages[0].text = `${newTopic.description}\n\n${newTopic.pages[0].text}`;
+        }
+      }
+      // Also ensure date is a string for serializability
+      newTopic.date =
+        newTopic.date instanceof Date
+          ? newTopic.date.toISOString()
+          : String(newTopic.date);
+          
+      return newTopic;
+    }) || [];
 
-  return <TopicAccordion topics={serializedTopics} />;
+  return <TopicAccordion topics={processedTopics} />;
 }
