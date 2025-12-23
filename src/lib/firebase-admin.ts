@@ -12,7 +12,7 @@ function initializeAdminApp() {
 
   // When deployed to App Hosting, the Admin SDK can be initialized without any arguments.
   // It automatically uses Application Default Credentials.
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && process.env.FIREBASE_APP_HOSTING_URL) {
     try {
       const app = admin.initializeApp();
       return app;
