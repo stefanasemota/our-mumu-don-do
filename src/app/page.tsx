@@ -12,7 +12,7 @@ export default async function Home() {
           <span>Discover Your Story.</span>
           <span className="block">Shape Your Future.</span>
         </h1>
-        <p className="mx-auto max-w-3xl text-lg text-foreground/80 md:text-xl">
+        <p className="mx-auto mt-4 max-w-3xl text-lg text-foreground/80 md:text-xl">
           An app for young Nigerians to uncover hidden stories, celebrate our
           own heroes, and master the art of critical thinking.
         </p>
