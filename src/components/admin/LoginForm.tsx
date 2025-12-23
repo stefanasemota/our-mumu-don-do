@@ -1,7 +1,7 @@
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
-import { login } from '@/app/actions/auth';
+import { login } from '@/app/admin-login/actions';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';

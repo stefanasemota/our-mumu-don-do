@@ -1,14 +1,13 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { login as sabiLogin, logout as sabiLogout } from '@stefan/sabi-auth';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const AUTH_COOKIE_NAME = '__session';
 
 export async function login(prevState: any, formData: FormData) {
-  const password = formData.get('password');
+  const password = formData.get('password') as string;
 
   if (!ADMIN_PASSWORD) {
     console.error('ADMIN_PASSWORD environment variable not set.');
@@ -16,13 +15,7 @@ export async function login(prevState: any, formData: FormData) {
   }
 
   if (password === ADMIN_PASSWORD) {
-    cookies().set(AUTH_COOKIE_NAME, ADMIN_PASSWORD, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 1 day
-    });
+    await sabiLogin();
     // Invalidate the cache for the entire site to ensure a clean state
     revalidatePath('/', 'layout');
     return { success: true };
@@ -33,6 +26,6 @@ export async function login(prevState: any, formData: FormData) {
 }
 
 export async function logout() {
-  cookies().delete(AUTH_COOKIE_NAME);
+  await sabiLogout();
   redirect('/admin-login');
 }
