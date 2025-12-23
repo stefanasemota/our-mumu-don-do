@@ -1,61 +1,44 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { login } from '@/app/actions/auth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Loader2 } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
+import { handleLoginAction } from '@/app/admin-login/actions';
 
-function SubmitButton() {
+
+// This is the component used on line 43
+function LoginButton() {
   const { pending } = useFormStatus();
-
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
-      {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-      Log In
-    </Button>
+    <button 
+      type="submit" 
+      disabled={pending}
+      className="w-full inline-flex items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+    >
+      {pending ? "Authenticating..." : "Login to Dashboard"}
+    </button>
   );
 }
 
 export function LoginForm() {
-  const [state, formAction] = useFormState(login, undefined);
-  const { toast } = useToast();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (state?.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: state.error,
-      });
-    }
-    if (state?.success) {
-      // Upon successful login, redirect to the dashboard.
-      // A full page reload is used to ensure all client-side caches are cleared
-      // and the new page content is rendered correctly.
-      router.push('/admin-dashboard');
-      router.refresh();
-    }
-  }, [state, toast, router]);
-
+  // Connect the server action to the form state
+  const [state, formAction] = useFormState(handleLoginAction, null );
   return (
     <form action={formAction} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
+        <input 
+          name="password" // CRITICAL: This must match 'password' in your library
+          type="password" 
+          placeholder="••••••••"
           required
-          autoFocus
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
         />
       </div>
-      <SubmitButton />
+      
+      {state?.error && (
+         <p className="text-sm text-red-500">{state.error}</p>
+      )}
+
+     {/* 4. Use the name defined above */}
+     <LoginButton />
     </form>
   );
 }

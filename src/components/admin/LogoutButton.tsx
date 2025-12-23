@@ -1,29 +1,30 @@
 'use client';
 
-import { useFormStatus } from 'react-dom';
-import { logout } from '@/app/actions/auth';
+import { handleLogoutAction } from '@/app/admin-login/actions'; // Import the ACTION, not the library
 import { Button } from '@/components/ui/button';
-import { Loader2, LogOut } from 'lucide-react';
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button type="submit" variant="outline" disabled={pending}>
-      {pending ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      ) : (
-        <LogOut className="mr-2 h-4 w-4" />
-      )}
-      Log Out
-    </Button>
-  );
-}
+import { LogOut } from 'lucide-react';
+import { useTransition } from 'react';
 
 export function LogoutButton() {
+  const [isPending, startTransition] = useTransition();
+
+  const onLogoutClick = () => {
+    // startTransition tells Next.js to handle the redirect smoothly
+    startTransition(async () => {
+      await handleLogoutAction();
+    });
+  };
+
   return (
-    <form action={logout}>
-      <SubmitButton />
-    </form>
+    <Button 
+      variant="ghost" 
+      size="sm" 
+      onClick={onLogoutClick}
+      disabled={isPending}
+      className="text-muted-foreground hover:text-destructive"
+    >
+      <LogOut className="mr-2 h-4 w-4" />
+      {isPending ? "Signing out..." : "Logout"}
+    </Button>
   );
 }

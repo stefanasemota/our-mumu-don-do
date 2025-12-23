@@ -35,6 +35,7 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: ['@stefan/sabi-auth'], 
   experimental: {
     allowedDevOrigins: [
       'https://*.cloudworkstations.dev',
