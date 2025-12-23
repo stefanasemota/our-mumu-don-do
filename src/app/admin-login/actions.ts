@@ -1,31 +1,28 @@
 'use server';
 
-import { login as sabiLogin, logout as sabiLogout } from '@stefan/sabi-auth';
+import { loginAdmin, logoutAdmin } from '@stefan/sabi-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
-export async function login(prevState: any, formData: FormData) {
-  const password = formData.get('password') as string;
+export async function handleLoginAction(prevState: any, formData: FormData) {
+  // 1. Call the correct library function: loginAdmin
+  // We pass the formData and the secret from the server environment
+  const result = await loginAdmin(formData, process.env.ADMIN_PASSWORD);
 
-  if (!ADMIN_PASSWORD) {
-    console.error('ADMIN_PASSWORD environment variable not set.');
-    return { error: 'Server configuration error.' };
-  }
-
-  if (password === ADMIN_PASSWORD) {
-    await sabiLogin();
-    // Invalidate the cache for the entire site to ensure a clean state
+  if (result.success) {
+    // 2. Clear the cache and go to dashboard
     revalidatePath('/', 'layout');
-    return { success: true };
+    redirect('/admin-dashboard');
   }
 
-  // If the password is not correct, return an error message.
-  return { error: 'Invalid password.' };
+  // 3. Return the error if login failed
+  return { error: "Invalid password. Please try again." };
 }
 
-export async function logout() {
-  await sabiLogout();
+export async function handleLogoutAction() {
+  await logoutAdmin();
+  revalidatePath('/', 'layout');
   redirect('/admin-login');
 }

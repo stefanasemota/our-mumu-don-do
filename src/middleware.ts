@@ -1,10 +1,13 @@
-import { type NextRequest } from 'next/server';
-import { updateSession } from '@stefan/sabi-auth';
+import { createAdminMiddleware } from '@stefan/sabi-auth';
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
-}
+// This is the correct "Sabi" way. 
+// We pass the password to the factory, and it returns the middleware function.
+export const middleware = createAdminMiddleware(process.env.ADMIN_PASSWORD);
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: [
+    '/admin-dashboard',          // Protect the main dashboard
+    '/admin-dashboard/:path*',   // Protect all sub-pages
+    '/admin-login'               // Loop protection
+  ],
 };
