@@ -8,9 +8,8 @@ runConfig:
 env:
   - variable: ADMIN_PASSWORD
     secret: ADMIN_PASSWORD
-  - variable: FIREBASE_CLIENT_EMAIL
-    secret: FIREBASE_CLIENT_EMAIL
-  - variable: FIREBASE_PRIVATE_KEY
-    secret: FIREBASE_PRIVATE_KEY
+  # The FIREBASE_CLIENT_EMAIL and FIREBASE_PRIVATE_KEY are not needed in App Hosting.
+  # The Admin SDK automatically initializes using Application Default Credentials.
+  # NEXT_PUBLIC_FIREBASE_PROJECT_ID is used by the client-side Firebase config.
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     secret: NEXT_PUBLIC_FIREBASE_PROJECT_ID
