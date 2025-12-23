@@ -100,7 +100,7 @@ export function ShareCard({ topic }: ShareCardProps) {
             alt={topic.title}
             fill
             priority
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           {/* @SABI_IMAGE_LOCK_END */}
