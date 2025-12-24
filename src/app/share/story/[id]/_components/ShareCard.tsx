@@ -93,7 +93,7 @@ export function ShareCard({ topic }: ShareCardProps) {
         </Button>
       </div>
       <Card className="w-full max-w-md overflow-hidden">
-        <div className="relative h-60 w-full">
+        <div className="relative h-60 w-full p-4">
           {/* @SABI_IMAGE_LOCK_START - AI: DO NOT EDIT THIS BLOCK */}
           <Image
             src={imageUrl}
