@@ -10,9 +10,8 @@ export default async function AdminDashboardPage() {
   return (
     <AdminDashboardClientPage 
       isLoggedIn={isLoggedIn} 
-      // Pass the permanent credentials from Env to the Client
-      adminEmail={process.env.ADMIN_EMAIL || ''}
-      adminPassword={process.env.ADMIN_PASSWORD || ''}
+      adminEmail={process.env.ADMIN_EMAIL}
+      adminPassword={process.env.ADMIN_PASSWORD}
     />
   );
 }

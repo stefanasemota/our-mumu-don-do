@@ -11,33 +11,26 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
 export async function login(prevState: any, formData: FormData) {
-  // --- LOGGING ---
-  // This will ONLY appear in your Terminal (where you run npm run dev)
-  // It will NOT appear in the Chrome/Browser console.
-  console.log("Sabi: Login Action Triggered");
-
-  let isSuccess = false;
+  let success = false;
 
   try {
     const result = await loginAdmin(formData, process.env.ADMIN_PASSWORD);
-    console.log("Sabi: Library result:", result);
-
     if (result.success) {
-      isSuccess = true;
-    } else {
-      return { error: "Invalid credentials." };
+      success = true;
     }
-  } catch (error) {
-    console.error("Sabi: Error during login logic:", error);
-    return { error: "A server error occurred." };
+  } catch (e) {
+    return { error: "Server connection failed." };
   }
 
-  // 2. CRITICAL: Redirect MUST happen outside the try/catch block
-  // in some Next.js versions, otherwise the redirect is "caught" as an error.
-  if (isSuccess) {
-    revalidatePath('/', 'layout');
-    redirect('/admin-dashboard');
+  // CRITICAL: revalidatePath MUST happen before redirect.
+  // This tells Next.js: "Throw away everything you know and check the cookies again."
+  if (success) {
+    revalidatePath('/admin-dashboard', 'layout'); // Clears the dashboard layout cache
+    revalidatePath('/', 'layout');                // Clears the global layout cache
+    redirect('/admin-dashboard'); 
   }
+
+  return { error: "Invalid password. Please try again." };
 }
 
 export async function logout() {
