@@ -127,7 +127,12 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
   return (
     <Card className="w-full max-w-4xl mx-auto overflow-hidden shadow-2xl shadow-primary/10">
       <CardHeader>
-        <div className="flex justify-between items-start gap-4">
+        {/*
+          This container is now a flex-col on mobile and flex-row on medium screens and up.
+          This stacks the controls on top of the title on mobile.
+        */}
+        <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-start gap-4">
+            {/* The title and page count div */}
             <div className="flex-grow">
                 <CardTitle className="font-headline text-2xl md:text-3xl text-primary">
                     {topic.title}
@@ -136,7 +141,8 @@ export function StoryPlayer({ topic }: StoryPlayerProps) {
                     Page {currentPage + 1} of {totalPages}
                 </p>
             </div>
-            <div className="flex items-center gap-2">
+            {/* The button controls div - aligned to the start of the flex container */}
+            <div className="flex items-center justify-start gap-2">
               <Button size="icon" variant="outline" onClick={handlePrevPage} disabled={currentPage === 0} className="shrink-0 hover:bg-primary/20 hover:text-primary">
                 <ChevronLeft className="h-5 w-5" />
                 <span className="sr-only">Previous Page</span>
