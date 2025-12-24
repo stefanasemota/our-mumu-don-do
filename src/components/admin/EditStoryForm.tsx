@@ -13,7 +13,6 @@ import { Trash2, Plus, Save, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { WeeklyEducationalTopic } from '@/types';
 import Link from 'next/link';
-import { auth } from '@/firebase/config';
 
 export default function EditStoryForm({ story }: { story: WeeklyEducationalTopic }) {
   const router = useRouter();
@@ -43,12 +42,6 @@ export default function EditStoryForm({ story }: { story: WeeklyEducationalTopic
 
   // The Save Logic
   const handleSave = async () => {
-    // --- ADD THESE LINES ---
-    const currentUser = db.app.options.projectId; // Just to check connection
-    console.log("Sabi Debug: Attempting save as UID:", auth.currentUser?.uid);
-    console.log("Sabi Debug: Is User Anonymous?:", auth.currentUser?.isAnonymous);
-    // -----------------------
-
     setLoading(true);
     try {
       const docRef = doc(db, 'weeklyEducationalTopics', story.id);

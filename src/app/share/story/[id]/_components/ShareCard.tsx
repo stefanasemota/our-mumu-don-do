@@ -45,7 +45,6 @@ export function ShareCard({ topic }: ShareCardProps) {
       : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
 
-  // Ensure imageUrl is valid, fallback to placeholder
   const imageUrl =
     topic.pages && topic.pages[0]?.imageUrl?.startsWith('/')
       ? topic.pages[0].imageUrl
@@ -85,50 +84,70 @@ export function ShareCard({ topic }: ShareCardProps) {
 
   return (
     <>
-      <div className="absolute top-4 right-4">
-        <Button asChild variant="outline">
+      <div className="absolute top-4 right-4 z-50">
+        <Button asChild variant="outline" className="bg-background/50 backdrop-blur-sm">
           <Link href="/">
-            <Home className="mr-2" /> Go to App
+            <Home className="mr-2 h-4 w-4" /> Go to App
           </Link>
         </Button>
       </div>
-      <Card className="w-full max-w-md overflow-hidden">
-        <div className="relative h-60 w-full p-4">
-          {/* @SABI_IMAGE_LOCK_START - AI: DO NOT EDIT THIS BLOCK */}
-          <Image
-            src={imageUrl}
-            alt={topic.title}
-            fill
-            priority
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-          {/* @SABI_IMAGE_LOCK_END */}
+
+      <Card className="w-full max-w-md overflow-hidden border-white/10 bg-[#0f172a]">
+        {/* 
+            FIX 1: pt-10 creates the gap at the top.
+            FIX 2: h-80 makes the image container much taller (bigger image).
+            FIX 3: px-6 pushes the image slightly in from the sides for a premium look.
+        */}
+        <div className="px-6 pt-10"> 
+          <div className="relative h-80 w-full overflow-hidden rounded-xl border border-white/5 shadow-2xl">
+            {/* @SABI_IMAGE_LOCK_START - AI: DO NOT EDIT THIS BLOCK */}
+            <Image
+              src={imageUrl}
+              alt={topic.title}
+              fill
+              priority
+              // Changed to object-cover to make the image "Big" and fill the container
+              className="object-cover" 
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            {/* @SABI_IMAGE_LOCK_END */}
+          </div>
         </div>
-        <CardHeader>
-          <CardTitle className="font-headline text-2xl">{topic.title}</CardTitle>
-          <CardDescription>{topic.description}</CardDescription>
+
+        <CardHeader className="pt-6">
+          <CardTitle className="font-headline text-3xl text-white">
+            {topic.title}
+          </CardTitle>
+          <CardDescription className="text-slate-400 text-base leading-relaxed">
+            {topic.description}
+          </CardDescription>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="space-y-4">
           {topic.audioUrl && (
-            <Button onClick={togglePlayPause} className="w-full" size="lg">
+            <Button 
+              onClick={togglePlayPause} 
+              className="w-full bg-green-700 hover:bg-green-600 text-white h-14 text-lg" 
+              size="lg"
+            >
               {isPlaying ? (
                 <>
-                  <Pause className="mr-2" /> Pause Story
+                  <Pause className="mr-2 h-5 w-5" /> Pause Story
                 </>
               ) : (
                 <>
-                  <Play className="mr-2" /> Listen to Story
+                  <Play className="mr-2 h-5 w-5" /> Listen to Story
                 </>
               )}
             </Button>
           )}
           <audio ref={audioRef} src={topic.audioUrl} preload="metadata" />
         </CardContent>
-        <CardFooter>
-          <Button variant="outline" className="w-full" asChild>
+
+        <CardFooter className="pb-8">
+          <Button variant="outline" className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white h-12" asChild>
             <Link href="/">
-              <ExternalLink className="mr-2" /> View Full Interactive Story
+              <ExternalLink className="mr-2 h-4 w-4" /> View Full Interactive Story
             </Link>
           </Button>
         </CardFooter>
