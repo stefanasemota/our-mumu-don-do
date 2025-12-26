@@ -5,6 +5,29 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export default function AboutPage() {
+  const principles = [
+    {
+      title: 'Correcting False Narratives',
+      description:
+        'We believe in presenting history with accuracy and nuance, challenging myths and highlighting the contributions of our own leaders and thinkers.',
+    },
+    {
+      title: 'Celebrating Nigerian Solutions',
+      description:
+        'We showcase stories of local innovation, resilience, and problem-solving to inspire a new generation of creators and leaders.',
+    },
+    {
+      title: 'Fostering Critical Thinking',
+      description:
+        'Our stories are designed not just to be consumed, but to be questioned. We encourage children to analyze, discuss, and form their own opinions.',
+    },
+    {
+      title: 'Promoting Unity & Identity',
+      description:
+        'By exploring the diverse cultures and shared history of Nigeria, we aim to build a stronger sense of unity and collective identity.',
+    },
+  ];
+
   return (
     <div className="bg-background text-foreground">
       <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12">
@@ -62,48 +85,23 @@ export default function AboutPage() {
               each designed to empower the next generation of Nigerian leaders
               and thinkers:
             </p>
-            <ul className="!mt-6 list-none !pl-0">
-              <li className="mb-4">
-                <h3 className="mb-1 mt-0 text-lg font-semibold !text-foreground">
-                  1. Correcting False Narratives
-                </h3>
-                <p className="!mt-0">
-                  We believe in presenting history with accuracy and nuance,
-                  challenging myths and highlighting the contributions of our
-                  own leaders and thinkers.
-                </p>
-              </li>
-              <li className="mb-4">
-                <h3 className="mb-1 mt-0 text-lg font-semibold !text-foreground">
-                  2. Celebrating Nigerian Solutions
-                </h3>
-                <p className="!mt-0">
-                  We showcase stories of local innovation, resilience, and
-                  problem-solving to inspire a new generation of creators and
-                  leaders.
-                </p>
-              </li>
-              <li className="mb-4">
-                <h3 className="mb-1 mt-0 text-lg font-semibold !text-foreground">
-                  3. Fostering Critical Thinking
-                </h3>
-                <p className="!mt-0">
-                  Our stories are designed not just to be consumed, but to be
-                  questioned. We encourage children to analyze, discuss, and
-                  form their own opinions.
-                </p>
-              </li>
-              <li>
-                <h3 className="mb-1 mt-0 text-lg font-semibold !text-foreground">
-                  4. Promoting Unity &amp; Identity
-                </h3>
-                <p className="!mt-0">
-                  By exploring the diverse cultures and shared history of
-                  Nigeria, we aim to build a stronger sense of unity and
-                  collective identity.
-                </p>
-              </li>
-            </ul>
+            <div className="mt-8 space-y-8 not-prose">
+              {principles.map((principle, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <span className="text-2xl font-bold text-primary">
+                    {index + 1}.
+                  </span>
+                  <div>
+                    <h3 className="mt-0 text-lg font-semibold text-foreground">
+                      {principle.title}
+                    </h3>
+                    <p className="mt-1 text-foreground/80">
+                      {principle.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
 
           <Separator className="my-12" />
