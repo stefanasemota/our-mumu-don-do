@@ -1,6 +1,5 @@
 'use server';
 
-import { Guidelines } from '@/components/home/Guidelines';
 import { StoryList } from '@/components/home/StoryList';
 import { Separator } from '@/components/ui/separator';
 
@@ -17,8 +16,6 @@ export default async function Home() {
           own heroes, and master the art of critical thinking.
         </p>
       </section>
-
-      <Guidelines />
 
       <div className="my-12 md:my-16">
         <Separator />
