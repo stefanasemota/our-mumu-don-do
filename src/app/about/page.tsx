@@ -1,6 +1,6 @@
 
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -27,6 +27,22 @@ export default function AboutPage() {
         'By exploring the diverse cultures and shared history of Nigeria, we aim to build a stronger sense of unity and collective identity.',
     },
   ];
+
+  const techStack = [
+    {
+      name: 'Next.js & React',
+      description: 'Na wetin we use build the interface make e for load sharp-sharp and work well.',
+    },
+    {
+      name: 'Google Gemini & Genkit',
+      description: 'Na dem be the engine wey dey help us write and adapt the stories wey you dey read.',
+    },
+    {
+      name: 'AI Narration',
+      description: 'Another special AI dey help us voice the stories, to make am come alive for your ears.',
+    },
+  ];
+
 
   return (
     <div className="bg-background text-foreground">
@@ -111,17 +127,21 @@ export default function AboutPage() {
             <p>
               Dis app dey use correct modern tech tools to make sure say everything fast and reliable no be small:
             </p>
-            <ul>
-              <li>
-                <strong>Next.js &amp; React:</strong> Na wetin we use build the interface make e for load sharp-sharp and work well.
-              </li>
-              <li>
-                <strong>Google Gemini &amp; Genkit:</strong> Na dem be the engine wey dey help us write and adapt the stories wey you dey read.
-              </li>
-              <li>
-                <strong>AI Narration:</strong> Another special AI dey help us voice the stories, to make am come alive for your ears.
-              </li>
-            </ul>
+            <div className="mt-8 space-y-6 not-prose">
+              {techStack.map((tech) => (
+                <div key={tech.name} className="flex items-start gap-4">
+                  <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="mt-0 text-lg font-semibold text-foreground">
+                      {tech.name}
+                    </h3>
+                    <p className="mt-1 text-foreground/80">
+                      {tech.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
 
           <Separator className="my-12" />
