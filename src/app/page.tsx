@@ -18,20 +18,17 @@ export default async function Home() {
         </p>
       </section>
 
-      <section className="mb-12 md:mb-16">
-        <h2 className="mb-8 text-center font-headline text-3xl font-bold md:text-4xl">
-          Educational Stories
-        </h2>
-        <div>
-          <StoryList />
-        </div>
-      </section>
+      <Guidelines />
 
       <div className="my-12 md:my-16">
         <Separator />
       </div>
 
-      <Guidelines />
+      <section className="mb-12 md:mb-16">
+        <div>
+          <StoryList />
+        </div>
+      </section>
     </div>
   );
 }
