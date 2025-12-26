@@ -109,21 +109,17 @@ export default function AboutPage() {
           <section>
             <h2 className="text-3xl text-primary">How We Build Am</h2>
             <p>
-              Dis app dey use correct modern tech tools to make sure say
-              everything fast and reliable no be small:
+              Dis app dey use correct modern tech tools to make sure say everything fast and reliable no be small:
             </p>
-            <ul className="!mt-6">
-              <li className="!mb-2">
-                <strong>Next.js &amp; React:</strong> Na wetin we use build the
-                interface make e for load sharp-sharp and work well.
-              </li>
-              <li className="!mb-2">
-                <strong>Google Gemini &amp; Genkit:</strong> Na dem be the engine
-                wey dey help us write and adapt the stories wey you dey read.
+            <ul>
+              <li>
+                <strong>Next.js &amp; React:</strong> Na wetin we use build the interface make e for load sharp-sharp and work well.
               </li>
               <li>
-                <strong>AI Narration:</strong> Another special AI dey help us
-                voice the stories, to make am come alive for your ears.
+                <strong>Google Gemini &amp; Genkit:</strong> Na dem be the engine wey dey help us write and adapt the stories wey you dey read.
+              </li>
+              <li>
+                <strong>AI Narration:</strong> Another special AI dey help us voice the stories, to make am come alive for your ears.
               </li>
             </ul>
           </section>
