@@ -10,9 +10,10 @@ import { Badge } from '@/components/ui/badge';
 
 interface TopicAccordionProps {
   topics: WeeklyEducationalTopic[];
+  defaultValue?: string;
 }
 
-export function TopicAccordion({ topics }: TopicAccordionProps) {
+export function TopicAccordion({ topics, defaultValue }: TopicAccordionProps) {
   if (!topics || topics.length === 0) {
     return (
       <div className="text-center text-foreground/80 py-10">
@@ -25,7 +26,7 @@ export function TopicAccordion({ topics }: TopicAccordionProps) {
   }
 
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion type="single" collapsible className="w-full" defaultValue={defaultValue}>
       {topics.map((topic) => {
         const categories = Array.isArray(topic.guidelineCategory)
           ? topic.guidelineCategory

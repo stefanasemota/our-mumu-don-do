@@ -103,18 +103,23 @@ export function StoryList() {
 
   return (
     <div className="space-y-12">
-      {groupedTopics.map(({ category, icon: Icon, description, stories }) => (
-        <div key={category}>
-          <div className="mb-4 flex items-center gap-3">
-             <Icon className="h-7 w-7 text-primary" />
-             <div>
-                <h2 className="text-2xl font-headline font-semibold text-foreground/90">{category}</h2>
-                <p className="text-muted-foreground">{description}</p>
-             </div>
+      {groupedTopics.map(({ category, icon: Icon, description, stories }) => {
+        const isCriticalThinking = category === 'Critical Thinking';
+        const defaultOpenStoryId = (isCriticalThinking && stories.length > 0) ? stories[0].id : undefined;
+
+        return (
+          <div key={category}>
+            <div className="mb-4 flex items-center gap-3">
+               <Icon className="h-7 w-7 text-primary" />
+               <div>
+                  <h2 className="text-2xl font-headline font-semibold text-foreground/90">{category}</h2>
+                  <p className="text-muted-foreground">{description}</p>
+               </div>
+            </div>
+            <TopicAccordion topics={stories} defaultValue={defaultOpenStoryId} />
           </div>
-          <TopicAccordion topics={stories} />
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
