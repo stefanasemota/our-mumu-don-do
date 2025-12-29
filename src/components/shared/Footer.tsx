@@ -8,7 +8,6 @@ import { Share2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
   const { toast } = useToast();
   const pathname = usePathname();
   const isAdminPage =
@@ -57,7 +56,7 @@ export function Footer() {
           Share App
         </Button>
         <p className="space-x-2 text-sm text-muted-foreground">
-          <span>&copy; {currentYear} Our Mumu Don Do.</span>
+          <span>&copy; 2025-26 Our Mumu Don Do.</span>
           <span className="font-semibold text-primary">v1.0</span>
           <span className="text-border">|</span>
           <Link
