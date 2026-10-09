@@ -36,12 +36,10 @@ const nextConfig = {
     ],
   },
   transpilePackages: ['@stefan/sabi-auth'], 
-  experimental: {
-    allowedDevOrigins: [
-      'https://*.cloudworkstations.dev',
-      'https://*.firebase.app',
-    ],
-  },
+  allowedDevOrigins: [
+    'https://*.cloudworkstations.dev',
+    'https://*.firebase.app',
+  ],
 };
 
 export default nextConfig;
