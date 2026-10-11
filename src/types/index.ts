@@ -9,6 +9,15 @@ export type GuidelineCategory =
 export interface StoryPage {
   text: string;
   imageUrl: string;
+  textDeCH?: string;
+}
+
+export interface StoryNarrationTrack {
+  audioUrl?: string;
+  narrator?: string;
+  transcript?: string;
+  quizPrompt?: string;
+  quizOptions?: string[];
 }
 
 export interface WeeklyEducationalTopic {
@@ -19,4 +28,9 @@ export interface WeeklyEducationalTopic {
   guidelineCategory: GuidelineCategory[]; // Changed to an array of strings
   pages: StoryPage[];
   audioUrl: string;
+  audioUrlDeCH?: string;
+  narration?: {
+    en?: StoryNarrationTrack;
+    'de-CH'?: StoryNarrationTrack;
+  };
 }

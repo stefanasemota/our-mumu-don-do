@@ -1,84 +1,123 @@
+# Our Mumu Don Do 🌟
 
-# Our Mumu Don Do
+> *"Our foolishness is enough!"* — A vibrant digital storybook and educational platform for young explorers aged 7 to 10.
 
-"Our foolishness is over."
+**Our Mumu Don Do** is an interactive educational storytelling initiative built to arm the next generation with truth, critical thinking, and pride in African heritage. Through illustrated, interactive audio tales, children discover authentic African history, courageous monarchs, ingenious local problem-solvers, and vibrant cultures—learning to question everything, think like detectives, and celebrate where they come from.
 
-This project is an educational web application for the children of Nigeria. It's built to arm the next generation with the truth by dismantling false histories and celebrating our own solutions. Through raw, illustrated stories, we foster the critical thinking needed to build a future free from the old nonsense.
+---
 
-## Features
+## 🚀 Key Features
 
-- **Interactive Story Player**: Engages children with illustrated story pages complete with text and audio narration.
-- **Featured Videos**: Showcases educational video content from various creators.
-- **Themed Content**: Topics are organized into four main guideline categories:
-  - Nigerian Solutions
-  - Critical Thinking
-  - Historical Context
-  - Unity & Identity
-- **AI-Powered Content Suggestions**: Utilizes Genkit and Google's Gemini model to help creators enhance story content.
-- **Admin Dashboard (In Development)**: A password-protected section for managing application content is in development.
-- **Responsive Design**: Built with a mobile-first approach to ensure a great experience on all devices.
+### 1. Discover Stories: Kids Edition
+- **Gamified Momentum**: Warm, child-friendly welcome, quest streaks (e.g. *🔥 3-Day Quest*), and Explorer XP rewards.
+- **Intuitive Theme Archetypes**:
+  - 👑 **Kings & Warriors**: Legendary leaders, battle strategists, and courageous defenders.
+  - 🔍 **Riddles & Mysteries**: Detective-style parables and brain teasers that sharpen critical thinking.
+  - 🌍 **Ancient Wonders**: Engineering feats, river trade routes, and ancestral kingdoms.
+- **Continue Your Quest**: One-tap resume card for ongoing adventures.
+- **Interactive Daily Riddle Card**: Daily curiosity challenges to keep kids engaged and thinking critically.
 
-## Tech Stack
+### 2. Curated Authentic African History
+Every story in the catalog is grounded in authentic history, celebrating indigenous agency:
+1. **The Great Giants of Zazzau**: Queen Amina of Zazzau—fortress architect, cavalry leader, and protector of savannah trade routes.
+2. **Arhuan: The Giant Prince of Benin**: Inspired by **Mama Africa**, celebrating the ancient Benin Kingdom, bronze metallurgy, and defending waterways.
+3. **The King's Signature**: King Duke Ephraim of Old Calabar and the 1855 law protecting twin children 21 years before European caretakers arrived.
+4. **The Glass of Milk**: A kid-friendly parable on corruption versus integrity using everyday metaphors.
+5. **The River Was Always There**: Debunking colonial "discovery" myths by exploring civilizations that thrived along the River Niger for centuries.
+6. **Understanding Colonisation**: An accessible breakdown of African sovereignty, resource management, and resilience.
+7. **We Were Never Lost**: King Jaja of Opobo and the economic self-determination of the Niger Delta trade.
+8. **The River of a Thousand Songs**: Celebrating oral histories, traditional musical instruments, and ancestral folk melodies.
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components**: [ShadCN UI](https://ui.shadcn.com/)
-- **Generative AI**: [Firebase Genkit](https://firebase.google.com/docs/genkit) with Google's Gemini models
-- **Hosting**: Prepared for [Firebase App Hosting](https://firebase.google.com/docs/app-hosting)
+### 3. Interactive Storybook Reader & Downloads
+- **Page-Turner Viewer**: Full-screen, responsive illustrated reader with two-page book spread simulation.
+- **Official PDF Downloads**: High-resolution downloadable editions for offline reading in classrooms and homes.
 
-## Getting Started
+### 4. Multilingual & Dialect Audio Narrations
+- **Audio Storytelling**: High-quality audio narrations bringing characters and kingdoms to life.
+- **Swiss German & Pidgin Options**: Multi-language and multi-dialect storytelling toggles to support diaspora children and global cultural exchange.
 
-Follow these instructions to get a local copy of the project up and running.
+### 5. Living Cultural Heritage & Tributes
+- **Mama Africa Tribute**: A dedicated tribute on the About page celebrating traditional oral storytelling and the griot tradition, linking directly to Mama Africa's inspiring performances.
+- **Naija Speak Integration**: Direct connection to [Naija Speak](https://naijaspeak.sabiai.work/) for young explorers and parents learning Nigerian Pidgin English vocabulary, idioms, and slang.
+
+### 6. Built for AI Crawler Agents & Modern Search (LLM-Ready)
+- **`llms.txt` Standard**: Dedicated machine-readable index at [`/llms.txt`](https://our-mumu-don-do.sabiai.work/llms.txt) following the [llmstxt.org](https://llmstxt.org) standard for AI agents (ChatGPT, Claude, Perplexity, Cursor, Gemini).
+- **AI-Friendly `robots.txt`**: Explicitly allows compliant AI indexing crawlers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`, `Meta-ExternalAgent`, `cohere-ai`, etc.).
+- **Dynamic `sitemap.xml`**: Auto-generated comprehensive index of all 8 educational stories, home, and about pages.
+- **Schema.org JSON-LD**: Rich educational schema (`EducationalOrganization`, `WebApplication`, `EducationalAudience`).
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router, Server & Client Components)
+- **Language**: [TypeScript](https://www.typescriptlang.org/) (Strict type safety)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with custom design tokens
+- **UI Components**: [Radix UI](https://www.radix-ui.com/) & [ShadCN UI](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Generative AI**: [Firebase Genkit](https://firebase.google.com/docs/genkit) & Google Gemini models
+- **Database & Hosting**: [Cloud Firestore](https://firebase.google.com/docs/firestore) & [Firebase App Hosting](https://firebase.google.com/docs/app-hosting)
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18 or later recommended)
-- [npm](https://www.npmjs.com/) or another package manager like yarn or pnpm
+- **Node.js** (v18.17 or later)
+- **npm** (or pnpm / yarn)
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repository-url>
+   git clone https://github.com/aostefan/our-mumu-don-do.git
+   cd our-mumu-don-do
    ```
 
-2. **Navigate to the project directory:**
-   ```bash
-   cd <project-directory>
-   ```
-
-3. **Install dependencies:**
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-### Environment Variables
+3. **Set up Environment Variables:**
+   Create a `.env` file in the project root:
+   ```env
+   # Admin security
+   ADMIN_PASSWORD="your_admin_secret_password"
 
-Create a `.env` file in the root of the project and add the necessary environment variables. This file is ignored by Git, so it's a safe place for your secrets.
+   # Gemini / Genkit API (for AI features)
+   GEMINI_API_KEY="your_gemini_api_key"
+   ```
 
-```env
-# A password to protect the /admin-dashboard route
-ADMIN_PASSWORD="your_secret_admin_password"
+4. **Run the local development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:9002](http://localhost:9002) in your browser.
 
-# Genkit/Gemini API Key (if using AI features)
-# GEMINI_API_KEY=
-```
+---
 
-### Running the Application
+## 📜 Available Scripts
 
-To run the development server:
+| Script | Purpose |
+| :--- | :--- |
+| `npm run dev` | Starts local Next.js dev server on port 9002 |
+| `npm run build` | Compiles an optimized production build with static/dynamic route generation |
+| `npm run start` | Starts the production server |
+| `npm run lint` | Runs Next.js ESLint checks |
+| `npm run typecheck` | Validates TypeScript types across the codebase |
 
-```bash
-npm run dev
-```
+---
 
-The application will be available at `http://localhost:9002`.
+## 🤖 AI Crawler & LLM Support
 
-## Available Scripts
+If you are an AI assistant, web scraper, or indexing bot, you can access our machine-readable metadata and story index here:
+- **LLMs.txt**: [`https://our-mumu-don-do.sabiai.work/llms.txt`](https://our-mumu-don-do.sabiai.work/llms.txt)
+- **Sitemap**: [`https://our-mumu-don-do.sabiai.work/sitemap.xml`](https://our-mumu-don-do.sabiai.work/sitemap.xml)
+- **Robots Policy**: [`https://our-mumu-don-do.sabiai.work/robots.txt`](https://our-mumu-don-do.sabiai.work/robots.txt)
 
-- `npm run dev`: Starts the Next.js development server.
-- `npm run build`: Builds the application for production.
-- `npm run start`: Starts the production server.
-- `npm run lint`: Runs ESLint to check for code quality issues.
-- `npm run typecheck`: Runs the TypeScript compiler to check for type errors.
+---
+
+## ⚖️ Copyright & Fair Use
+
+The original storylines, text adaptations, and illustrations are the creative property of **Our Mumu Don Do**. Audio narrations and educational scripts are developed through collaborative human direction and AI assistance for non-commercial educational use. Have fun exploring, sharing, and learning!

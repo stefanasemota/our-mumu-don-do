@@ -4,6 +4,7 @@ import { doc, getDoc } from 'firebase/firestore'; // Use standard Web SDK
 import type { WeeklyEducationalTopic } from '@/types';
 import { ShareCard } from './_components/ShareCard';
 import { notFound } from 'next/navigation';
+import { getCuratedTopic } from '@/lib/curated-topics';
 
 interface SharePageProps {
   params: { id: string };
@@ -15,30 +16,34 @@ async function getTopicById(id: string): Promise<WeeklyEducationalTopic | null> 
     const docRef = doc(db, 'weeklyEducationalTopics', id);
     const docSnap = await getDoc(docRef);
 
-    if (!docSnap.exists()) {
-      console.warn(`[Sabi Share] No topic found for ID: ${id}`);
-      return null;
-    }
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data) {
+        let dateString = '';
+        if (data.date?.toDate) {
+          dateString = data.date.toDate().toISOString();
+        } else if (data.date) {
+          dateString = new Date(data.date).toISOString();
+        }
 
-    const data = docSnap.data();
-    
-    // Handle the date conversion safely
-    let dateString = '';
-    if (data.date?.toDate) {
-      dateString = data.date.toDate().toISOString();
-    } else if (data.date) {
-      dateString = new Date(data.date).toISOString();
+        return {
+          ...data,
+          id: docSnap.id,
+          date: dateString,
+        } as WeeklyEducationalTopic;
+      }
     }
-
-    return {
-      ...data,
-      id: docSnap.id,
-      date: dateString,
-    } as WeeklyEducationalTopic;
   } catch (error) {
-    console.error('[Sabi Share] Error fetching topic:', error);
-    return null;
+    console.warn('[Sabi Share] Error fetching topic from Firestore:', error);
   }
+
+  // Fallback to built-in curated catalog
+  const curated = getCuratedTopic(id);
+  if (curated) {
+    return curated;
+  }
+
+  return null;
 }
 
 // 2. Metadata Generation

@@ -9,6 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/config';
+import { getCuratedTopic } from '@/lib/curated-topics';
 
 interface StoryPageProps {
   params: {
@@ -17,37 +18,39 @@ interface StoryPageProps {
 }
 
 async function getTopic(id: string): Promise<WeeklyEducationalTopic | null> {
+  // 1. Try Firestore
   try {
     const docRef = doc(db, 'weeklyEducationalTopics', id);
     const docSnap = await getDoc(docRef);
 
-    if (!docSnap.exists()) {
-      return null;
-    }
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data) {
+        let dateString = '';
+        if (data.date?.toDate) {
+          dateString = data.date.toDate().toISOString();
+        } else if (data.date) {
+          dateString = new Date(data.date).toISOString();
+        }
 
-    const data = docSnap.data();
-    if (!data) {
-      return null;
+        return {
+          ...data,
+          id: docSnap.id,
+          date: dateString,
+        } as WeeklyEducationalTopic;
+      }
     }
-    
-    // Handle date conversion safely
-    let dateString = '';
-    if (data.date?.toDate) {
-      dateString = data.date.toDate().toISOString();
-    } else if (data.date) {
-      dateString = new Date(data.date).toISOString();
-    }
-
-
-    return {
-      ...data,
-      id: docSnap.id,
-      date: dateString,
-    } as WeeklyEducationalTopic;
   } catch (error) {
-    console.error(`Failed to fetch topic ${id}:`, error);
-    return null;
+    console.warn(`[Story Fetch] Firestore fetch failed for "${id}", trying curated fallback:`, error);
   }
+
+  // 2. Try curated built-in stories catalog (Queen Amina / Zazzau, Arhuan, etc.)
+  const curated = getCuratedTopic(id);
+  if (curated) {
+    return curated;
+  }
+
+  return null;
 }
 
 export default async function StoryPage({ params }: StoryPageProps) {

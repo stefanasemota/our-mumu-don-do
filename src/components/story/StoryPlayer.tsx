@@ -34,15 +34,63 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Icons } from '../shared/Icons';
 
+import { StorybookModal, type StorybookBookData } from './StorybookModal';
+
 interface StoryPlayerProps {
   topic: WeeklyEducationalTopic;
   standalone?: boolean;
 }
 
+export type StoryLanguage = 'en' | 'de-CH';
+
 const PLAYBACK_SPEEDS = [0.85, 1.0, 1.25, 1.5];
+
+// Full English scripts for multi-scene educational chapters
+const ZAZZAU_EN_PAGES = [
+  "In the great ancient city of Zazzau, the desert winds blew warm and steady against the towering red clay walls. Queen Amina stood atop the fortress watchtower, looking across the vast savannah. She knew that walls could protect her people from sudden raids, but true prosperity came from building trade routes, uniting communities, and ruling with courage and wisdom.",
+  "Mounted on her swift warhorse, Amina led her community not to conquer, but to secure safe passage for farmers, craftspeople, and traders. She directed the construction of earthen walls—the legendary Ganuwa Amina—that encircled cities, offering safe havens and lively marketplaces where neighboring nations exchanged salt, kola nuts, and woven cloth.",
+  "As the afternoon sun cast long shadows across Zazzau, Amina convened the youth council. 'A ruler who only prepares for defense will always live in fear,' she advised the young leaders. 'A leader who builds connections creates lasting peace.' The young citizens listened carefully, understanding that their future required courage, dialogue, and cooperation.",
+  "By evening, the marketplaces of Zazzau bustled with friendly music, lantern lights, and shared meals. Travelers from distant kingdoms rested safely within the gates. Queen Amina had proven that true leadership lies in wisdom, open doors, and justice.",
+];
+
+// Swiss German authentic scripts for story scenes (ready for audio release)
+const ZAZZAU_SWISS_GERMAN_PAGES = [
+  "I dr grosse, alte Stadt Zazzau het dr heissi Wüestewind sanft über di rote Lehmmure bloost. D'Königin Amina isch uf dr hoche Stadtmure gstande und het wyt über s'Land gluegt. Si het gwüsst, dass di wahri Stärki vomene Rych nid nume us Chrieger beschteht, sondern us em Fride, offene Handelswääg und em Zämehalt vo allne Mänsche.",
+  "Mit grossem Muet und Chlugheit het d'Amina iri Rappe bestyge. Si het d'Grenze gschützt und neui sicheri Handelsroute dur ganz Westafrika bouet. D'Puure und Handwärker händ Kolanüss, Gwürz und prachtvolli Stoff usstuuscht, und Zazzau isch zunere blühende Oase worde.",
+  "D'Mure vo Zazzau – d'Ganuwa – sind mächtig gsi, sorgfältig us Lehm gformt. Aber d'Königin het zu irem Volk gsait: 'Mure gäbed Schutz vor Gfohr, aber offeni Tor und Fründschaft mached üs starch.' Jung und Alt händ vo irer Weitsicht glernt.",
+  "Am Obe händ sich d'Händler und d'Familie uf em grosse Märtplatz versammlet. Bim Füür sind Gschichte verzellt worde, und d'Chind händ gseh, dass Fride und Zämehalt di gröschte Schätz vomene Volch sind. D'Königin Amina het s'Fundamänt für Generatione gleit.",
+];
+
+const ARHUAN_SWISS_GERMAN_PAGES = [
+  "I dr mächtige Stadt Benin het dr Prinz Arhuan gläbt, dr riisigi Chrieger mit dr Chraft vo hundert Manne. Doch wie d'Mama Africa immer verzellt, isch wahri Grössi nid nume d'Chraft im Arm, sondern s'Guete im Härze.",
+  "Dr Arhuan het d'Wälder und d'Flüss vo Benin gschützt. Jedi Gschicht, wo d'Mama Africa über ihn singt, mahnt üs dra, mit Stolz und Reschpäkt für üses Erbe z'läbe.",
+];
+
+const ZAZZAU_BOOK: StorybookBookData = {
+  title: 'The Great Giants of Zazzau',
+  author: 'By Stefan Asemota • Official Illustrated Edition',
+  pdfUrl: '/books/the-great-giants-of-zazzau.pdf',
+  downloadName: 'The_Great_Giants_of_Zazzau.pdf',
+  audioUrl: '/audio/The_Great_Giants_of_Zazzau.mp3',
+  audioTitle: 'Audio Narration • The Great Giants of Zazzau',
+  pages: Array.from({ length: 9 }, (_, i) => `/books/zazzau/page-${i + 1}.jpg`),
+};
+
+const ARHUAN_BOOK: StorybookBookData = {
+  title: 'Arhuan: The Giant Prince of Benin',
+  author: 'By Stefan Asemota • Inspired by Mama Africa',
+  pdfUrl: '/books/arhuan-the-giant-prince-of-benin.pdf',
+  downloadName: 'Arhuan_The_Giant_Prince_of_Benin.pdf',
+  audioUrl: '/audio/Arhuan_The_Giant_Prince_of_Benin.mp3',
+  audioTitle: 'Audio Narration • Arhuan: The Giant Prince of Benin',
+  inspirationUrl: 'https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw',
+  inspirationTitle: "Watch Mama Africa's Storytelling Video",
+  pages: Array.from({ length: 12 }, (_, i) => `/books/arhuan/page-${i + 1}.jpg`),
+};
 
 export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [currentPage, setCurrentPage] = useState(0);
+  const [activeLanguage, setActiveLanguage] = useState<StoryLanguage>('en');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [speedIndex, setSpeedIndex] = useState(1); // default 1.0x
@@ -52,7 +100,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [selectedPerspective, setSelectedPerspective] = useState<string | null>('peace');
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [activeStorybook, setActiveStorybook] = useState<StorybookBookData | null>(null);
 
   // Auto-hide controls state & timer
   const [showControls, setShowControls] = useState(true);
@@ -62,8 +110,30 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const totalPages = topic.pages?.length || 1;
-  const page: StoryPage = topic.pages?.[currentPage] || { text: topic.description || '', imageUrl: '' };
+  const isZazzau =
+    (topic.title || '').toLowerCase().includes('zazzau') ||
+    (topic.title || '').toLowerCase().includes('amina') ||
+    (topic.title || '').toLowerCase().includes('giant');
+  const isArhuan =
+    (topic.title || '').toLowerCase().includes('arhuan') ||
+    (topic.title || '').toLowerCase().includes('benin');
+
+  // Compute effective pages:
+  // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
+  const effectivePages: StoryPage[] =
+    topic.pages && topic.pages.length > 1
+      ? topic.pages
+      : isZazzau
+      ? ZAZZAU_EN_PAGES.map((text, idx) => ({
+          text: idx === 0 && topic.pages?.[0]?.text ? topic.pages[0].text : text,
+          imageUrl: topic.pages?.[idx]?.imageUrl || topic.pages?.[0]?.imageUrl || '',
+        }))
+      : topic.pages?.length
+      ? topic.pages
+      : [{ text: topic.description || '', imageUrl: '' }];
+
+  const totalPages = effectivePages.length;
+  const page: StoryPage = effectivePages[currentPage] || { text: topic.description || '', imageUrl: '' };
 
   const triggerShowControls = useCallback(() => {
     setShowControls(true);
@@ -86,51 +156,94 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     }
   };
 
-  const handleNextPage = useCallback(() => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage((prev) => prev + 1);
-    }
-  }, [currentPage, totalPages]);
-
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prev) => prev - 1);
+  const scrollToStage = () => {
+    if (stageRef.current) {
+      stageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const getAudioSource = useCallback(() => {
-    if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
-    const lowerTitle = (topic.title || '').toLowerCase();
-    if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
-      return '/audio/The_Great_Giants_of_Zazzau.mp3';
+  const handleNextPage = useCallback(() => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage((prev) => prev + 1);
+      setTimeout(scrollToStage, 60);
+    } else {
+      toast({
+        title: 'Story Completed! 🎉',
+        description: 'You have finished reading all scenes of this story.',
+      });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 60);
     }
-    if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
-      return '/audio/The-Glass-of-Milk.mp3';
+  }, [currentPage, totalPages, toast]);
+
+  const handlePrevPage = useCallback(() => {
+    if (currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
+      setTimeout(scrollToStage, 60);
     }
-    if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
-      return '/audio/The-Kings-Signature.mp3';
+  }, [currentPage]);
+
+  const getAudioSource = useCallback(
+    (lang: StoryLanguage = activeLanguage) => {
+      if (lang === 'de-CH' && topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
+        return topic.audioUrlDeCH.trim();
+      }
+      if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
+      const lowerTitle = (topic.title || '').toLowerCase();
+      if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
+        return '/audio/The_Great_Giants_of_Zazzau.mp3';
+      }
+      if (lowerTitle.includes('arhuan') || lowerTitle.includes('prince of benin')) {
+        return '/audio/Arhuan_The_Giant_Prince_of_Benin.mp3';
+      }
+      if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
+        return '/audio/The-Glass-of-Milk.mp3';
+      }
+      if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
+        return '/audio/The-Kings-Signature.mp3';
+      }
+      if (lowerTitle.includes('river of') || lowerTitle.includes('thousand songs')) {
+        return '/audio/The-River-of-a-Thousand-Songs.mp3';
+      }
+      if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
+        return '/audio/The-River-was-always-there.mp3';
+      }
+      if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
+        return '/audio/Colonisation.mp3';
+      }
+      if (lowerTitle.includes('never lost')) {
+        return '/audio/we-were-never-lost.mp3';
+      }
+      return '';
+    },
+    [activeLanguage, topic.audioUrl, topic.audioUrlDeCH, topic.title]
+  );
+
+  const handleLanguageChange = (newLang: StoryLanguage) => {
+    if (newLang === activeLanguage) return;
+    setActiveLanguage(newLang);
+    const audio = audioRef.current;
+    if (audio) {
+      const wasPlaying = isPlaying;
+      const targetSrc = getAudioSource(newLang);
+      if (targetSrc && (!audio.src || !audio.src.endsWith(targetSrc))) {
+        audio.src = targetSrc;
+        if (wasPlaying) {
+          audio.play().catch((err) => console.warn('Audio switch playback:', err));
+        }
+      }
     }
-    if (lowerTitle.includes('river of') || lowerTitle.includes('thousand songs')) {
-      return '/audio/The-River-of-a-Thousand-Songs.mp3';
-    }
-    if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
-      return '/audio/The-River-was-always-there.mp3';
-    }
-    if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
-      return '/audio/Colonisation.mp3';
-    }
-    if (lowerTitle.includes('never lost')) {
-      return '/audio/we-were-never-lost.mp3';
-    }
-    return '/audio/The_Great_Giants_of_Zazzau.mp3';
-  }, [topic.audioUrl, topic.title]);
+  };
 
   // Audio Sync & Event Listeners
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const source = getAudioSource();
+    const source = getAudioSource(activeLanguage);
     if (source && (!audio.src || !audio.src.endsWith(source))) {
       audio.src = source;
     }
@@ -276,9 +389,23 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const activeDuration = duration > 0 ? duration : 340;
   const progressPercent = Math.min(100, Math.max(0, (currentTime / activeDuration) * 100));
 
-  // Split story text to style the drop cap
-  const firstLetter = page.text ? page.text.trim().charAt(0) : '';
-  const remainingText = page.text ? page.text.trim().slice(1) : '';
+  const getSceneText = () => {
+    if (activeLanguage === 'de-CH') {
+      if (page.textDeCH) return page.textDeCH;
+      if (isZazzau) {
+        return ZAZZAU_SWISS_GERMAN_PAGES[currentPage] || ZAZZAU_SWISS_GERMAN_PAGES[0];
+      }
+      if (isArhuan) {
+        return ARHUAN_SWISS_GERMAN_PAGES[currentPage] || ARHUAN_SWISS_GERMAN_PAGES[0];
+      }
+      return page.text || '';
+    }
+    return page.text || '';
+  };
+
+  const displayText = getSceneText();
+  const firstLetter = displayText ? displayText.trim().charAt(0) : '';
+  const remainingText = displayText ? displayText.trim().slice(1) : '';
 
   // Fallback hero artwork from Google Stitch suggestion
   const defaultStageArtwork =
@@ -390,6 +517,44 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             <span className="font-label-code text-xs sm:text-sm text-on-surface-variant bg-surface-container px-3.5 py-1 rounded-full flex-shrink-0 font-medium">
               Page {currentPage + 1} of {totalPages}
             </span>
+          </div>
+
+          {/* Top Language Selector Bar: English vs Schwiizerdütsch */}
+          <div className="flex items-center justify-between flex-wrap gap-2 pt-2 pb-1 border-t border-outline-variant/20">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-on-surface-variant font-medium">
+              <span className="text-base sm:text-lg">🗣️</span>
+              <span className="font-label-ui">Story Language / Vorlese-Sprooch:</span>
+            </div>
+            <div className="inline-flex items-center p-1 rounded-full bg-surface-container border border-outline-variant/30 shadow-inner">
+              <button
+                type="button"
+                onClick={() => handleLanguageChange('en')}
+                className={cn(
+                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-2 transition-all cursor-pointer',
+                  activeLanguage === 'en'
+                    ? 'bg-stitch-secondary text-on-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)] scale-102'
+                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
+                )}
+              >
+                <span className="text-base leading-none">🇬🇧</span>
+                <span>English</span>
+                {activeLanguage === 'en' && (
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                )}
+              </button>
+              <button
+                type="button"
+                disabled
+                title="Swiss German audio narration coming soon"
+                className="px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-medium flex items-center gap-2 text-on-surface-variant/40 opacity-60 cursor-not-allowed select-none"
+              >
+                <span className="text-base leading-none grayscale opacity-60">🇨🇭</span>
+                <span>Schwiizerdütsch (Dialäkt)</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-label-code bg-surface-bright text-on-surface-variant/70 border border-outline-variant/30">
+                  Audio Soon
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -571,26 +736,33 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         {/* SECTION 3: EDITORIAL STORY READING PASSAGE */}
         <article className="mt-2 flex flex-col gap-6">
           {/* Friendly Voice Reader Badge */}
-          <div className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-surface-container border border-outline-variant/30 shadow-md">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-surface-container border border-outline-variant/30 shadow-md">
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-primary-container flex items-center justify-center text-stitch-secondary flex-shrink-0">
                 <Mic className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold">
-                  Listening Mode: {isPlaying ? 'Active' : 'Ready'}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold">
+                    {activeLanguage === 'de-CH' ? '🎙️ Gschichteverzeller: Tante Heidi' : '🎙️ Storyteller: Uncle Aminu'}
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-label-code font-bold bg-stitch-secondary/20 text-stitch-secondary border border-stitch-secondary/40">
+                    {activeLanguage === 'de-CH' ? '🇨🇭 CH-DE' : '🇬🇧 EN'}
+                  </span>
+                </div>
                 <span className="font-body text-xs sm:text-sm text-on-surface-variant">
-                  Uncle Aminu & Sabi Storytellers reading this story
+                  {activeLanguage === 'de-CH'
+                    ? 'Tante Heidi liist uf Schwiizerdütsch'
+                    : 'Uncle Aminu is reading this story'}
                 </span>
               </div>
             </div>
             <button
               type="button"
-              className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-surface-bright text-on-surface text-sm sm:text-base font-label-ui hover:bg-surface-variant transition-colors font-medium border border-outline-variant/30 shadow-sm"
+              className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-surface-bright text-on-surface text-sm sm:text-base font-label-ui hover:bg-surface-variant transition-colors font-medium border border-outline-variant/30 shadow-sm self-end sm:self-auto"
               onClick={cycleSpeed}
             >
-              <span>{PLAYBACK_SPEEDS[speedIndex]}x Speed</span>
+              <span>{PLAYBACK_SPEEDS[speedIndex]}x {activeLanguage === 'de-CH' ? 'Tempo' : 'Speed'}</span>
             </button>
           </div>
 
@@ -605,13 +777,22 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               {remainingText}
             </div>
 
-            {/* Simplified Quote Card with Grand Typography */}
+            {/* Simplified Quote Card with Grand Typography & Dialect Marker Tag */}
             <div className="p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-surface-container my-2 border-l-4 sm:border-l-6 border-stitch-secondary shadow-lg">
+              {activeLanguage === 'de-CH' && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 mb-3 rounded-full bg-stitch-secondary/20 text-stitch-secondary text-xs sm:text-sm font-label-code font-bold border border-stitch-secondary/40">
+                  <span>🇨🇭 Dialäkt-Zitat</span>
+                </div>
+              )}
               <p className="font-headline text-xl sm:text-2xl lg:text-3xl italic text-on-surface leading-relaxed sm:leading-snug">
-                “Walls protect those who are scared. Safe trade routes build a strong kingdom. We must trade peacefully with our neighbors!”
+                {activeLanguage === 'de-CH'
+                  ? '“Mure schützed die, wo Angscht händ. Sicheri Handelswääg boued es starchs Rych uf. Mir müend fridlech mit üsne Nachbere zämeläbe und handle!”'
+                  : '“Walls protect those who are scared. Safe trade routes build a strong kingdom. We must trade peacefully with our neighbors!”'}
               </p>
               <span className="font-label-code text-sm sm:text-base text-stitch-secondary block mt-3 font-semibold">
-                — Queen Amina of Zazzau • Leadership Wisdom
+                {activeLanguage === 'de-CH'
+                  ? '— Königin Amina vo Zazzau • Weisheit & Aafüahrig'
+                  : '— Queen Amina of Zazzau • Leadership Wisdom'}
               </span>
             </div>
           </div>
@@ -623,11 +804,13 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             <div className="flex items-center gap-3">
               <HelpCircle className="w-6 h-6 text-stitch-secondary flex-shrink-0" />
               <h2 className="font-label-ui text-sm sm:text-base text-on-surface uppercase tracking-wider font-semibold">
-                Quick Question for You
+                {activeLanguage === 'de-CH' ? 'Schnälli Frog für Dich' : 'Quick Question for You'}
               </h2>
             </div>
             <p className="font-headline text-2xl sm:text-3xl lg:text-4xl text-on-surface leading-snug font-semibold">
-              What would you have done if you were Queen Amina?
+              {activeLanguage === 'de-CH'
+                ? "Was hetsch Du gmacht, wenn Du d'Königin Amina wärsch gsi?"
+                : 'What would you have done if you were Queen Amina?'}
             </p>
             <div className="flex flex-col gap-3 pt-2">
               <button
@@ -642,7 +825,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               >
                 <span className="flex items-center gap-3 sm:gap-4">
                   <Handshake className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
-                  <span>Choose peace and open trade</span>
+                  <span>
+                    {activeLanguage === 'de-CH'
+                      ? 'Fride wähle & offene Handel unterstütze'
+                      : 'Choose peace and open trade'}
+                  </span>
                 </span>
                 {selectedPerspective === 'peace' ? (
                   <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
@@ -663,7 +850,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               >
                 <span className="flex items-center gap-3 sm:gap-4">
                   <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
-                  <span>Stay safe behind the palace fortress walls</span>
+                  <span>
+                    {activeLanguage === 'de-CH'
+                      ? 'Hinter de Palaschtmure in Sicherheit bliibe'
+                      : 'Stay safe behind the palace fortress walls'}
+                  </span>
                 </span>
                 {selectedPerspective === 'walls' ? (
                   <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
@@ -684,7 +875,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               >
                 <span className="flex items-center gap-3 sm:gap-4">
                   <Users className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
-                  <span>Mobilize the youth council for homegrown solutions</span>
+                  <span>
+                    {activeLanguage === 'de-CH'
+                      ? 'De Jugendroot zämetrummle für eigeni Lösige'
+                      : 'Mobilize the youth council for homegrown solutions'}
+                  </span>
                 </span>
                 {selectedPerspective === 'youth' ? (
                   <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
@@ -700,13 +895,19 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 value={reflectionText}
                 onChange={(e) => setReflectionText(e.target.value)}
                 disabled={isSubmitted}
-                placeholder="Share your personal reflection on this story chapter... (shared with your learning circle)"
+                placeholder={
+                  activeLanguage === 'de-CH'
+                    ? 'Schryb da dyni eigeni Gedanke zu däm Kapitel uf Schwiizerdütsch... (wird im Lernkreis teilt)'
+                    : 'Share your personal reflection on this story chapter... (shared with your learning circle)'
+                }
                 rows={3}
                 className="w-full rounded-2xl bg-surface-container-lowest p-4 sm:p-5 text-base sm:text-lg text-on-surface placeholder:text-on-surface-variant/60 border border-outline-variant/40 focus:outline-none focus:border-stitch-secondary transition-all resize-none"
               />
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <span className="font-label-code text-xs sm:text-sm text-on-surface-variant">
-                  +5 Civic Points awarded upon saving
+                  {activeLanguage === 'de-CH'
+                    ? '+5 Bürgerpünkt gschickt übercho bim Spychere'
+                    : '+5 Civic Points awarded upon saving'}
                 </span>
                 <button
                   type="button"
@@ -714,8 +915,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   onClick={() => {
                     setIsSubmitted(true);
                     toast({
-                      title: 'Perspective Recorded!',
-                      description: 'Recorded in the National Cohesion Archives. +5 Civic Points awarded.',
+                      title: activeLanguage === 'de-CH' ? 'Meinung gspeichert!' : 'Perspective Recorded!',
+                      description:
+                        activeLanguage === 'de-CH'
+                          ? 'Dy Bytraag isch im Nationalarchiv ufgno worde. +5 Bürgerpünkt übercho.'
+                          : 'Recorded in the National Cohesion Archives. +5 Civic Points awarded.',
                     });
                   }}
                   className={cn(
@@ -730,10 +934,10 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   {isSubmitted ? (
                     <>
                       <Check className="w-4 h-4" />
-                      <span>Perspective Recorded</span>
+                      <span>{activeLanguage === 'de-CH' ? 'Meinung gspeichert' : 'Perspective Recorded'}</span>
                     </>
                   ) : (
-                    <span>Submit Perspective</span>
+                    <span>{activeLanguage === 'de-CH' ? 'Meinung spychere' : 'Submit Perspective'}</span>
                   )}
                 </button>
               </div>
@@ -745,16 +949,22 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         <section className="mt-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <h3 className="font-label-ui text-sm sm:text-base text-on-surface-variant uppercase tracking-wider font-semibold">
-              Related Archival Records &amp; Publications
+              Related Archival Publications &amp; Storybooks
             </h3>
             <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-              3 Records Available
+              2 Publications Available
             </span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Record Card 1: The Great Giants of Zazzau Illustrated Story Book */}
             <div
-              onClick={() => setIsPdfModalOpen(true)}
+              onClick={() => {
+                if (isPlaying && audioRef.current) {
+                  audioRef.current.pause();
+                  setIsPlaying(false);
+                }
+                setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: false });
+              }}
               className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/60 transition-all duration-300 group hover:-translate-y-1 cursor-pointer"
             >
               <div className="flex flex-col gap-3">
@@ -764,7 +974,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     alt="The Great Giants of Zazzau Book Cover by Stefan Asemota"
                     fill
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs font-label-code text-stitch-secondary border border-stitch-secondary/40 flex items-center gap-1.5 shadow-lg">
                     <BookOpen className="w-3.5 h-3.5" />
@@ -783,19 +993,37 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
-                <span className="font-label-code text-xs text-on-surface-variant">30 MB • Illustrated PDF</span>
+              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20 flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-label-code text-xs text-on-surface-variant">24 MB • PDF</span>
+                  <div className="inline-flex items-center gap-1 p-0.5 rounded-md bg-surface-bright/80 border border-outline-variant/30 text-[10px]">
+                    <span className="px-1.5 py-0.5 rounded bg-stitch-secondary text-on-secondary font-bold">
+                      🇬🇧 EN
+                    </span>
+                    <span
+                      title="Swiss German narration coming soon"
+                      className="px-1.5 py-0.5 rounded text-on-surface-variant/50 font-medium flex items-center gap-1 opacity-60 cursor-not-allowed"
+                    >
+                      <span>🇨🇭 CH</span>
+                      <span className="text-[8px] bg-surface-dim px-0.5 rounded">Soon</span>
+                    </span>
+                  </div>
+                </div>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      togglePlay();
+                      if (isPlaying && audioRef.current) {
+                        audioRef.current.pause();
+                        setIsPlaying(false);
+                      }
+                      setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true });
                     }}
                     className="px-2.5 py-1 rounded-lg bg-surface-bright hover:bg-surface-variant text-stitch-secondary text-xs font-semibold flex items-center gap-1 transition-colors"
                   >
-                    {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-                    <span>{isPlaying ? 'Pause' : 'Listen'}</span>
+                    <Play className="w-3 h-3" />
+                    <span>Listen</span>
                   </button>
                   <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
                     <BookOpen className="w-4 h-4" />
@@ -805,67 +1033,79 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </div>
             </div>
 
-            {/* Record Card 2: Walls of Zazzau (Ganuwa) Historical Map */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-all duration-300 group hover:-translate-y-1">
+            {/* Record Card 2: Arhuan: The Giant Prince of Benin Illustrated Story Book */}
+            <div
+              onClick={() => {
+                if (isPlaying && audioRef.current) {
+                  audioRef.current.pause();
+                  setIsPlaying(false);
+                }
+                setActiveStorybook({ ...ARHUAN_BOOK, autoPlay: false });
+              }}
+              className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/60 transition-all duration-300 group hover:-translate-y-1 cursor-pointer"
+            >
               <div className="flex flex-col gap-3">
                 <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
-                  <div
-                    className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{
-                      backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5rnEEqCxfgb6g_aSnBNI8iJi19q3lTeVNjhQeO1Wh0t29Bnoi1P_-MTits-hOQr3qBPGqadoTgEGjQSsJBkMtN_0MH751yBXnvqFplfn8Ydi-8kCK68JIT-W1lx3PeTcBubmH2jtvgthQbTkAEUWFA8gzCM7KGw7kxMxZ_cH9ayYYj311ghT75dAWqMuHmAKKS53PIHmL6DZQ7u8B-3qQqo5Ie57ssqYKKOWinNF2kT2lekdjkLdd')`,
-                    }}
+                  <Image
+                    src="/images/arhuan-the-giant-prince-of-benin-cover.png"
+                    alt="Arhuan: The Giant Prince of Benin Book Cover by Stefan Asemota"
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs font-label-code text-stitch-secondary border border-stitch-secondary/40 flex items-center gap-1.5 shadow-lg">
-                    <span>Cartography</span>
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Story Book</span>
                   </div>
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-                    HISTORICAL MAP • 1576
+                    OFFICIAL PUBLICATION • 2026
                   </span>
-                  <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
-                    Walls of Zazzau (Ganuwa)
+                  <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold group-hover:text-stitch-secondary transition-colors">
+                    Arhuan: The Giant Prince of Benin
                   </h4>
-                  <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1">
-                    Ancient defensive earthwork ramparts, fortified gates, and cavalry trade routes of Old Zazzau kingdom.
+                  <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1 leading-relaxed">
+                    By Stefan Asemota. Inspired by Mama Africa, celebrating and honoring her captivating oral storytelling.
                   </p>
+                  <a
+                    href="https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-300 hover:text-amber-200 transition-colors group/link w-fit"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-amber-300" />
+                    <span>Watch Mama Africa’s Storytelling Video</span>
+                    <ExternalLink className="w-3 h-3 transition-transform group-hover/link:translate-x-0.5" />
+                  </a>
                 </div>
               </div>
-              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
-                <span className="font-label-code text-xs text-on-surface-variant">Archival Parchment</span>
-                <span className="text-xs font-semibold text-on-surface-variant">National Heritage Map</span>
-              </div>
-            </div>
-
-            {/* Record Card 3: Cavalry Cuirass & Lance */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-all duration-300 group hover:-translate-y-1">
-              <div className="flex flex-col gap-3">
-                <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
-                  <div
-                    className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{
-                      backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAcKoVgQ2wCPIjFjxEoRroXaMzSdzTvC04yAIsaJR8xcvp8XW6RtaLdmk8RETAea1tVbgqXmH5psrjibwbJP6ImNAaRuOGRzPuIMBosAoeTQ0fkLGk_MJBo5Amj2qk2p6Yzd5TYEHkcUTqbLps8p2UlQvQA05DbwhO0FbWVAvpOXxkz_Tm8cPCXqHIj-j-FmxdnwFlqYmhBikvhvAvDaEaqjvnjqVt1gWazV5ek2yTdykTJrn3ioJt')`,
-                    }}
-                  />
-                  <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs font-label-code text-stitch-secondary border border-stitch-secondary/40 flex items-center gap-1.5 shadow-lg">
-                    <span>Artifact</span>
+              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20 flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-label-code text-xs text-on-surface-variant">38 MB • PDF</span>
+                  <div className="inline-flex items-center gap-1 p-0.5 rounded-md bg-surface-bright/80 border border-outline-variant/30 text-[10px]">
+                    <span className="px-1.5 py-0.5 rounded bg-surface-dim text-on-surface-variant/80 font-medium">
+                      🇬🇧 EN
+                    </span>
+                    <span
+                      title="Swiss German narration coming soon"
+                      className="px-1.5 py-0.5 rounded text-on-surface-variant/50 font-medium flex items-center gap-1 opacity-60 cursor-not-allowed"
+                    >
+                      <span>🇨🇭 CH</span>
+                      <span className="text-[8px] bg-surface-dim px-0.5 rounded">Soon</span>
+                    </span>
                   </div>
                 </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-                    ARMAMENT • 1580
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-md bg-surface-bright text-[11px] font-mono text-stitch-secondary/80">
+                    Audio Soon
                   </span>
-                  <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
-                    Cavalry Cuirass &amp; Lance
-                  </h4>
-                  <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1">
-                    16th-century Hausa warrior nobility regalia, chainmail collar, and ceremonial bronze battle armor.
-                  </p>
+                  <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
+                    <BookOpen className="w-4 h-4" />
+                    Read Book
+                  </span>
                 </div>
-              </div>
-              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
-                <span className="font-label-code text-xs text-on-surface-variant">Museum Artifact</span>
-                <span className="text-xs font-semibold text-on-surface-variant">Zazzau Royal Armory</span>
               </div>
             </div>
           </div>
@@ -890,121 +1130,20 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           <button
             type="button"
             onClick={handleNextPage}
-            className="flex-1 h-14 sm:h-16 rounded-2xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-base sm:text-lg lg:text-xl font-semibold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all"
+            className="flex-1 h-14 sm:h-16 rounded-2xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-base sm:text-lg lg:text-xl font-semibold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all cursor-pointer"
           >
-            <span>{currentPage < totalPages - 1 ? 'Continue Story' : 'Story Completed'}</span>
+            <span>{currentPage < totalPages - 1 ? `Continue Story (Scene ${currentPage + 2}/${totalPages})` : 'Story Completed 🎉'}</span>
             <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
         </footer>
       </div>
 
-      {/* PDF BOOK VIEWER MODAL */}
-      {isPdfModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-6xl h-[92vh] bg-surface-container rounded-2xl sm:rounded-3xl border border-outline-variant/40 shadow-2xl flex flex-col overflow-hidden">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-outline-variant/30 bg-surface-dim">
-              <div className="flex items-center gap-3 min-w-0">
-                <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-stitch-secondary flex-shrink-0" />
-                <div className="flex flex-col min-w-0">
-                  <h3 className="font-headline text-lg sm:text-xl font-semibold text-on-surface truncate">
-                    The Great Giants of Zazzau
-                  </h3>
-                  <span className="font-label-code text-xs text-stitch-secondary">
-                    By Stefan Asemota • Official Illustrated Edition
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <a
-                  href="/books/the-great-giants-of-zazzau.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-bright text-on-surface hover:bg-surface-variant transition-colors text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span className="hidden sm:inline">Open in Tab</span>
-                </a>
-                <a
-                  href="/books/the-great-giants-of-zazzau.pdf"
-                  download="The_Great_Giants_of_Zazzau.pdf"
-                  className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-stitch-secondary text-on-secondary hover:bg-secondary-container transition-colors text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-md"
-                >
-                  <Download className="w-4 h-4" />
-                  <span className="hidden sm:inline">Download</span>
-                </a>
-                <button
-                  type="button"
-                  aria-label="Close PDF Viewer"
-                  onClick={() => setIsPdfModalOpen(false)}
-                  className="w-10 h-10 rounded-full bg-surface-bright hover:bg-surface-variant text-on-surface flex items-center justify-center transition-colors ml-1"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Audio Narration Toolbar */}
-            <div className="px-5 sm:px-8 py-2.5 bg-surface-container-high border-b border-outline-variant/30 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  aria-label={isPlaying ? 'Pause audio narration' : 'Play audio narration'}
-                  onClick={togglePlay}
-                  className="w-9 h-9 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-4 h-4 fill-on-secondary" />
-                  ) : (
-                    <Play className="w-4 h-4 fill-on-secondary ml-0.5" />
-                  )}
-                </button>
-                <div className="flex flex-col min-w-0">
-                  <span className="font-label-ui text-xs sm:text-sm text-on-surface font-semibold truncate">
-                    Audio Narration • The Great Giants of Zazzau
-                  </span>
-                  <span className="font-label-code text-[11px] text-stitch-secondary">
-                    {formatTime(currentTime)} / {formatTime(activeDuration)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Mini scrubber */}
-              <div
-                role="button"
-                tabIndex={0}
-                aria-label="Seek audio"
-                onClick={handleScrub}
-                className="flex-1 max-w-xs sm:max-w-md h-2 bg-surface-bright rounded-full overflow-hidden cursor-pointer hidden sm:block"
-              >
-                <div
-                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)]"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-
-              {/* Mute button */}
-              <button
-                type="button"
-                aria-label={isMuted ? 'Unmute' : 'Mute'}
-                onClick={toggleMute}
-                className="p-1.5 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
-              >
-                {isMuted ? <VolumeX className="w-4 h-4 text-error" /> : <Volume2 className="w-4 h-4" />}
-              </button>
-            </div>
-
-            {/* Modal Body: Embedded PDF Viewer */}
-            <div className="flex-1 w-full bg-surface-container-lowest">
-              <iframe
-                src="/books/the-great-giants-of-zazzau.pdf#toolbar=1"
-                className="w-full h-full border-0"
-                title="The Great Giants of Zazzau PDF Viewer"
-              />
-            </div>
-          </div>
-        </div>
+      {/* INTERACTIVE STORYBOOK SPREAD MODAL */}
+      {activeStorybook && (
+        <StorybookModal
+          book={activeStorybook}
+          onClose={() => setActiveStorybook(null)}
+        />
       )}
     </div>
   );

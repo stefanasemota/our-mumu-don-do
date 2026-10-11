@@ -13,16 +13,22 @@ export const metadata: Metadata = {
     template: '%s | Our Mumu Don Do',
   },
   description:
-    'An educational storytelling platform for Nigerian youth to foster critical thinking, learn authentic history, and celebrate homegrown solutions.',
+    'A vibrant educational digital storybook for children aged 7 to 10. Learn authentic African history, courageous heroes, and critical thinking with interactive audio tales.',
   keywords: [
     'Our Mumu Don Do',
     'Nigeria',
     'Nigerian education',
     'critical thinking for children',
     'African history',
+    'Queen Amina',
+    'Benin Kingdom',
+    'King Jaja of Opobo',
     'illustrated storytelling',
     'children learning app',
     'Nigerian solutions',
+    'African audiobooks for kids',
+    'Swiss German narration',
+    'Naija Speak',
     'Sabi Ecosystem',
   ],
   applicationName: 'Our Mumu Don Do',
@@ -33,9 +39,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Our Mumu Don Do | Nigerian Heritage & Education',
+    title: 'Our Mumu Don Do | Kids Edition • African History & Stories',
     description:
-      'An educational platform for young Nigerians to learn critical thinking, history, and local solutions through engaging stories.',
+      'A vibrant digital storybook for young explorers aged 7 to 10. Ancient African history, heroic leaders, riddles, and interactive audio adventures.',
     type: 'website',
     url: 'https://our-mumu-don-do.sabiai.work',
     siteName: 'Our Mumu Don Do',
@@ -43,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Our Mumu Don Do | Nigerian Heritage & Education',
+    title: 'Our Mumu Don Do | Kids Edition • African History & Stories',
     description:
-      'An educational platform for young Nigerians to learn critical thinking, history, and local solutions through engaging stories.',
+      'A vibrant digital storybook for young explorers aged 7 to 10. Ancient African history, heroic leaders, riddles, and interactive audio adventures.',
   },
   robots: {
     index: true,
@@ -78,10 +84,15 @@ const jsonLd = {
     },
     {
       '@type': 'WebApplication',
-      name: 'Our Mumu Don Do Platform',
+      name: 'Our Mumu Don Do Platform (Kids Edition)',
       url: 'https://our-mumu-don-do.sabiai.work',
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'All',
+      audience: {
+        '@type': 'EducationalAudience',
+        educationalRole: 'student',
+        audienceType: 'Children ages 7 to 10',
+      },
       offers: {
         '@type': 'Offer',
         price: '0',
@@ -112,6 +123,12 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
+        />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms.txt"
+          title="LLMs.txt"
         />
         <script
           type="application/ld+json"
