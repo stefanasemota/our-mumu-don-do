@@ -12,6 +12,8 @@ interface SharePageProps {
 
 // 1. IMPROVED: Standard Fetcher (No Admin SDK needed)
 async function getTopicById(id: string): Promise<WeeklyEducationalTopic | null> {
+  const curated = getCuratedTopic(id);
+
   try {
     const docRef = doc(db, 'weeklyEducationalTopics', id);
     const docSnap = await getDoc(docRef);
@@ -27,7 +29,9 @@ async function getTopicById(id: string): Promise<WeeklyEducationalTopic | null> 
         }
 
         return {
+          ...curated,
           ...data,
+          audioUrlDeCH: data.audioUrlDeCH || curated?.audioUrlDeCH,
           id: docSnap.id,
           date: dateString,
         } as WeeklyEducationalTopic;
@@ -38,7 +42,6 @@ async function getTopicById(id: string): Promise<WeeklyEducationalTopic | null> 
   }
 
   // Fallback to built-in curated catalog
-  const curated = getCuratedTopic(id);
   if (curated) {
     return curated;
   }

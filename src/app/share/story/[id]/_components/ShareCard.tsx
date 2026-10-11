@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Play, Pause, ExternalLink, Home } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { cn } from '@/lib/utils';
 
 interface ShareCardProps {
   topic: WeeklyEducationalTopic;
@@ -34,7 +35,23 @@ const categoryImageMap: Record<string, string> = {
 
 export function ShareCard({ topic }: ShareCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [activeLanguage, setActiveLanguage] = useState<'en' | 'de-CH'>('en');
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const lowerTitle = (topic.title || '').toLowerCase();
+  const deCHAudioSource =
+    topic.audioUrlDeCH ||
+    (lowerTitle.includes('river was') || lowerTitle.includes('always there')
+      ? '/audio/de_The_River_was_always_there.mp3'
+      : lowerTitle.includes('signature') || lowerTitle.includes('king')
+      ? '/audio/The_Kings_Signature_ch.mp3'
+      : lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')
+      ? '/audio/Colonisation_ch.mp3'
+      : undefined);
+
+  const hasDeCH = Boolean(deCHAudioSource);
+  const currentAudioUrl =
+    activeLanguage === 'de-CH' && deCHAudioSource ? deCHAudioSource : topic.audioUrl;
 
   const categories = Array.isArray(topic.guidelineCategory)
     ? topic.guidelineCategory
@@ -52,10 +69,10 @@ export function ShareCard({ topic }: ShareCardProps) {
 
   useEffect(() => {
     const audioElement = audioRef.current;
-    if (!audioElement || !topic.audioUrl) return;
+    if (!audioElement || !currentAudioUrl) return;
 
-    if (audioElement.src !== topic.audioUrl) {
-      audioElement.src = topic.audioUrl;
+    if (!audioElement.src || !audioElement.src.endsWith(currentAudioUrl)) {
+      audioElement.src = currentAudioUrl;
     }
 
     const handleEnded = () => {
@@ -76,7 +93,23 @@ export function ShareCard({ topic }: ShareCardProps) {
     return () => {
       audioElement.removeEventListener('ended', handleEnded);
     };
-  }, [isPlaying, topic.audioUrl]);
+  }, [isPlaying, currentAudioUrl]);
+
+  const handleLanguageChange = (newLang: 'en' | 'de-CH') => {
+    if (newLang === activeLanguage) return;
+    setActiveLanguage(newLang);
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const wasPlaying = isPlaying;
+      const targetSrc = newLang === 'de-CH' && deCHAudioSource ? deCHAudioSource : topic.audioUrl;
+      if (targetSrc && (!audioElement.src || !audioElement.src.endsWith(targetSrc))) {
+        audioElement.src = targetSrc;
+        if (wasPlaying) {
+          audioElement.play().catch((err) => console.warn('Audio switch playback failed:', err));
+        }
+      }
+    }
+  };
 
   const togglePlayPause = () => {
     setIsPlaying((prev) => !prev);
@@ -124,7 +157,44 @@ export function ShareCard({ topic }: ShareCardProps) {
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {topic.audioUrl && (
+          {hasDeCH && (
+            <div className="flex items-center justify-between gap-1.5 p-1 rounded-full bg-slate-900/90 border border-white/10 shadow-inner">
+              <button
+                type="button"
+                onClick={() => handleLanguageChange('en')}
+                className={cn(
+                  'flex-1 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer',
+                  activeLanguage === 'en'
+                    ? 'bg-green-700 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                )}
+              >
+                <span>🇬🇧</span>
+                <span>English</span>
+                {activeLanguage === 'en' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLanguageChange('de-CH')}
+                className={cn(
+                  'flex-1 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer',
+                  activeLanguage === 'de-CH'
+                    ? 'bg-green-700 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                )}
+              >
+                <span>🇨🇭</span>
+                <span>Schwiizerdütsch</span>
+                {activeLanguage === 'de-CH' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                )}
+              </button>
+            </div>
+          )}
+
+          {currentAudioUrl && (
             <Button 
               onClick={togglePlayPause} 
               className="w-full bg-green-700 hover:bg-green-600 text-white h-14 text-lg" 
@@ -136,17 +206,17 @@ export function ShareCard({ topic }: ShareCardProps) {
                 </>
               ) : (
                 <>
-                  <Play className="mr-2 h-5 w-5" /> Listen to Story
+                  <Play className="mr-2 h-5 w-5" /> Listen to Story {activeLanguage === 'de-CH' ? '(🇨🇭)' : ''}
                 </>
               )}
             </Button>
           )}
-          <audio ref={audioRef} src={topic.audioUrl} preload="metadata" />
+          <audio ref={audioRef} preload="metadata" />
         </CardContent>
 
         <CardFooter className="pb-8">
           <Button variant="outline" className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white h-12" asChild>
-            <Link href="/">
+            <Link href={`/story/${topic.id}`}>
               <ExternalLink className="mr-2 h-4 w-4" /> View Full Interactive Story
             </Link>
           </Button>
