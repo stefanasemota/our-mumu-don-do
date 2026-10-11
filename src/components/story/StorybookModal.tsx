@@ -226,28 +226,30 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
                   Illustrated Spread Edition
                 </span>
               </div>
-              <span className="font-label-code text-xs text-on-surface-variant truncate">
-                {book.author}
-              </span>
+              <div className="font-label-code text-xs text-on-surface-variant flex items-center gap-1 truncate">
+                {book.inspirationUrl && book.author.includes('• Inspired by') ? (
+                  <>
+                    <span>{book.author.split('• Inspired by')[0]}• Inspired by</span>
+                    <a
+                      href={book.inspirationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-amber-300 hover:text-amber-200 underline underline-offset-2 inline-flex items-center gap-1 font-semibold transition-colors"
+                      title={book.inspirationTitle || "Watch storytelling video"}
+                    >
+                      <span>{book.author.split('• Inspired by')[1].trim()} (Video)</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  </>
+                ) : (
+                  <span>{book.author}</span>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Viewer Mode & Actions */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* Optional Inspiration Link (e.g. Mama Africa Storytelling Video) */}
-            {book.inspirationUrl && (
-              <a
-                href={book.inspirationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
-                title={book.inspirationTitle || "Watch storytelling video"}
-              >
-                <Play className="w-3.5 h-3.5 fill-amber-300" />
-                <span className="hidden sm:inline">Mama Africa Video</span>
-                <ExternalLink className="w-3 h-3 text-amber-300/80" />
-              </a>
-            )}
 
             {/* View Mode Toggle */}
             <div className="flex items-center p-0.5 rounded-xl bg-surface-bright border border-outline-variant/30 text-xs font-semibold">

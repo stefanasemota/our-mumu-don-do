@@ -1145,19 +1145,19 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     Arhuan: The Giant Prince of Benin
                   </h4>
                   <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1 leading-relaxed">
-                    By Stefan Asemota. Inspired by Mama Africa, celebrating and honoring her captivating oral storytelling.
+                    By Stefan Asemota. Inspired by{' '}
+                    <a
+                      href="https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-amber-300 hover:text-amber-200 underline underline-offset-2 font-semibold inline-flex items-center gap-1"
+                    >
+                      <span>Mama Africa (Storytelling Video)</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                    , celebrating and honoring her captivating oral storytelling.
                   </p>
-                  <a
-                    href="https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-300 hover:text-amber-200 transition-colors group/link w-fit"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-amber-300" />
-                    <span>Watch Mama Africa’s Storytelling Video</span>
-                    <ExternalLink className="w-3 h-3 transition-transform group-hover/link:translate-x-0.5" />
-                  </a>
                 </div>
               </div>
               <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20 flex-wrap gap-2">
