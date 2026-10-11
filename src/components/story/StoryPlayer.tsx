@@ -24,6 +24,10 @@ import {
   Shield,
   Users,
   User,
+  BookOpen,
+  Download,
+  ExternalLink,
+  X,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic, StoryPage } from '@/types';
 import { useToast } from '@/hooks/use-toast';
@@ -48,6 +52,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [selectedPerspective, setSelectedPerspective] = useState<string | null>('peace');
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
 
   // Auto-hide controls state & timer
   const [showControls, setShowControls] = useState(true);
@@ -708,54 +713,118 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           </div>
         </section>
 
-        {/* SECTION 5: HISTORICAL TIMELINE / RELATED ARCHIVAL RECORDS */}
+        {/* SECTION 5: HISTORICAL TIMELINE / RELATED ARCHIVAL RECORDS & PUBLICATIONS */}
         <section className="mt-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <h3 className="font-label-ui text-sm sm:text-base text-on-surface-variant uppercase tracking-wider font-semibold">
-              Related Archival Records
+              Related Archival Records &amp; Publications
             </h3>
             <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-              3 Documents
+              3 Records Available
             </span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            {/* Record Card 1 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col gap-3 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-colors group cursor-pointer">
-              <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
-                <div
-                  className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5rnEEqCxfgb6g_aSnBNI8iJi19q3lTeVNjhQeO1Wh0t29Bnoi1P_-MTits-hOQr3qBPGqadoTgEGjQSsJBkMtN_0MH751yBXnvqFplfn8Ydi-8kCK68JIT-W1lx3PeTcBubmH2jtvgthQbTkAEUWFA8gzCM7KGw7kxMxZ_cH9ayYYj311ghT75dAWqMuHmAKKS53PIHmL6DZQ7u8B-3qQqo5Ie57ssqYKKOWinNF2kT2lekdjkLdd')`,
-                  }}
-                />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {/* Record Card 1: The Great Giants of Zazzau Illustrated Story Book */}
+            <div
+              onClick={() => setIsPdfModalOpen(true)}
+              className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/60 transition-all duration-300 group hover:-translate-y-1 cursor-pointer"
+            >
+              <div className="flex flex-col gap-3">
+                <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
+                  <Image
+                    src="/images/the-great-giants-of-zazzau-cover.png"
+                    alt="The Great Giants of Zazzau Book Cover by Stefan Asemota"
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs font-label-code text-stitch-secondary border border-stitch-secondary/40 flex items-center gap-1.5 shadow-lg">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Story Book</span>
+                  </div>
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
+                    OFFICIAL PUBLICATION • 2026
+                  </span>
+                  <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold group-hover:text-stitch-secondary transition-colors">
+                    The Great Giants of Zazzau
+                  </h4>
+                  <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1">
+                    By Stefan Asemota. Illustrated educational story book exploring Queen Amina, the historic city walls, and Nigerian heritage.
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col min-w-0">
-                <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-                  MAP • 1576
+              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
+                <span className="font-label-code text-xs text-on-surface-variant">30 MB • Illustrated PDF</span>
+                <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
+                  <BookOpen className="w-4 h-4" />
+                  Read Book
                 </span>
-                <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
-                  Walls of Zazzau (Ganuwa)
-                </h4>
               </div>
             </div>
 
-            {/* Record Card 2 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col gap-3 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-colors group cursor-pointer">
-              <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
-                <div
-                  className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAcKoVgQ2wCPIjFjxEoRroXaMzSdzTvC04yAIsaJR8xcvp8XW6RtaLdmk8RETAea1tVbgqXmH5psrjibwbJP6ImNAaRuOGRzPuIMBosAoeTQ0fkLGk_MJBo5Amj2qk2p6Yzd5TYEHkcUTqbLps8p2UlQvQA05DbwhO0FbWVAvpOXxkz_Tm8cPCXqHIj-j-FmxdnwFlqYmhBikvhvAvDaEaqjvnjqVt1gWazV5ek2yTdykTJrn3ioJt')`,
-                  }}
-                />
+            {/* Record Card 2: Walls of Zazzau (Ganuwa) Historical Map */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-all duration-300 group hover:-translate-y-1">
+              <div className="flex flex-col gap-3">
+                <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                    style={{
+                      backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5rnEEqCxfgb6g_aSnBNI8iJi19q3lTeVNjhQeO1Wh0t29Bnoi1P_-MTits-hOQr3qBPGqadoTgEGjQSsJBkMtN_0MH751yBXnvqFplfn8Ydi-8kCK68JIT-W1lx3PeTcBubmH2jtvgthQbTkAEUWFA8gzCM7KGw7kxMxZ_cH9ayYYj311ghT75dAWqMuHmAKKS53PIHmL6DZQ7u8B-3qQqo5Ie57ssqYKKOWinNF2kT2lekdjkLdd')`,
+                    }}
+                  />
+                  <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs font-label-code text-stitch-secondary border border-stitch-secondary/40 flex items-center gap-1.5 shadow-lg">
+                    <span>Cartography</span>
+                  </div>
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
+                    HISTORICAL MAP • 1576
+                  </span>
+                  <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
+                    Walls of Zazzau (Ganuwa)
+                  </h4>
+                  <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1">
+                    Ancient defensive earthwork ramparts, fortified gates, and cavalry trade routes of Old Zazzau kingdom.
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col min-w-0">
-                <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-                  ARMAMENT • 1580
-                </span>
-                <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
-                  Cavalry Cuirass & Lance
-                </h4>
+              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
+                <span className="font-label-code text-xs text-on-surface-variant">Archival Parchment</span>
+                <span className="text-xs font-semibold text-on-surface-variant">National Heritage Map</span>
+              </div>
+            </div>
+
+            {/* Record Card 3: Cavalry Cuirass & Lance */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col justify-between gap-4 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-all duration-300 group hover:-translate-y-1">
+              <div className="flex flex-col gap-3">
+                <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
+                  <div
+                    className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                    style={{
+                      backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAcKoVgQ2wCPIjFjxEoRroXaMzSdzTvC04yAIsaJR8xcvp8XW6RtaLdmk8RETAea1tVbgqXmH5psrjibwbJP6ImNAaRuOGRzPuIMBosAoeTQ0fkLGk_MJBo5Amj2qk2p6Yzd5TYEHkcUTqbLps8p2UlQvQA05DbwhO0FbWVAvpOXxkz_Tm8cPCXqHIj-j-FmxdnwFlqYmhBikvhvAvDaEaqjvnjqVt1gWazV5ek2yTdykTJrn3ioJt')`,
+                    }}
+                  />
+                  <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs font-label-code text-stitch-secondary border border-stitch-secondary/40 flex items-center gap-1.5 shadow-lg">
+                    <span>Artifact</span>
+                  </div>
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
+                    ARMAMENT • 1580
+                  </span>
+                  <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
+                    Cavalry Cuirass &amp; Lance
+                  </h4>
+                  <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 mt-1">
+                    16th-century Hausa warrior nobility regalia, chainmail collar, and ceremonial bronze battle armor.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
+                <span className="font-label-code text-xs text-on-surface-variant">Museum Artifact</span>
+                <span className="text-xs font-semibold text-on-surface-variant">Zazzau Royal Armory</span>
               </div>
             </div>
           </div>
@@ -787,6 +856,65 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           </button>
         </footer>
       </div>
+
+      {/* PDF BOOK VIEWER MODAL */}
+      {isPdfModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 animate-in fade-in duration-200">
+          <div className="relative w-full max-w-6xl h-[92vh] bg-surface-container rounded-2xl sm:rounded-3xl border border-outline-variant/40 shadow-2xl flex flex-col overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-outline-variant/30 bg-surface-dim">
+              <div className="flex items-center gap-3 min-w-0">
+                <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-stitch-secondary flex-shrink-0" />
+                <div className="flex flex-col min-w-0">
+                  <h3 className="font-headline text-lg sm:text-xl font-semibold text-on-surface truncate">
+                    The Great Giants of Zazzau
+                  </h3>
+                  <span className="font-label-code text-xs text-stitch-secondary">
+                    By Stefan Asemota • Official Illustrated Edition
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <a
+                  href="/books/the-great-giants-of-zazzau.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-surface-bright text-on-surface hover:bg-surface-variant transition-colors text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span className="hidden sm:inline">Open in Tab</span>
+                </a>
+                <a
+                  href="/books/the-great-giants-of-zazzau.pdf"
+                  download="The_Great_Giants_of_Zazzau.pdf"
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-stitch-secondary text-on-secondary hover:bg-secondary-container transition-colors text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-md"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="hidden sm:inline">Download</span>
+                </a>
+                <button
+                  type="button"
+                  aria-label="Close PDF Viewer"
+                  onClick={() => setIsPdfModalOpen(false)}
+                  className="w-10 h-10 rounded-full bg-surface-bright hover:bg-surface-variant text-on-surface flex items-center justify-center transition-colors ml-1"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body: Embedded PDF Viewer */}
+            <div className="flex-1 w-full bg-surface-container-lowest">
+              <iframe
+                src="/books/the-great-giants-of-zazzau.pdf#toolbar=1"
+                className="w-full h-full border-0"
+                title="The Great Giants of Zazzau PDF Viewer"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
