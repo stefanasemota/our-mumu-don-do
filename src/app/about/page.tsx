@@ -233,7 +233,7 @@ export default function AboutPage() {
               </p>
 
               <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
-                Growing up in the diaspora with limited opportunities to travel back to Nigeria, I wanted to give my children a genuine connection to their roots. This platform was born to help them see the bigger picture, celebrate authentic African history, unlearn outdated narratives, and grow up with pride in who they are.
+                Growing up in Nigeria with the limited perspectives our history teachers had about Nigeria, the slave trade, and the wider world, I wanted to give my children a genuine connection to the history of their roots. This platform was born for my children and children of the world—to help them see the bigger picture, celebrate authentic African history, unlearn outdated narratives, and grow up with pride in who they are.
               </p>
             </div>
 
