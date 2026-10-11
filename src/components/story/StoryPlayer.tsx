@@ -192,35 +192,54 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     }
   };
 
-  const scrollToStage = () => {
+  const scrollToStage = useCallback(() => {
     if (stageRef.current) {
-      stageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const headerOffset = 90;
+      const elementPosition = stageRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
+  }, []);
 
+  // In-stage slide navigation - transitions slide in-place with zero page jump
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages - 1) {
       setCurrentPage((prev) => prev + 1);
-      setTimeout(scrollToStage, 60);
     } else {
       toast({
         title: 'Story Completed!',
         description: 'You have finished reading all scenes of this story.',
       });
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 60);
     }
   }, [currentPage, totalPages, toast]);
 
   const handlePrevPage = useCallback(() => {
     if (currentPage > 0) {
       setCurrentPage((prev) => prev - 1);
-      setTimeout(scrollToStage, 60);
     }
   }, [currentPage]);
+
+  // Bottom footer navigation (after reading text) - advances slide & scrolls smoothly to stage
+  const handleBottomContinue = useCallback(() => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage((prev) => prev + 1);
+      setTimeout(scrollToStage, 40);
+    } else {
+      toast({
+        title: 'Story Completed!',
+        description: 'You have finished reading all scenes of this story.',
+      });
+    }
+  }, [currentPage, totalPages, toast, scrollToStage]);
+
+  const handleBottomPrev = useCallback(() => {
+    if (currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
+      setTimeout(scrollToStage, 40);
+    }
+  }, [currentPage, scrollToStage]);
 
   const getAudioSource = useCallback(
     (lang: StoryLanguage = activeLanguage) => {
@@ -672,20 +691,22 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               <>
                 {/* Ambient Blurred Backdrop to fill frame edges with harmonious colors */}
                 <Image
+                  key={`ambient-${page.imageUrl || currentPage}`}
                   src={getMediaUrl(page.imageUrl)}
                   alt=""
                   fill
                   unoptimized
                   aria-hidden="true"
-                  className="object-cover blur-2xl sm:blur-3xl opacity-45 scale-110 pointer-events-none"
+                  className="object-cover blur-2xl sm:blur-3xl opacity-45 scale-110 pointer-events-none transition-opacity duration-500 animate-in fade-in"
                 />
                 {/* Primary Contained Artwork - Preserves 100% of characters & composition */}
                 <Image
+                  key={`stage-art-${page.imageUrl || currentPage}`}
                   src={getMediaUrl(page.imageUrl)}
                   alt={`Story scene ${currentPage + 1}`}
                   fill
                   unoptimized
-                  className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  className="object-contain drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.02] animate-in fade-in zoom-in-95"
                   sizes="(max-width: 1600px) 100vw, 1600px"
                   priority={currentPage === 0}
                 />
@@ -1282,7 +1303,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           <button
             type="button"
             aria-label="Go to previous page"
-            onClick={handlePrevPage}
+            onClick={handleBottomPrev}
             disabled={currentPage === 0}
             className={cn(
               'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-surface-container text-on-surface flex items-center justify-center flex-shrink-0 transition-colors border border-outline-variant/30',
@@ -1295,7 +1316,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           </button>
           <button
             type="button"
-            onClick={handleNextPage}
+            onClick={handleBottomContinue}
             className="flex-1 h-14 sm:h-16 rounded-2xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-base sm:text-lg lg:text-xl font-semibold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all cursor-pointer"
           >
             <span>{currentPage < totalPages - 1 ? `Continue Story (Scene ${currentPage + 2}/${totalPages})` : 'Story Completed'}</span>
