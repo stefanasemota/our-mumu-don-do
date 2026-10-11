@@ -223,7 +223,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             return '/audio/arhuan-the-giant-prince-of-benin_ch.mp3';
           }
           if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
-            return '/audio/de_The_River_was_always_there.mp3';
+            return '/audio/The_River_was_always_there_ch.mp3';
           }
           if (lowerTitle.includes('signature')) {
             return '/audio/The_Kings_Signature_ch.mp3';
@@ -309,14 +309,29 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       setCurrentTime(0);
     };
 
+    const onError = () => {
+      // Seamless fallback during audio filename migration
+      if (audio.src.includes('The_River_was_always_there_ch.mp3')) {
+        const legacySrc = getMediaUrl('/audio/de_The_River_was_always_there.mp3');
+        if (audio.src !== legacySrc) {
+          audio.src = legacySrc;
+          if (isPlaying) {
+            audio.play().catch(() => {});
+          }
+        }
+      }
+    };
+
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
     audio.addEventListener('ended', onEnded);
+    audio.addEventListener('error', onError);
 
     return () => {
       audio.removeEventListener('timeupdate', onTimeUpdate);
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('ended', onEnded);
+      audio.removeEventListener('error', onError);
     };
   }, [topic.audioUrl]);
 

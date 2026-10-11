@@ -43,7 +43,7 @@ export function ShareCard({ topic }: ShareCardProps) {
   const rawDeCHAudio =
     topic.audioUrlDeCH ||
     (lowerTitle.includes('river was') || lowerTitle.includes('always there')
-      ? '/audio/de_The_River_was_always_there.mp3'
+      ? '/audio/The_River_was_always_there_ch.mp3'
       : lowerTitle.includes('signature')
       ? '/audio/The_Kings_Signature_ch.mp3'
       : lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')
@@ -90,7 +90,20 @@ export function ShareCard({ topic }: ShareCardProps) {
       setIsPlaying(false);
     };
 
+    const handleError = () => {
+      if (audioElement.src.includes('The_River_was_always_there_ch.mp3')) {
+        const legacySrc = getMediaUrl('/audio/de_The_River_was_always_there.mp3');
+        if (audioElement.src !== legacySrc) {
+          audioElement.src = legacySrc;
+          if (isPlaying) {
+            audioElement.play().catch(() => {});
+          }
+        }
+      }
+    };
+
     audioElement.addEventListener('ended', handleEnded);
+    audioElement.addEventListener('error', handleError);
 
     if (isPlaying) {
       audioElement.play().catch((error) => {
@@ -103,6 +116,7 @@ export function ShareCard({ topic }: ShareCardProps) {
 
     return () => {
       audioElement.removeEventListener('ended', handleEnded);
+      audioElement.removeEventListener('error', handleError);
     };
   }, [isPlaying, currentAudioUrl]);
 

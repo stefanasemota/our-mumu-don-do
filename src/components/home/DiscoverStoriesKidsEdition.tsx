@@ -207,7 +207,7 @@ const RAW_REAL_STORIES_CATALOG: StoryItem[] = [
     archetypeLabel: 'Historical Context',
     imageUrl: '/images/the-river-was-always-there/page_1.png',
     audioUrl: '/audio/The-River-was-always-there.mp3',
-    audioUrlDeCH: '/audio/de_The_River_was_always_there.mp3',
+    audioUrlDeCH: '/audio/The_River_was_always_there_ch.mp3',
     duration: '8 mins',
     badgeLabel: 'Top Pick',
     badgeType: 'top-pick',

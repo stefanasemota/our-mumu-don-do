@@ -67,7 +67,7 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2024-05-03T00:00:00.000Z',
     guidelineCategory: ['Historical Context'],
     audioUrl: '/audio/The-River-was-always-there.mp3',
-    audioUrlDeCH: '/audio/de_The_River_was_always_there.mp3',
+    audioUrlDeCH: '/audio/The_River_was_always_there_ch.mp3',
     pages: [
       {
         text: '"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
