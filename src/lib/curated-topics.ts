@@ -1,7 +1,8 @@
 import type { WeeklyEducationalTopic } from '@/types';
+import { getMediaUrl } from './media';
 
 // The 8 REAL, authentic stories in Our Mumu Don Do
-export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
+const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
   '1': {
     id: '1',
     title: 'The Glass of Milk',
@@ -298,6 +299,22 @@ export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     ],
   },
 };
+
+function resolveTopicMedia(topic: WeeklyEducationalTopic): WeeklyEducationalTopic {
+  return {
+    ...topic,
+    audioUrl: topic.audioUrl ? getMediaUrl(topic.audioUrl) : undefined,
+    audioUrlDeCH: topic.audioUrlDeCH ? getMediaUrl(topic.audioUrlDeCH) : undefined,
+    pages: topic.pages.map((p) => ({
+      ...p,
+      imageUrl: p.imageUrl ? getMediaUrl(p.imageUrl) : undefined,
+    })),
+  };
+}
+
+export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = Object.fromEntries(
+  Object.entries(RAW_REAL_STORIES).map(([key, story]) => [key, resolveTopicMedia(story)])
+);
 
 // Aliases mapping human slugs to real story IDs
 const SLUG_MAP: Record<string, string> = {

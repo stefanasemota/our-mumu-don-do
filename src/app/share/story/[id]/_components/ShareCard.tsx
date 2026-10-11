@@ -63,7 +63,7 @@ export function ShareCard({ topic }: ShareCardProps) {
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
 
   const imageUrl =
-    topic.pages && topic.pages[0]?.imageUrl?.startsWith('/')
+    topic.pages && topic.pages[0]?.imageUrl
       ? topic.pages[0].imageUrl
       : placeholder?.imageUrl || '/images/the-glass-of-milk/page_0.png';
 

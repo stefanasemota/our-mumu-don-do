@@ -29,6 +29,7 @@ import {
 import type { WeeklyEducationalTopic } from '@/types';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { getMediaUrl } from '@/lib/media';
 import { StorybookModal, type StorybookBookData } from '../story/StorybookModal';
 
 interface KidsEditionProps {
@@ -61,27 +62,27 @@ interface StoryItem {
 const ZAZZAU_BOOK: StorybookBookData = {
   title: 'The Great Giants of Zazzau',
   author: 'By Stefan Asemota • Official Illustrated Edition',
-  pdfUrl: '/books/the-great-giants-of-zazzau.pdf',
+  pdfUrl: getMediaUrl('/books/the-great-giants-of-zazzau.pdf'),
   downloadName: 'The_Great_Giants_of_Zazzau.pdf',
-  audioUrl: '/audio/The_Great_Giants_of_Zazzau.mp3',
+  audioUrl: getMediaUrl('/audio/The_Great_Giants_of_Zazzau.mp3'),
   audioTitle: 'Audio Narration • The Great Giants of Zazzau',
-  pages: Array.from({ length: 9 }, (_, i) => `/books/zazzau/page-${i + 1}.jpg`),
+  pages: Array.from({ length: 9 }, (_, i) => getMediaUrl(`/books/zazzau/page-${i + 1}.jpg`)),
 };
 
 const ARHUAN_BOOK: StorybookBookData = {
   title: 'Arhuan: The Giant Prince of Benin',
   author: 'By Stefan Asemota • Inspired by Mama Africa',
-  pdfUrl: '/books/arhuan-the-giant-prince-of-benin.pdf',
+  pdfUrl: getMediaUrl('/books/arhuan-the-giant-prince-of-benin.pdf'),
   downloadName: 'Arhuan_The_Giant_Prince_of_Benin.pdf',
-  audioUrl: '/audio/arhuan-the-giant-prince-of-benin.mp3',
+  audioUrl: getMediaUrl('/audio/arhuan-the-giant-prince-of-benin.mp3'),
   audioTitle: 'Audio Narration • Arhuan: The Giant Prince of Benin',
   inspirationUrl: 'https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw',
   inspirationTitle: "Watch Mama Africa's Storytelling Video",
-  pages: Array.from({ length: 12 }, (_, i) => `/books/arhuan/page-${i + 1}.jpg`),
+  pages: Array.from({ length: 12 }, (_, i) => getMediaUrl(`/books/arhuan/page-${i + 1}.jpg`)),
 };
 
 // Authoritative Catalog: Only the 8 REAL existing stories in Our Mumu Don Do
-const REAL_STORIES_CATALOG: StoryItem[] = [
+const RAW_REAL_STORIES_CATALOG: StoryItem[] = [
   // SHELF 1: BRAVE KINGS, QUEENS & WARRIORS
   {
     id: 'the-great-giants-of-zazzau',
@@ -229,6 +230,13 @@ const REAL_STORIES_CATALOG: StoryItem[] = [
   },
 ];
 
+const REAL_STORIES_CATALOG: StoryItem[] = RAW_REAL_STORIES_CATALOG.map((story) => ({
+  ...story,
+  imageUrl: getMediaUrl(story.imageUrl),
+  audioUrl: story.audioUrl ? getMediaUrl(story.audioUrl) : undefined,
+  audioUrlDeCH: story.audioUrlDeCH ? getMediaUrl(story.audioUrlDeCH) : undefined,
+}));
+
 const THEME_PILLS: { id: ThemeArchetype; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { id: 'kings-warriors', label: 'Kings & Warriors', icon: Crown },
   { id: 'riddles-mysteries', label: 'Riddles & Mysteries', icon: Search },
@@ -360,7 +368,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
           <div className="flex items-center gap-4">
             <div className="relative w-20 h-24 rounded-xl overflow-hidden flex-shrink-0 shadow-sm bg-surface-container-high border border-outline-variant/30">
               <Image
-                src="/images/the-great-giants-of-zazzau-cover.png"
+                src={getMediaUrl('/images/the-great-giants-of-zazzau-cover.png')}
                 alt="Queen Amina Quest Artwork"
                 fill
                 className="object-cover"
@@ -457,7 +465,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
           <div className="relative w-full rounded-2xl overflow-hidden shadow-lg bg-surface-container flex flex-col border border-outline-variant/20 group">
             <div className="relative w-full h-48 sm:h-56 overflow-hidden bg-surface-container-low">
               <Image
-                src="/images/the-great-giants-of-zazzau-cover.png"
+                src={getMediaUrl('/images/the-great-giants-of-zazzau-cover.png')}
                 alt="The Great Giants of Zazzau Cover"
                 fill
                 className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"

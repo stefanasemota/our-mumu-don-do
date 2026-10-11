@@ -35,6 +35,7 @@ import {
 import type { WeeklyEducationalTopic, StoryPage } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { getMediaUrl } from '@/lib/media';
 import { Icons } from '../shared/Icons';
 
 import { StorybookModal, type StorybookBookData } from './StorybookModal';
@@ -72,23 +73,23 @@ const ARHUAN_SWISS_GERMAN_PAGES = [
 const ZAZZAU_BOOK: StorybookBookData = {
   title: 'The Great Giants of Zazzau',
   author: 'By Stefan Asemota • Official Illustrated Edition',
-  pdfUrl: '/books/the-great-giants-of-zazzau.pdf',
+  pdfUrl: getMediaUrl('/books/the-great-giants-of-zazzau.pdf'),
   downloadName: 'The_Great_Giants_of_Zazzau.pdf',
-  audioUrl: '/audio/The_Great_Giants_of_Zazzau.mp3',
+  audioUrl: getMediaUrl('/audio/The_Great_Giants_of_Zazzau.mp3'),
   audioTitle: 'Audio Narration • The Great Giants of Zazzau',
-  pages: Array.from({ length: 9 }, (_, i) => `/books/zazzau/page-${i + 1}.jpg`),
+  pages: Array.from({ length: 9 }, (_, i) => getMediaUrl(`/books/zazzau/page-${i + 1}.jpg`)),
 };
 
 const ARHUAN_BOOK: StorybookBookData = {
   title: 'Arhuan: The Giant Prince of Benin',
   author: 'By Stefan Asemota • Inspired by Mama Africa',
-  pdfUrl: '/books/arhuan-the-giant-prince-of-benin.pdf',
+  pdfUrl: getMediaUrl('/books/arhuan-the-giant-prince-of-benin.pdf'),
   downloadName: 'Arhuan_The_Giant_Prince_of_Benin.pdf',
-  audioUrl: '/audio/arhuan-the-giant-prince-of-benin.mp3',
+  audioUrl: getMediaUrl('/audio/arhuan-the-giant-prince-of-benin.mp3'),
   audioTitle: 'Audio Narration • Arhuan: The Giant Prince of Benin',
   inspirationUrl: 'https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw',
   inspirationTitle: "Watch Mama Africa's Storytelling Video",
-  pages: Array.from({ length: 12 }, (_, i) => `/books/arhuan/page-${i + 1}.jpg`),
+  pages: Array.from({ length: 12 }, (_, i) => getMediaUrl(`/books/arhuan/page-${i + 1}.jpg`)),
 };
 
 export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
@@ -201,46 +202,49 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   const getAudioSource = useCallback(
     (lang: StoryLanguage = activeLanguage) => {
-      if (lang === 'de-CH') {
-        if (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
-          return topic.audioUrlDeCH.trim();
+      const getRaw = () => {
+        if (lang === 'de-CH') {
+          if (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
+            return topic.audioUrlDeCH.trim();
+          }
+          if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
+            return '/audio/de_The_River_was_always_there.mp3';
+          }
+          if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
+            return '/audio/The_Kings_Signature_ch.mp3';
+          }
+          if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
+            return '/audio/Colonisation_ch.mp3';
+          }
         }
-        if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
-          return '/audio/de_The_River_was_always_there.mp3';
+        if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
+        if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
+          return '/audio/The_Great_Giants_of_Zazzau.mp3';
+        }
+        if (lowerTitle.includes('arhuan') || lowerTitle.includes('prince of benin')) {
+          return '/audio/arhuan-the-giant-prince-of-benin.mp3';
+        }
+        if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
+          return '/audio/The-Glass-of-Milk.mp3';
         }
         if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
-          return '/audio/The_Kings_Signature_ch.mp3';
+          return '/audio/The-Kings-Signature.mp3';
+        }
+        if (lowerTitle.includes('river of') || lowerTitle.includes('thousand songs')) {
+          return '/audio/The-River-of-a-Thousand-Songs.mp3';
+        }
+        if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
+          return '/audio/The-River-was-always-there.mp3';
         }
         if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
-          return '/audio/Colonisation_ch.mp3';
+          return '/audio/Colonisation.mp3';
         }
-      }
-      if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
-      if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
-        return '/audio/The_Great_Giants_of_Zazzau.mp3';
-      }
-      if (lowerTitle.includes('arhuan') || lowerTitle.includes('prince of benin')) {
-        return '/audio/arhuan-the-giant-prince-of-benin.mp3';
-      }
-      if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
-        return '/audio/The-Glass-of-Milk.mp3';
-      }
-      if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
-        return '/audio/The-Kings-Signature.mp3';
-      }
-      if (lowerTitle.includes('river of') || lowerTitle.includes('thousand songs')) {
-        return '/audio/The-River-of-a-Thousand-Songs.mp3';
-      }
-      if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
-        return '/audio/The-River-was-always-there.mp3';
-      }
-      if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
-        return '/audio/Colonisation.mp3';
-      }
-      if (lowerTitle.includes('never lost')) {
-        return '/audio/we-were-never-lost.mp3';
-      }
-      return '';
+        if (lowerTitle.includes('never lost')) {
+          return '/audio/we-were-never-lost.mp3';
+        }
+        return '';
+      };
+      return getMediaUrl(getRaw());
     },
     [activeLanguage, lowerTitle, topic.audioUrl, topic.audioUrlDeCH]
   );
@@ -1049,7 +1053,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               <div className="flex flex-col gap-3">
                 <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
                   <Image
-                    src="/images/the-great-giants-of-zazzau-cover.png"
+                    src={getMediaUrl('/images/the-great-giants-of-zazzau-cover.png')}
                     alt="The Great Giants of Zazzau Book Cover by Stefan Asemota"
                     fill
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
@@ -1126,7 +1130,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               <div className="flex flex-col gap-3">
                 <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
                   <Image
-                    src="/images/arhuan-the-giant-prince-of-benin-cover.png"
+                    src={getMediaUrl('/images/arhuan-the-giant-prince-of-benin-cover.png')}
                     alt="Arhuan: The Giant Prince of Benin Book Cover by Stefan Asemota"
                     fill
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"

@@ -13,6 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { getMediaUrl } from '@/lib/media';
 import { Button } from '../ui/button';
 import { Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -41,8 +42,8 @@ export function TopicCard({ topic }: TopicCardProps) {
       ? categoryImageMap[categories[0]]
       : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
-  const imageUrl = topic.pages[0]?.imageUrl.startsWith('/')
-    ? topic.pages[0].imageUrl
+  const imageUrl = topic.pages[0]?.imageUrl
+    ? getMediaUrl(topic.pages[0].imageUrl)
     : placeholder?.imageUrl || '';
 
   const handleShare = async (
