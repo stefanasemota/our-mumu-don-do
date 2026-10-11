@@ -66,33 +66,41 @@ export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2024-05-03T00:00:00.000Z',
     guidelineCategory: ['Historical Context'],
     audioUrl: '/audio/The-River-was-always-there.mp3',
+    audioUrlDeCH: '/audio/de_The_River_was_always_there.mp3',
     pages: [
       {
         text: '"Yeah... listen to the story o. No be everything dem tell you be the full truth."',
+        textDeCH: '"Ja... los guet zue. Nid alles, was si dir verzelle, isch di ganzi Wahrheit."',
         imageUrl: '/images/the-river-was-always-there/page_1.png',
       },
       {
         text: 'The girl ran to her Grandpa with an old history book. She had a big question about a legendary river—the great water wey flow since the beginning.',
+        textDeCH: 'S\'Meitli isch mit emene alte Gschichtsbuech zu ihrem Grossvater gsecklet. Sie het e grossi Frog gha über dä legendäri Fluss—das mächtige Wasser, wo scho sit immer gflosse isch.',
         imageUrl: '/images/the-river-was-always-there/page_2.png',
       },
       {
         text: '"Grandpa! This book say one visitor found our great river! How e go find something wey we already know? Something wey big like that?"',
+        textDeCH: '"Grossvater! I däm Buech stoht, en Bsuecher heig üse grosse Fluss gfunde! Wie chan er öppis finde, wo mir scho lang känne? Öppis, wo so riisig isch?"',
         imageUrl: '/images/the-river-was-always-there/page_3.png',
       },
       {
         text: '"Ah, my pikin, listen. If a stranger walk into our parlor and see our favorite sofa... did he find the sofa? No! We were already sitting on it, weren\'t we?"',
+        textDeCH: '"Ah, mis Chind, los zue. Wenn en Fremde i üsi Stube chunnt und üses Sofa gseht... het er denn s\'Sofa gfunde? Nei! Mir sind doch scho lang druffe ghocket, oder nid?"',
         imageUrl: '/images/the-river-was-always-there/page_4.png',
       },
       {
         text: '"Yes o! We were already there!"\nLong ago, by the silver water, the fisherman Musa was singing. The river was his home, his map, and his life.',
+        textDeCH: '"Genau so isch es! Mir sind scho immer do gsi!"\nVor langer Zit het dr Fischer Musa am silbrige Wasser gsunge. Dr Fluss isch siis Dihei gsi, siis Läbe und sii Wäg.',
         imageUrl: '/images/the-river-was-always-there/page_5.png',
       },
       {
         text: 'The river was never hiding, it was never lost. E dey flow through our history, no matter the cost.',
+        textDeCH: 'Dr Fluss het sich nie versteckt, er isch nie verlore gsi. Er fliesst dur üsi Gschicht, sit Generatione.',
         imageUrl: '/images/the-river-was-always-there/page_9.png',
       },
       {
         text: '"So he was just a tourist, Grandpa. We were the guides the whole time."\n"Exactly, my clever girl. We only showed him where the sofa was."',
+        textDeCH: '"Denn isch er jo nume en Tourist gsi, Grossvater. Mir sind di ganze Zit d\'Füehrer gsi."\n"Ganz genau, mis schlaue Meitli. Mir hend ihm nume zeigt, wo s\'Sofa stoht."',
         imageUrl: '/images/the-river-was-always-there/page_11.png',
       },
     ],

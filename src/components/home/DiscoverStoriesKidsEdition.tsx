@@ -41,6 +41,7 @@ interface StoryItem {
   categoryTag?: string;
   imageUrl: string;
   audioUrl?: string;
+  audioUrlDeCH?: string;
   duration: string;
   ageRange?: string;
   badgeLabel?: string;
@@ -196,6 +197,7 @@ const REAL_STORIES_CATALOG: StoryItem[] = [
     archetypeLabel: 'Historical Context',
     imageUrl: '/images/the-river-was-always-there/page_1.png',
     audioUrl: '/audio/The-River-was-always-there.mp3',
+    audioUrlDeCH: '/audio/de_The_River_was_always_there.mp3',
     duration: '8 mins',
     badgeLabel: 'Top Pick',
     badgeType: 'top-pick',

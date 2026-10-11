@@ -117,6 +117,10 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const isArhuan =
     (topic.title || '').toLowerCase().includes('arhuan') ||
     (topic.title || '').toLowerCase().includes('benin');
+  const hasDeCHAudio =
+    Boolean(topic.audioUrlDeCH) ||
+    (topic.title || '').toLowerCase().includes('river was') ||
+    (topic.title || '').toLowerCase().includes('always there');
 
   // Compute effective pages:
   // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
@@ -188,11 +192,16 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   const getAudioSource = useCallback(
     (lang: StoryLanguage = activeLanguage) => {
-      if (lang === 'de-CH' && topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
-        return topic.audioUrlDeCH.trim();
+      const lowerTitle = (topic.title || '').toLowerCase();
+      if (lang === 'de-CH') {
+        if (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
+          return topic.audioUrlDeCH.trim();
+        }
+        if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
+          return '/audio/de_The_River_was_always_there.mp3';
+        }
       }
       if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
-      const lowerTitle = (topic.title || '').toLowerCase();
       if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
         return '/audio/The_Great_Giants_of_Zazzau.mp3';
       }
@@ -544,15 +553,24 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </button>
               <button
                 type="button"
-                disabled
-                title="Swiss German audio narration coming soon"
-                className="px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-medium flex items-center gap-2 text-on-surface-variant/40 opacity-60 cursor-not-allowed select-none"
+                onClick={() => handleLanguageChange('de-CH')}
+                className={cn(
+                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-2 transition-all cursor-pointer',
+                  activeLanguage === 'de-CH'
+                    ? 'bg-stitch-secondary text-on-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)] scale-102'
+                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
+                )}
               >
-                <span className="text-base leading-none grayscale opacity-60">🇨🇭</span>
-                <span>Schwiizerdütsch (Dialäkt)</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-label-code bg-surface-bright text-on-surface-variant/70 border border-outline-variant/30">
-                  Audio Soon
-                </span>
+                <span className="text-base leading-none">🇨🇭</span>
+                <span>Schwiizerdütsch</span>
+                {activeLanguage === 'de-CH' && (
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                )}
+                {hasDeCHAudio && (
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-label-code bg-secondary-container text-on-secondary font-bold">
+                    Song
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -744,7 +762,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                   <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold">
-                    {activeLanguage === 'de-CH' ? '🎙️ Gschichteverzeller: Tante Heidi' : '🎙️ Storyteller: Uncle Aminu'}
+                    {activeLanguage === 'de-CH'
+                      ? hasDeCHAudio
+                        ? '🎵 Schwiizerdütsches Lied & Gschicht'
+                        : '🎙️ Gschichteverzeller: Tante Heidi'
+                      : '🎙️ Storyteller: Uncle Aminu'}
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-label-code font-bold bg-stitch-secondary/20 text-stitch-secondary border border-stitch-secondary/40">
                     {activeLanguage === 'de-CH' ? '🇨🇭 CH-DE' : '🇬🇧 EN'}
@@ -752,7 +774,9 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 </div>
                 <span className="font-body text-xs sm:text-sm text-on-surface-variant">
                   {activeLanguage === 'de-CH'
-                    ? 'Tante Heidi liist uf Schwiizerdütsch'
+                    ? hasDeCHAudio
+                      ? 'Traditionells Lied und Gschicht uf Schwiizerdütsch'
+                      : 'Tante Heidi liist uf Schwiizerdütsch'
                     : 'Uncle Aminu is reading this story'}
                 </span>
               </div>
