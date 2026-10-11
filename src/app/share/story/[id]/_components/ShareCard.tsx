@@ -22,6 +22,7 @@ import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 import { getMediaUrl } from '@/lib/media';
+import { useToast } from '@/hooks/use-toast';
 
 interface ShareCardProps {
   topic: WeeklyEducationalTopic;
@@ -38,6 +39,7 @@ export function ShareCard({ topic }: ShareCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeLanguage, setActiveLanguage] = useState<'en' | 'de-CH'>('en');
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { toast } = useToast();
 
   const lowerTitle = (topic.title || '').toLowerCase();
   const rawDeCHAudio =
@@ -118,6 +120,19 @@ export function ShareCard({ topic }: ShareCardProps) {
   const handleLanguageChange = (newLang: 'en' | 'de-CH') => {
     if (newLang === activeLanguage) return;
     setActiveLanguage(newLang);
+
+    if (newLang === 'de-CH') {
+      toast({
+        title: '🇨🇭 Schwiizerdütsch aktiviert',
+        description: 'Audio-Vorläsig und Tekscht-Zämmefassige sind jetzt uf Schwiizerdütsch umgschaltet.',
+      });
+    } else {
+      toast({
+        title: '🇬🇧 English Mode',
+        description: 'Narration audio and story summaries are now in English.',
+      });
+    }
+
     const audioElement = audioRef.current;
     if (audioElement) {
       const wasPlaying = isPlaying;

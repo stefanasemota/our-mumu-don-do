@@ -307,6 +307,19 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const handleLanguageChange = (newLang: StoryLanguage) => {
     if (newLang === activeLanguage) return;
     setActiveLanguage(newLang);
+
+    if (newLang === 'de-CH') {
+      toast({
+        title: '🇨🇭 Schwiizerdütsch aktiviert',
+        description: 'Audio-Vorläsig und Tekscht-Zämmefassige sind jetzt uf Schwiizerdütsch umgschaltet.',
+      });
+    } else {
+      toast({
+        title: '🇬🇧 English Mode',
+        description: 'Narration audio and story summaries are now in English.',
+      });
+    }
+
     const audio = audioRef.current;
     if (audio) {
       const wasPlaying = isPlaying;
