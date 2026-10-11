@@ -14,6 +14,7 @@ import {
   Bookmark,
   Check,
   Maximize2,
+  Minimize2,
   ArrowLeft,
   ArrowRight,
   MapPin,
@@ -108,11 +109,22 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   // Auto-hide controls state & timer
   const [showControls, setShowControls] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const controlsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   const lowerTitle = (topic.title || '').toLowerCase();
   const isZazzau =
@@ -648,22 +660,48 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             onMouseLeave={handleStageMouseLeave}
             onTouchStart={triggerShowControls}
             onClick={triggerShowControls}
-            className="relative w-full aspect-video rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl bg-surface-container-low group border border-outline-variant/30 select-none cursor-pointer"
+            className={cn(
+              'relative w-full overflow-hidden shadow-2xl bg-surface-container-low group select-none cursor-pointer',
+              isFullscreen
+                ? 'h-full max-h-screen rounded-none border-0 bg-black flex items-center justify-center'
+                : 'aspect-video rounded-2xl lg:rounded-3xl border border-outline-variant/30'
+            )}
           >
             {/* 16:9 Narrative Stage Artwork */}
             {page.imageUrl ? (
-              <Image
-                src={getMediaUrl(page.imageUrl)}
-                alt={`Story scene ${currentPage + 1}`}
-                fill
-                unoptimized
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                sizes="(max-width: 1600px) 100vw, 1600px"
-                priority={currentPage === 0}
-              />
+              <>
+                {/* Ambient Blurred Backdrop for Fullscreen to eliminate harsh borders */}
+                {isFullscreen && (
+                  <Image
+                    src={getMediaUrl(page.imageUrl)}
+                    alt=""
+                    fill
+                    unoptimized
+                    aria-hidden="true"
+                    className="object-cover blur-3xl opacity-35 scale-110 pointer-events-none"
+                  />
+                )}
+                <Image
+                  src={getMediaUrl(page.imageUrl)}
+                  alt={`Story scene ${currentPage + 1}`}
+                  fill
+                  unoptimized
+                  className={cn(
+                    'transition-all duration-500 ease-out',
+                    isFullscreen
+                      ? 'object-contain drop-shadow-2xl'
+                      : 'object-cover group-hover:scale-102'
+                  )}
+                  sizes="(max-width: 1600px) 100vw, 1600px"
+                  priority={currentPage === 0}
+                />
+              </>
             ) : (
               <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                className={cn(
+                  'w-full h-full bg-center transition-transform duration-700 ease-out',
+                  isFullscreen ? 'bg-contain bg-no-repeat' : 'bg-cover group-hover:scale-105'
+                )}
                 style={{
                   backgroundImage: `url('${defaultStageArtwork}')`,
                 }}
@@ -671,7 +709,12 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             )}
 
             {/* Soft Scrim Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/95 via-surface-dim/35 to-transparent pointer-events-none" />
+            <div
+              className={cn(
+                'absolute inset-0 bg-gradient-to-t from-surface-dim/95 via-surface-dim/35 to-transparent pointer-events-none transition-opacity duration-300',
+                isFullscreen && isPlaying && !showControls ? 'opacity-0' : 'opacity-100'
+              )}
+            />
 
             {/* Directional Chevrons: Visible on hover/touch or paused */}
             <button
@@ -757,14 +800,14 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </div>
               <button
                 type="button"
-                aria-label="Fullscreen"
+                aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleFullscreen();
                 }}
                 className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:bg-surface-bright transition-all border border-white/10 shadow-md"
               >
-                <Maximize2 className="w-5 h-5" />
+                {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
               </button>
             </div>
 
