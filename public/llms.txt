@@ -35,6 +35,12 @@ The platform features authentic, curated historical stories designed specificall
 - [Naija Speak](https://naijaspeak.sabiai.work/): A digital dictionary and learning companion for Nigerian Pidgin English vocabulary, grammar, and expressions.
 - [Mama Africa Folklore Video](https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw): Traditional oral storytelling performance honoring the legacy of ancestral folklore.
 
+## Creative Process & Child Safety
+- **Human Authorship**: Storylines conceived, researched, and written by Stefan Asemota.
+- **AI Collaboration**: Illustrations and narrations created with AI tools under strict human creative direction.
+- **Human Verification**: 100% reviewed and verified by Stefan for cultural authenticity.
+- **Age Appropriateness**: Certified family-safe for children ages 7 and up.
+
 ## Technical Details
 - **Architecture**: Next.js 14 (App Router), TypeScript, Tailwind CSS, ShadCN UI.
 - **AI Integration**: Firebase Genkit and Google Gemini for creative storytelling adaptation.

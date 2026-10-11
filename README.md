@@ -118,6 +118,15 @@ If you are an AI assistant, web scraper, or indexing bot, you can access our mac
 
 ---
 
+## 🎨 Creative Process, AI Transparency & Child Safety
+
+- **Human Storylines**: Original storylines, historical frameworks, and character arcs are conceived, researched, and written by **Stefan Asemota** (with credited collaborators).
+- **AI-Assisted Media**: Visual illustrations and voice audio tracks are developed collaboratively with advanced generative AI tools.
+- **100% Human-Verified**: Every illustration, scene, sentence, and dialect pronunciation is thoroughly reviewed and verified by Stefan for cultural accuracy and historical integrity.
+- **Age Appropriateness (Ages 7+)**: All content is safe, engaging, and specifically designed for children aged 7 and above to enjoy, listen to, and explore in classrooms and at home.
+
+---
+
 ## ⚖️ Copyright & Fair Use
 
 The original storylines, text adaptations, and illustrations are the creative property of **Our Mumu Don Do**. Audio narrations and educational scripts are developed through collaborative human direction and AI assistance for non-commercial educational use. Have fun exploring, sharing, and learning!

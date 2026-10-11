@@ -299,6 +299,60 @@ export default function AboutPage() {
 
           <Separator className="my-10" />
 
+          {/* AI TRANSPARENCY & AGE APPROPRIATENESS */}
+          <section className="mb-12 not-prose">
+            <div className="p-6 md:p-8 rounded-3xl bg-surface-container border border-outline-variant/30 shadow-md">
+              <div className="flex items-center gap-2 text-primary text-xs md:text-sm uppercase tracking-wider font-semibold mb-3">
+                <ShieldCheck className="w-4 h-4" />
+                <span>AI Transparency &amp; Content Safety</span>
+              </div>
+
+              <h2 className="font-headline text-2xl md:text-3xl text-foreground font-bold mb-4">
+                Creative Process &amp; Child Safety Notice
+              </h2>
+
+              <div className="space-y-4 text-sm md:text-base text-foreground/85 leading-relaxed">
+                <p>
+                  At <strong>Our Mumu Don Do</strong>, we believe in full transparency regarding how our educational adventures are produced:
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 my-4">
+                  <div className="p-4 rounded-xl bg-surface border border-outline-variant/20 flex flex-col gap-1.5">
+                    <span className="font-semibold text-primary text-sm">Human Storylines</span>
+                    <span className="text-xs md:text-sm text-foreground/80">
+                      All original storylines, character arcs, and historical themes are conceived and authored by <strong>Stefan Asemota</strong>.
+                    </span>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-surface border border-outline-variant/20 flex flex-col gap-1.5">
+                    <span className="font-semibold text-primary text-sm">AI-Assisted Media</span>
+                    <span className="text-xs md:text-sm text-foreground/80">
+                      Illustrations and multilingual narrations are generated collaboratively using modern generative AI tools and voice models.
+                    </span>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-surface border border-outline-variant/20 flex flex-col gap-1.5">
+                    <span className="font-semibold text-primary text-sm">100% Human Verified</span>
+                    <span className="text-xs md:text-sm text-foreground/80">
+                      Every single scene, image, sentence, and dialect pronunciation is thoroughly reviewed and verified by Stefan.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20 text-foreground">
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary font-bold text-xs flex-shrink-0">
+                    7+
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed m-0">
+                    <strong className="text-primary font-semibold">Age Appropriateness (Ages 7+):</strong> All stories, illustrations, and audio tracks are family-safe, classroom-ready, and specially crafted for children aged 7 and above to foster critical thinking and cultural pride.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <Separator className="my-10" />
+
           {/* COPYRIGHT & FAIR USE */}
           <section className="mb-12">
             <div className="flex items-center gap-2 text-primary font-semibold mb-2">
