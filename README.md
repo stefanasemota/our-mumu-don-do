@@ -9,7 +9,7 @@
 ## 🚀 Key Features
 
 ### 1. Discover Stories: Kids Edition
-- **Gamified Momentum**: Warm, child-friendly welcome, quest streaks (e.g. *🔥 3-Day Quest*), and Explorer XP rewards.
+- **Warm Explorer Welcome**: Child-friendly greeting, engaging story quests, and Explorer XP rewards.
 - **Intuitive Theme Archetypes**:
   - 👑 **Kings & Warriors**: Legendary leaders, battle strategists, and courageous defenders.
   - 🔍 **Riddles & Mysteries**: Detective-style parables and brain teasers that sharpen critical thinking.

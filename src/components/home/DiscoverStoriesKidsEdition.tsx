@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   Search,
-  Flame,
   Star,
   Play,
   BookOpen,
@@ -300,25 +299,13 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
     <div className="w-full flex flex-col gap-6 text-on-surface">
       {/* 1. KID HERO BANNER & WARM EXPLORER GREETING */}
       <section className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex flex-col min-w-0">
-            <h1 className="font-headline-sm text-2xl sm:text-3xl font-bold text-on-surface tracking-tight">
-              Hi, Little Champion!
-            </h1>
-            <p className="font-body-sm text-sm sm:text-base text-on-surface-variant truncate">
-              Pick your quest across ancient kingdoms!
-            </p>
-          </div>
-
-          {/* Playful Kid Quest Badges */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="flex items-center gap-1.5 bg-surface-container-high px-3 py-1.5 rounded-full shadow-sm">
-              <Flame className="w-3.5 h-3.5 text-amber-500" />
-              <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
-                3-Day Quest
-              </span>
-            </div>
-          </div>
+        <div className="flex flex-col min-w-0">
+          <h1 className="font-headline-sm text-2xl sm:text-3xl font-bold text-on-surface tracking-tight">
+            Hi, Little Champion!
+          </h1>
+          <p className="font-body-sm text-sm sm:text-base text-on-surface-variant truncate">
+            Pick your quest across ancient kingdoms!
+          </p>
         </div>
 
         {/* Kid-Friendly Search Bar */}
