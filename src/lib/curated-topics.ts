@@ -247,6 +247,7 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2026-10-11T00:00:00.000Z',
     guidelineCategory: ['Historical Context', 'Unity & Identity'],
     audioUrl: '/audio/The_Great_Giants_of_Zazzau.mp3',
+    audioUrlDeCH: '/audio/The Great Giants of Zazzau_ch.mp3',
     pages: [
       {
         text: 'In the great ancient city of Zazzau, the desert winds blew warm and steady against the towering red clay walls. Queen Amina stood atop the fortress watchtower, looking across the vast savannah. She knew that walls could protect her people from sudden raids, but true prosperity came from building trade routes, uniting communities, and ruling with courage and wisdom.',
@@ -283,6 +284,7 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2026-10-11T00:00:00.000Z',
     guidelineCategory: ['Historical Context', 'Unity & Identity'],
     audioUrl: '/audio/arhuan-the-giant-prince-of-benin.mp3',
+    audioUrlDeCH: '/audio/arhuan-the-giant-prince-of-benin_ch.mp3',
     pages: [
       {
         text: "In the legendary kingdom of Benin, Prince Arhuan grew taller and stronger than any warrior in the realm. As the wonderful storyteller Mama Africa narrates with so much warmth, true royalty is not measured by physical might alone, but by wisdom, honor, and loyalty to one's roots.",
@@ -300,12 +302,12 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
   },
 };
 
-function resolveTopicMedia(topic: WeeklyEducationalTopic): WeeklyEducationalTopic {
+export function resolveTopicMedia(topic: WeeklyEducationalTopic): WeeklyEducationalTopic {
   return {
     ...topic,
     audioUrl: topic.audioUrl ? getMediaUrl(topic.audioUrl) : undefined,
     audioUrlDeCH: topic.audioUrlDeCH ? getMediaUrl(topic.audioUrlDeCH) : undefined,
-    pages: topic.pages.map((p) => ({
+    pages: (topic.pages || []).map((p) => ({
       ...p,
       imageUrl: p.imageUrl ? getMediaUrl(p.imageUrl) : undefined,
     })),

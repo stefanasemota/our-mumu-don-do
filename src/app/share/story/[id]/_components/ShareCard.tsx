@@ -21,6 +21,7 @@ import { Play, Pause, ExternalLink, Home } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
+import { getMediaUrl } from '@/lib/media';
 
 interface ShareCardProps {
   topic: WeeklyEducationalTopic;
@@ -39,19 +40,28 @@ export function ShareCard({ topic }: ShareCardProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const lowerTitle = (topic.title || '').toLowerCase();
-  const deCHAudioSource =
+  const rawDeCHAudio =
     topic.audioUrlDeCH ||
     (lowerTitle.includes('river was') || lowerTitle.includes('always there')
       ? '/audio/de_The_River_was_always_there.mp3'
-      : lowerTitle.includes('signature') || lowerTitle.includes('king')
+      : lowerTitle.includes('signature')
       ? '/audio/The_Kings_Signature_ch.mp3'
       : lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')
       ? '/audio/Colonisation_ch.mp3'
+      : lowerTitle.includes('zazzau') || lowerTitle.includes('amina')
+      ? '/audio/The Great Giants of Zazzau_ch.mp3'
+      : lowerTitle.includes('arhuan') || lowerTitle.includes('benin')
+      ? '/audio/arhuan-the-giant-prince-of-benin_ch.mp3'
       : undefined);
 
+  const deCHAudioSource = rawDeCHAudio ? getMediaUrl(rawDeCHAudio) : undefined;
   const hasDeCH = Boolean(deCHAudioSource);
   const currentAudioUrl =
-    activeLanguage === 'de-CH' && deCHAudioSource ? deCHAudioSource : topic.audioUrl;
+    activeLanguage === 'de-CH' && deCHAudioSource
+      ? deCHAudioSource
+      : topic.audioUrl
+      ? getMediaUrl(topic.audioUrl)
+      : undefined;
 
   const categories = Array.isArray(topic.guidelineCategory)
     ? topic.guidelineCategory
@@ -100,8 +110,12 @@ export function ShareCard({ topic }: ShareCardProps) {
     setActiveLanguage(newLang);
     const audioElement = audioRef.current;
     if (audioElement) {
-      const wasPlaying = isPlaying;
-      const targetSrc = newLang === 'de-CH' && deCHAudioSource ? deCHAudioSource : topic.audioUrl;
+      const targetSrc =
+        newLang === 'de-CH' && deCHAudioSource
+          ? deCHAudioSource
+          : topic.audioUrl
+          ? getMediaUrl(topic.audioUrl)
+          : undefined;
       if (targetSrc && (!audioElement.src || !audioElement.src.endsWith(targetSrc))) {
         audioElement.src = targetSrc;
         if (wasPlaying) {

@@ -9,7 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/config';
-import { getCuratedTopic } from '@/lib/curated-topics';
+import { getCuratedTopic, resolveTopicMedia } from '@/lib/curated-topics';
 
 interface StoryPageProps {
   params: {
@@ -33,11 +33,11 @@ async function getTopic(id: string): Promise<WeeklyEducationalTopic | null> {
           dateString = new Date(data.date).toISOString();
         }
 
-        return {
+        return resolveTopicMedia({
           ...data,
           id: docSnap.id,
           date: dateString,
-        } as WeeklyEducationalTopic;
+        } as WeeklyEducationalTopic);
       }
     }
   } catch (error) {

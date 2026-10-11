@@ -5,6 +5,7 @@ import type { WeeklyEducationalTopic } from '@/types';
 import { collection, query, orderBy } from 'firebase/firestore';
 import { DiscoverStoriesKidsEdition } from './DiscoverStoriesKidsEdition';
 import { Skeleton } from '../ui/skeleton';
+import { resolveTopicMedia } from '@/lib/curated-topics';
 
 export function StoryList() {
   const firestore = useFirestore();
@@ -62,7 +63,7 @@ export function StoryList() {
           ? newTopic.date.toISOString()
           : String(newTopic.date);
 
-      return newTopic;
+      return resolveTopicMedia(newTopic);
     }) || [];
 
   return <DiscoverStoriesKidsEdition topics={processedTopics} />;

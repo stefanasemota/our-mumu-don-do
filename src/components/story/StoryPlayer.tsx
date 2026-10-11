@@ -117,8 +117,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const lowerTitle = (topic.title || '').toLowerCase();
   const isZazzau =
     lowerTitle.includes('zazzau') ||
-    lowerTitle.includes('amina') ||
-    lowerTitle.includes('giant');
+    lowerTitle.includes('amina');
   const isArhuan =
     lowerTitle.includes('arhuan') ||
     lowerTitle.includes('benin');
@@ -126,11 +125,16 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     lowerTitle.includes('colonis') ||
     lowerTitle.includes('coloniz');
   const hasDeCHAudio =
-    Boolean(topic.audioUrlDeCH) ||
+    Boolean(topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) ||
+    isZazzau ||
+    isArhuan ||
+    isColonisation ||
     lowerTitle.includes('river was') ||
     lowerTitle.includes('always there') ||
-    lowerTitle.includes('signature') ||
-    lowerTitle.includes('colonis');
+    lowerTitle.includes('signature');
+  const hasGermanVersion =
+    hasDeCHAudio ||
+    Boolean(topic.pages && topic.pages.some((p) => Boolean(p.textDeCH && p.textDeCH.trim())));
 
   // Compute effective pages:
   // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
@@ -207,27 +211,33 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           if (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
             return topic.audioUrlDeCH.trim();
           }
+          if (isZazzau) {
+            return '/audio/The Great Giants of Zazzau_ch.mp3';
+          }
+          if (isArhuan) {
+            return '/audio/arhuan-the-giant-prince-of-benin_ch.mp3';
+          }
           if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
             return '/audio/de_The_River_was_always_there.mp3';
           }
-          if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
+          if (lowerTitle.includes('signature')) {
             return '/audio/The_Kings_Signature_ch.mp3';
           }
-          if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
+          if (isColonisation) {
             return '/audio/Colonisation_ch.mp3';
           }
         }
         if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
-        if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
+        if (isZazzau) {
           return '/audio/The_Great_Giants_of_Zazzau.mp3';
         }
-        if (lowerTitle.includes('arhuan') || lowerTitle.includes('prince of benin')) {
+        if (isArhuan) {
           return '/audio/arhuan-the-giant-prince-of-benin.mp3';
         }
         if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
           return '/audio/The-Glass-of-Milk.mp3';
         }
-        if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
+        if (lowerTitle.includes('signature')) {
           return '/audio/The-Kings-Signature.mp3';
         }
         if (lowerTitle.includes('river of') || lowerTitle.includes('thousand songs')) {
@@ -236,7 +246,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
           return '/audio/The-River-was-always-there.mp3';
         }
-        if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
+        if (isColonisation) {
           return '/audio/Colonisation.mp3';
         }
         if (lowerTitle.includes('never lost')) {
@@ -246,7 +256,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       };
       return getMediaUrl(getRaw());
     },
-    [activeLanguage, lowerTitle, topic.audioUrl, topic.audioUrlDeCH]
+    [activeLanguage, isArhuan, isColonisation, isZazzau, lowerTitle, topic.audioUrl, topic.audioUrlDeCH]
   );
 
   const handleLanguageChange = (newLang: StoryLanguage) => {
@@ -567,12 +577,17 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </button>
               <button
                 type="button"
-                onClick={() => handleLanguageChange('de-CH')}
+                disabled={!hasGermanVersion}
+                onClick={() => hasGermanVersion && handleLanguageChange('de-CH')}
+                title={hasGermanVersion ? 'Schwiizerdütsch' : 'Schwiizerdütsch coming soon'}
                 className={cn(
-                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-1.5 transition-all cursor-pointer',
+                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-1.5 transition-all',
+                  hasGermanVersion ? 'cursor-pointer' : 'cursor-not-allowed opacity-35',
                   activeLanguage === 'de-CH'
                     ? 'bg-stitch-secondary text-on-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)] scale-102'
-                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
+                    : hasGermanVersion
+                    ? 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
+                    : 'text-on-surface-variant/50'
                 )}
               >
                 <span className="text-[10px] sm:text-[11px] font-label-code font-bold px-1.5 py-0.5 rounded bg-black/15">CH</span>
@@ -607,7 +622,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             {/* 16:9 Narrative Stage Artwork */}
             {page.imageUrl ? (
               <Image
-                src={page.imageUrl}
+                src={getMediaUrl(page.imageUrl)}
                 alt={`Story scene ${currentPage + 1}`}
                 fill
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"

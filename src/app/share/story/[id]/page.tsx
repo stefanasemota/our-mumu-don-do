@@ -4,7 +4,7 @@ import { doc, getDoc } from 'firebase/firestore'; // Use standard Web SDK
 import type { WeeklyEducationalTopic } from '@/types';
 import { ShareCard } from './_components/ShareCard';
 import { notFound } from 'next/navigation';
-import { getCuratedTopic } from '@/lib/curated-topics';
+import { getCuratedTopic, resolveTopicMedia } from '@/lib/curated-topics';
 
 interface SharePageProps {
   params: { id: string };
@@ -28,13 +28,13 @@ async function getTopicById(id: string): Promise<WeeklyEducationalTopic | null> 
           dateString = new Date(data.date).toISOString();
         }
 
-        return {
+        return resolveTopicMedia({
           ...curated,
           ...data,
           audioUrlDeCH: data.audioUrlDeCH || curated?.audioUrlDeCH,
           id: docSnap.id,
           date: dateString,
-        } as WeeklyEducationalTopic;
+        } as WeeklyEducationalTopic);
       }
     }
   } catch (error) {
