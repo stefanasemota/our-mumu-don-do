@@ -25,7 +25,6 @@ import {
   Clock,
   Gift,
   Unlock,
-  Award,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { cn } from '@/lib/utils';
@@ -273,7 +272,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
     setIsRiddleCracked(true);
     toast({
       title: 'Riddle Solved!',
-      description: '+50 Explorer XP awarded! You unlocked the Daily Curious Badge.',
+      description: 'You solved today’s mystery riddle! Great detective thinking.',
     });
   };
 
@@ -771,9 +770,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 Today&apos;s Mystery Riddle
               </span>
             </div>
-            <div className="bg-surface-container-lowest px-2.5 py-1 rounded-full text-stitch-secondary font-label-code text-xs font-bold border border-stitch-secondary/30">
-              +50 Explorer XP
-            </div>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -797,12 +793,12 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               </button>
             ) : (
               <div className="bg-surface-container-lowest rounded-xl p-4 flex flex-col gap-1.5 items-center text-center animate-fadeIn border border-stitch-secondary/40 shadow-inner">
-                <Award className="w-8 h-8 text-amber-500 animate-bounce" />
+                <Sparkles className="w-8 h-8 text-amber-500 animate-bounce" />
                 <p className="font-headline text-lg text-stitch-secondary font-bold">
                   Answer: A Postage Stamp!
                 </p>
                 <p className="font-body-sm text-xs sm:text-sm text-on-surface-variant">
-                  Awesome job! You earned your Daily Curious Badge!
+                  Awesome job! You cracked today&apos;s mystery riddle!
                 </p>
               </div>
             )}

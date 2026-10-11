@@ -9,12 +9,12 @@
 ## 🚀 Key Features
 
 ### 1. Discover Stories: Kids Edition
-- **Warm Explorer Welcome**: Child-friendly greeting, engaging story quests, and Explorer XP rewards.
+- **Warm Explorer Welcome**: Child-friendly greeting and engaging story journeys across ancient kingdoms.
 - **Intuitive Theme Archetypes**:
   - 👑 **Kings & Warriors**: Legendary leaders, battle strategists, and courageous defenders.
   - 🔍 **Riddles & Mysteries**: Detective-style parables and brain teasers that sharpen critical thinking.
   - 🌍 **Ancient Wonders**: Engineering feats, river trade routes, and ancestral kingdoms.
-- **Continue Your Quest**: One-tap resume card for ongoing adventures.
+- **Continue Exploring**: One-tap resume card for ongoing stories.
 - **Interactive Daily Riddle Card**: Daily curiosity challenges to keep kids engaged and thinking critically.
 
 ### 2. Curated Authentic African History
