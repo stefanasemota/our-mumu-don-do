@@ -70,16 +70,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <Button variant="ghost" asChild>
-          <Link href="/">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Topics
-          </Link>
-        </Button>
-      </div>
-      <StoryPlayer topic={topic} />
-    </div>
+    <main className="min-h-screen bg-surface text-on-surface pb-safe">
+      <StoryPlayer topic={topic} standalone={true} />
+    </main>
   );
 }

@@ -17,9 +17,10 @@ export function AppBody({
     pathname.startsWith('/admin-dashboard') ||
     pathname.startsWith('/admin-login');
   const isSharePage = pathname.startsWith('/share/story');
+  const isStoryPage = pathname.startsWith('/story/');
 
-  // Do not render the main header or footer on admin or share pages
-  const showChrome = !isAdminPage && !isSharePage;
+  // Do not render the main header or footer on admin, share, or immersive story reader pages
+  const showChrome = !isAdminPage && !isSharePage && !isStoryPage;
 
   return (
     <div className="relative flex min-h-screen flex-col">

@@ -57,7 +57,7 @@ export function Footer() {
         </Button>
         <p className="space-x-2 text-sm text-muted-foreground">
           <span>&copy; 2025-26 Our Mumu Don Do.</span>
-          <span className="font-semibold text-primary">v1.0</span>
+          <span className="font-semibold text-primary">v1.1</span>
           <span className="text-border">|</span>
           <Link
             href="/about"
