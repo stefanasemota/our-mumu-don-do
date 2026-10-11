@@ -540,11 +540,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           </div>
 
           {/* Top Language Selector Bar: English vs Schwiizerdütsch */}
-          <div className="flex items-center justify-between flex-wrap gap-2 pt-2 pb-1 border-t border-outline-variant/20">
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-on-surface-variant font-medium">
-              <span className="text-base sm:text-lg">🗣️</span>
-              <span className="font-label-ui">Story Language / Vorlese-Sprooch:</span>
-            </div>
+          <div className="flex items-center justify-end gap-2 pt-2 pb-1 border-t border-outline-variant/20">
             <div className="inline-flex items-center p-1 rounded-full bg-surface-container border border-outline-variant/30 shadow-inner">
               <button
                 type="button"
