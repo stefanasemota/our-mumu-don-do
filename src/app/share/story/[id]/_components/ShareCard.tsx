@@ -90,16 +90,9 @@ export function ShareCard({ topic }: ShareCardProps) {
       setIsPlaying(false);
     };
 
-    const handleError = () => {
-      if (audioElement.src.includes('The_River_was_always_there_ch.mp3')) {
-        const legacySrc = getMediaUrl('/audio/de_The_River_was_always_there.mp3');
-        if (audioElement.src !== legacySrc) {
-          audioElement.src = legacySrc;
-          if (isPlaying) {
-            audioElement.play().catch(() => {});
-          }
-        }
-      }
+    const handleError = (e: Event) => {
+      console.warn('[ShareCard] Audio playback error on source:', audioElement.src, e);
+      setIsPlaying(false);
     };
 
     audioElement.addEventListener('ended', handleEnded);

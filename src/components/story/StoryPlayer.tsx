@@ -323,18 +323,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       setCurrentTime(0);
     };
 
-    const onError = () => {
-      // Seamless fallback during audio filename migration
-      if (audio.src.includes('The_River_was_always_there_ch.mp3')) {
-        const legacySrc = getMediaUrl('/audio/de_The_River_was_always_there.mp3');
-        if (audio.src !== legacySrc) {
-          audio.src = legacySrc;
-          audio.load();
-          if (isPlaying) {
-            audio.play().catch(() => {});
-          }
-        }
-      }
+    const onError = (e: Event) => {
+      console.warn('[StoryPlayer] Audio playback error on source:', audio.src, e);
     };
 
     audio.addEventListener('timeupdate', onTimeUpdate);
