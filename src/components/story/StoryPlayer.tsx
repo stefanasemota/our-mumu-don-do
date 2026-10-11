@@ -135,6 +135,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     lowerTitle.includes('always there') ||
     lowerTitle.includes('signature')
   );
+  const hasDeCHAudio = hasGermanAudio;
 
   // Compute effective pages:
   // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
