@@ -11,6 +11,7 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2024-05-10T00:00:00.000Z',
     guidelineCategory: ['Critical Thinking'],
     audioUrl: '/audio/The-Glass-of-Milk.mp3',
+    audioUrlDeCH: '/audio/The_Glass_of_Milk_ch.mp3',
     pages: [
       {
         text: 'Meet Amina!\nAmina lives in a beautiful, sunny town in Nigeria, full of colours, delicious smells, and friendly people.',

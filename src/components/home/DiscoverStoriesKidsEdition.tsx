@@ -173,6 +173,7 @@ const RAW_REAL_STORIES_CATALOG: StoryItem[] = [
     archetypeLabel: 'Riddles & Mysteries',
     imageUrl: '/images/the-glass-of-milk/page_0.png',
     audioUrl: '/audio/The-Glass-of-Milk.mp3',
+    audioUrlDeCH: '/audio/The_Glass_of_Milk_ch.mp3',
     duration: '5 mins',
     badgeLabel: 'Quiz',
     badgeType: 'quiz',

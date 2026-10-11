@@ -42,7 +42,9 @@ export function ShareCard({ topic }: ShareCardProps) {
   const lowerTitle = (topic.title || '').toLowerCase();
   const rawDeCHAudio =
     topic.audioUrlDeCH ||
-    (lowerTitle.includes('river was') || lowerTitle.includes('always there')
+    (lowerTitle.includes('glass') || lowerTitle.includes('milk')
+      ? '/audio/The_Glass_of_Milk_ch.mp3'
+      : lowerTitle.includes('river was') || lowerTitle.includes('always there')
       ? '/audio/The_River_was_always_there_ch.mp3'
       : lowerTitle.includes('signature')
       ? '/audio/The_Kings_Signature_ch.mp3'

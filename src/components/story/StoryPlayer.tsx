@@ -129,6 +129,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     isZazzau ||
     isArhuan ||
     isColonisation ||
+    lowerTitle.includes('glass') ||
+    lowerTitle.includes('milk') ||
     lowerTitle.includes('river was') ||
     lowerTitle.includes('always there') ||
     lowerTitle.includes('signature')
@@ -213,6 +215,9 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         if (lang === 'de-CH') {
           if (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
             return topic.audioUrlDeCH.trim();
+          }
+          if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
+            return '/audio/The_Glass_of_Milk_ch.mp3';
           }
           if (isZazzau) {
             return '/audio/The Great Giants of Zazzau_ch.mp3';
