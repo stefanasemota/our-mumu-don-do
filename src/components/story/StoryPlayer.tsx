@@ -667,41 +667,32 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 : 'aspect-video rounded-2xl lg:rounded-3xl border border-outline-variant/30'
             )}
           >
-            {/* 16:9 Narrative Stage Artwork */}
+            {/* Story Narrative Stage Artwork */}
             {page.imageUrl ? (
               <>
-                {/* Ambient Blurred Backdrop for Fullscreen to eliminate harsh borders */}
-                {isFullscreen && (
-                  <Image
-                    src={getMediaUrl(page.imageUrl)}
-                    alt=""
-                    fill
-                    unoptimized
-                    aria-hidden="true"
-                    className="object-cover blur-3xl opacity-35 scale-110 pointer-events-none"
-                  />
-                )}
+                {/* Ambient Blurred Backdrop to fill frame edges with harmonious colors */}
+                <Image
+                  src={getMediaUrl(page.imageUrl)}
+                  alt=""
+                  fill
+                  unoptimized
+                  aria-hidden="true"
+                  className="object-cover blur-2xl sm:blur-3xl opacity-45 scale-110 pointer-events-none"
+                />
+                {/* Primary Contained Artwork - Preserves 100% of characters & composition */}
                 <Image
                   src={getMediaUrl(page.imageUrl)}
                   alt={`Story scene ${currentPage + 1}`}
                   fill
                   unoptimized
-                  className={cn(
-                    'transition-all duration-500 ease-out',
-                    isFullscreen
-                      ? 'object-contain drop-shadow-2xl'
-                      : 'object-cover group-hover:scale-102'
-                  )}
+                  className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                   sizes="(max-width: 1600px) 100vw, 1600px"
                   priority={currentPage === 0}
                 />
               </>
             ) : (
               <div
-                className={cn(
-                  'w-full h-full bg-center transition-transform duration-700 ease-out',
-                  isFullscreen ? 'bg-contain bg-no-repeat' : 'bg-cover group-hover:scale-105'
-                )}
+                className="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-105"
                 style={{
                   backgroundImage: `url('${defaultStageArtwork}')`,
                 }}
@@ -711,8 +702,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             {/* Soft Scrim Gradient Overlay */}
             <div
               className={cn(
-                'absolute inset-0 bg-gradient-to-t from-surface-dim/95 via-surface-dim/35 to-transparent pointer-events-none transition-opacity duration-300',
-                isFullscreen && isPlaying && !showControls ? 'opacity-0' : 'opacity-100'
+                'absolute inset-0 bg-gradient-to-t from-surface-dim/85 via-transparent to-transparent pointer-events-none transition-opacity duration-300',
+                isPlaying && !showControls ? 'opacity-0' : 'opacity-100'
               )}
             />
 
