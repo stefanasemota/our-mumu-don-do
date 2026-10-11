@@ -19,6 +19,14 @@ import {
   X,
   Mic,
   ChevronRight,
+  Crown,
+  Landmark,
+  Sparkles,
+  Swords,
+  Clock,
+  Gift,
+  Unlock,
+  Award,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { cn } from '@/lib/utils';
@@ -223,10 +231,10 @@ const REAL_STORIES_CATALOG: StoryItem[] = [
   },
 ];
 
-const THEME_PILLS: { id: ThemeArchetype; label: string; icon: string }[] = [
-  { id: 'kings-warriors', label: 'Kings & Warriors', icon: '👑' },
-  { id: 'riddles-mysteries', label: 'Riddles & Mysteries', icon: '🔍' },
-  { id: 'ancient-wonders', label: 'Historical Wonders', icon: '🌍' },
+const THEME_PILLS: { id: ThemeArchetype; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { id: 'kings-warriors', label: 'Kings & Warriors', icon: Crown },
+  { id: 'riddles-mysteries', label: 'Riddles & Mysteries', icon: Search },
+  { id: 'ancient-wonders', label: 'Historical Wonders', icon: Landmark },
 ];
 
 export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
@@ -265,15 +273,15 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
   const handleCrackRiddle = () => {
     setIsRiddleCracked(true);
     toast({
-      title: 'Riddle Solved! 📮',
-      description: '+50 Explorer XP awarded! You unlocked the Daily Curious Badge 🏅',
+      title: 'Riddle Solved!',
+      description: '+50 Explorer XP awarded! You unlocked the Daily Curious Badge.',
     });
   };
 
   const handleAudioPreview = () => {
     setIsPlayingPreview(true);
     toast({
-      title: 'Now Playing Audio Preview 🎧',
+      title: 'Now Playing Audio Preview',
       description: 'The Legend of Queen Amina of Zazzau',
     });
     setTimeout(() => {
@@ -282,9 +290,9 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
   };
 
   const handleResumeClick = () => {
-    setResumeText('Loading Quest... 🛡️');
+    setResumeText('Loading Quest...');
     setTimeout(() => {
-      setResumeText('Quest Ready! ⚔️');
+      setResumeText('Quest Ready!');
     }, 400);
   };
 
@@ -305,13 +313,13 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
           {/* Playful Kid Quest Badges */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <div className="flex items-center gap-1.5 bg-surface-container-high px-3 py-1.5 rounded-full shadow-sm">
-              <span className="text-sm">🔥</span>
+              <Flame className="w-3.5 h-3.5 text-amber-500" />
               <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
                 3-Day Quest
               </span>
             </div>
             <div className="flex items-center gap-1.5 bg-primary-container/40 px-3 py-1.5 rounded-full">
-              <span className="text-sm">⭐</span>
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               <span className="font-label-code text-xs sm:text-sm text-secondary font-semibold">
                 Lvl 2
               </span>
@@ -344,7 +352,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
           ) : (
             <button
               type="button"
-              onClick={() => toast({ title: 'Microphone Activated 🎙️', description: 'Speak the name of a hero or kingdom!' })}
+              onClick={() => toast({ title: 'Microphone Activated', description: 'Speak the name of a hero or kingdom!' })}
               aria-label="Voice Search"
               className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-stitch-secondary transition-colors"
             >
@@ -437,12 +445,13 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               : 'bg-surface-container text-on-surface-variant hover:text-on-surface'
           )}
         >
-          <span>🌟</span>
+          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
           <span>All Quests</span>
         </button>
 
         {THEME_PILLS.map((pill) => {
           const isActive = selectedTheme === pill.id;
+          const IconComponent = pill.icon;
           return (
             <button
               key={pill.id}
@@ -455,7 +464,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   : 'bg-surface-container text-on-surface-variant hover:text-on-surface'
               )}
             >
-              <span>{pill.icon}</span>
+              <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>{pill.label}</span>
             </button>
           );
@@ -478,11 +487,13 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/60 to-transparent" />
 
               <div className="absolute top-3 left-3 flex items-center gap-2">
-                <span className="bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded-full font-label-code text-xs text-stitch-secondary font-bold shadow-sm">
-                  ⚔️ Epic Adventure
+                <span className="bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded-full font-label-code text-xs text-stitch-secondary font-bold shadow-sm inline-flex items-center gap-1.5">
+                  <Swords className="w-3.5 h-3.5" />
+                  <span>Epic Adventure</span>
                 </span>
-                <span className="bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded-full font-label-code text-xs text-on-surface font-medium shadow-sm">
-                  ⏱️ 8 mins
+                <span className="bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded-full font-label-code text-xs text-on-surface font-medium shadow-sm inline-flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>8 mins</span>
                 </span>
               </div>
 
@@ -491,7 +502,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 onClick={() => {
                   setIsBookmarked(!isBookmarked);
                   toast({
-                    title: !isBookmarked ? 'Saved to Favorite Quests! 🌟' : 'Removed from Favorites',
+                    title: !isBookmarked ? 'Saved to Favorite Quests!' : 'Removed from Favorites',
                   });
                 }}
                 aria-label="Save to favorite quests"
@@ -663,8 +674,18 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                     className="object-cover"
                     sizes="80px"
                   />
-                  <div className="absolute bottom-1 left-1 bg-surface-container-lowest/80 px-1.5 py-0.5 rounded text-[10px] text-stitch-secondary font-bold font-label-code">
-                    {story.badgeType === 'quiz' ? '🧠 Quiz' : '🎧 Audio'}
+                  <div className="absolute bottom-1 left-1 bg-surface-container-lowest/80 px-1.5 py-0.5 rounded text-[10px] text-stitch-secondary font-bold font-label-code inline-flex items-center gap-1">
+                    {story.badgeType === 'quiz' ? (
+                      <>
+                        <Brain className="w-3 h-3" />
+                        <span>Quiz</span>
+                      </>
+                    ) : (
+                      <>
+                        <Headphones className="w-3 h-3" />
+                        <span>Audio</span>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -764,7 +785,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
         <div className="bg-gradient-to-br from-surface-container-high to-surface-container rounded-2xl p-5 sm:p-6 shadow-lg relative overflow-hidden flex flex-col gap-3.5 border border-outline-variant/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-2xl">🎁</span>
+              <Gift className="w-5 h-5 text-stitch-secondary" />
               <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-bold uppercase tracking-wider">
                 Today&apos;s Mystery Riddle
               </span>
@@ -791,16 +812,16 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 className="w-full bg-stitch-primary hover:bg-stitch-secondary text-on-primary font-label-ui text-sm sm:text-base py-3 rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-98 transition-all font-semibold cursor-pointer"
               >
                 <span>Crack The Riddle</span>
-                <span className="text-base">🔓</span>
+                <Unlock className="w-4 h-4 ml-1" />
               </button>
             ) : (
               <div className="bg-surface-container-lowest rounded-xl p-4 flex flex-col gap-1.5 items-center text-center animate-fadeIn border border-stitch-secondary/40 shadow-inner">
-                <span className="text-3xl animate-bounce">📮</span>
+                <Award className="w-8 h-8 text-amber-500 animate-bounce" />
                 <p className="font-headline text-lg text-stitch-secondary font-bold">
                   Answer: A Postage Stamp!
                 </p>
                 <p className="font-body-sm text-xs sm:text-sm text-on-surface-variant">
-                  Awesome job! You earned your Daily Curious Badge! 🏅
+                  Awesome job! You earned your Daily Curious Badge!
                 </p>
               </div>
             )}

@@ -382,14 +382,14 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
               {/* Multilingual Narration Language Selector */}
               <div className="flex items-center gap-1 p-0.5 rounded-lg bg-surface-bright border border-outline-variant/30 text-[11px] font-semibold flex-shrink-0">
                 <span className="px-2 py-0.5 rounded-md bg-stitch-secondary text-on-secondary flex items-center gap-1 shadow-sm">
-                  <span>🇬🇧</span>
+                  <span className="text-[10px] font-mono font-bold">EN</span>
                   <span className="hidden sm:inline">English</span>
                 </span>
                 <span
                   title="Swiss German audio narration coming soon"
                   className="px-2 py-0.5 rounded-md text-on-surface-variant/40 flex items-center gap-1 opacity-60 cursor-not-allowed select-none"
                 >
-                  <span className="grayscale opacity-60">🇨🇭</span>
+                  <span className="text-[10px] font-mono font-bold">CH</span>
                   <span className="hidden sm:inline">Schwiizerdütsch</span>
                   <span className="text-[9px] font-label-code bg-surface-dim px-1 py-0.5 rounded border border-outline-variant/30 text-stitch-secondary/80">
                     Audio Soon
@@ -407,14 +407,14 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
               </div>
               <div className="flex items-center gap-1 p-0.5 rounded-lg bg-surface-bright border border-outline-variant/30 text-[11px] font-semibold flex-shrink-0">
                 <span className="px-2 py-0.5 rounded-md bg-surface-dim text-on-surface-variant/80 flex items-center gap-1">
-                  <span>🇬🇧</span>
+                  <span className="text-[10px] font-mono font-bold">EN</span>
                   <span className="hidden sm:inline">English</span>
                 </span>
                 <span
                   title="Swiss German audio narration coming soon"
                   className="px-2 py-0.5 rounded-md text-on-surface-variant/40 flex items-center gap-1 opacity-60 cursor-not-allowed select-none"
                 >
-                  <span className="grayscale opacity-60">🇨🇭</span>
+                  <span className="text-[10px] font-mono font-bold">CH</span>
                   <span className="hidden sm:inline">Schwiizerdütsch</span>
                   <span className="text-[9px] font-label-code bg-surface-dim px-1 py-0.5 rounded border border-outline-variant/30 text-stitch-secondary/80">
                     Audio Soon

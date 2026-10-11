@@ -163,13 +163,13 @@ export function ShareCard({ topic }: ShareCardProps) {
                 type="button"
                 onClick={() => handleLanguageChange('en')}
                 className={cn(
-                  'flex-1 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer',
+                  'flex-1 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer',
                   activeLanguage === 'en'
                     ? 'bg-green-700 text-white shadow-sm'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'
                 )}
               >
-                <span>🇬🇧</span>
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white/10">EN</span>
                 <span>English</span>
                 {activeLanguage === 'en' && (
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -179,13 +179,13 @@ export function ShareCard({ topic }: ShareCardProps) {
                 type="button"
                 onClick={() => handleLanguageChange('de-CH')}
                 className={cn(
-                  'flex-1 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer',
+                  'flex-1 px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer',
                   activeLanguage === 'de-CH'
                     ? 'bg-green-700 text-white shadow-sm'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'
                 )}
               >
-                <span>🇨🇭</span>
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white/10">CH</span>
                 <span>Schwiizerdütsch</span>
                 {activeLanguage === 'de-CH' && (
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -206,7 +206,7 @@ export function ShareCard({ topic }: ShareCardProps) {
                 </>
               ) : (
                 <>
-                  <Play className="mr-2 h-5 w-5" /> Listen to Story {activeLanguage === 'de-CH' ? '(🇨🇭)' : ''}
+                  <Play className="mr-2 h-5 w-5" /> Listen to Story {activeLanguage === 'de-CH' ? '(CH)' : ''}
                 </>
               )}
             </Button>

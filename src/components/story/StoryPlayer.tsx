@@ -28,6 +28,9 @@ import {
   Download,
   ExternalLink,
   X,
+  Music,
+  Languages,
+  Quote,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic, StoryPage } from '@/types';
 import { useToast } from '@/hooks/use-toast';
@@ -180,7 +183,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       setTimeout(scrollToStage, 60);
     } else {
       toast({
-        title: 'Story Completed! 🎉',
+        title: 'Story Completed!',
         description: 'You have finished reading all scenes of this story.',
       });
       setTimeout(() => {
@@ -546,32 +549,32 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 type="button"
                 onClick={() => handleLanguageChange('en')}
                 className={cn(
-                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-2 transition-all cursor-pointer',
+                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-1.5 transition-all cursor-pointer',
                   activeLanguage === 'en'
                     ? 'bg-stitch-secondary text-on-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)] scale-102'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
                 )}
               >
-                <span className="text-base leading-none">🇬🇧</span>
+                <span className="text-[10px] sm:text-[11px] font-label-code font-bold px-1.5 py-0.5 rounded bg-black/15">EN</span>
                 <span>English</span>
                 {activeLanguage === 'en' && (
-                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse ml-0.5" />
                 )}
               </button>
               <button
                 type="button"
                 onClick={() => handleLanguageChange('de-CH')}
                 className={cn(
-                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-2 transition-all cursor-pointer',
+                  'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-1.5 transition-all cursor-pointer',
                   activeLanguage === 'de-CH'
                     ? 'bg-stitch-secondary text-on-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)] scale-102'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
                 )}
               >
-                <span className="text-base leading-none">🇨🇭</span>
+                <span className="text-[10px] sm:text-[11px] font-label-code font-bold px-1.5 py-0.5 rounded bg-black/15">CH</span>
                 <span>Schwiizerdütsch</span>
                 {activeLanguage === 'de-CH' && (
-                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse ml-0.5" />
                 )}
                 {hasDeCHAudio && (
                   <span className="px-1.5 py-0.5 rounded text-[10px] font-label-code bg-secondary-container text-on-secondary font-bold">
@@ -790,17 +793,35 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                  <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold">
-                    {activeLanguage === 'de-CH'
-                      ? hasDeCHAudio
-                        ? lowerTitle.includes('river was') || lowerTitle.includes('always there')
-                          ? '🎵 Schwiizerdütsches Lied & Gschicht'
-                          : '🎙️ Schwiizerdütschi Audio-Gschicht'
-                        : '🎙️ Gschichteverzeller: Tante Heidi'
-                      : '🎙️ Storyteller: Uncle Aminu'}
+                  <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold flex items-center gap-1.5">
+                    {activeLanguage === 'de-CH' ? (
+                      hasDeCHAudio ? (
+                        lowerTitle.includes('river was') || lowerTitle.includes('always there') ? (
+                          <>
+                            <Music className="w-4 h-4 text-stitch-secondary" />
+                            <span>Schwiizerdütsches Lied & Gschicht</span>
+                          </>
+                        ) : (
+                          <>
+                            <Mic className="w-4 h-4 text-stitch-secondary" />
+                            <span>Schwiizerdütschi Audio-Gschicht</span>
+                          </>
+                        )
+                      ) : (
+                        <>
+                          <Mic className="w-4 h-4 text-stitch-secondary" />
+                          <span>Gschichteverzeller: Tante Heidi</span>
+                        </>
+                      )
+                    ) : (
+                      <>
+                        <Mic className="w-4 h-4 text-stitch-secondary" />
+                        <span>Storyteller: Uncle Aminu</span>
+                      </>
+                    )}
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-label-code font-bold bg-stitch-secondary/20 text-stitch-secondary border border-stitch-secondary/40">
-                    {activeLanguage === 'de-CH' ? '🇨🇭 CH-DE' : '🇬🇧 EN'}
+                    {activeLanguage === 'de-CH' ? 'CH-DE' : 'EN'}
                   </span>
                 </div>
                 <span className="font-body text-xs sm:text-sm text-on-surface-variant">
@@ -838,7 +859,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             <div className="p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-surface-container my-2 border-l-4 sm:border-l-6 border-stitch-secondary shadow-lg">
               {activeLanguage === 'de-CH' && (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 mb-3 rounded-full bg-stitch-secondary/20 text-stitch-secondary text-xs sm:text-sm font-label-code font-bold border border-stitch-secondary/40">
-                  <span>🇨🇭 Dialäkt-Zitat</span>
+                  <Quote className="w-3.5 h-3.5" />
+                  <span>Dialäkt-Zitat</span>
                 </div>
               )}
               <p className="font-headline text-xl sm:text-2xl lg:text-3xl italic text-on-surface leading-relaxed sm:leading-snug">
@@ -1055,13 +1077,13 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   <span className="font-label-code text-xs text-on-surface-variant">24 MB • PDF</span>
                   <div className="inline-flex items-center gap-1 p-0.5 rounded-md bg-surface-bright/80 border border-outline-variant/30 text-[10px]">
                     <span className="px-1.5 py-0.5 rounded bg-stitch-secondary text-on-secondary font-bold">
-                      🇬🇧 EN
+                      EN
                     </span>
                     <span
                       title="Swiss German narration coming soon"
                       className="px-1.5 py-0.5 rounded text-on-surface-variant/50 font-medium flex items-center gap-1 opacity-60 cursor-not-allowed"
                     >
-                      <span>🇨🇭 CH</span>
+                      <span>CH</span>
                       <span className="text-[8px] bg-surface-dim px-0.5 rounded">Soon</span>
                     </span>
                   </div>
@@ -1143,13 +1165,13 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   <span className="font-label-code text-xs text-on-surface-variant">38 MB • PDF</span>
                   <div className="inline-flex items-center gap-1 p-0.5 rounded-md bg-surface-bright/80 border border-outline-variant/30 text-[10px]">
                     <span className="px-1.5 py-0.5 rounded bg-surface-dim text-on-surface-variant/80 font-medium">
-                      🇬🇧 EN
+                      EN
                     </span>
                     <span
                       title="Swiss German narration coming soon"
                       className="px-1.5 py-0.5 rounded text-on-surface-variant/50 font-medium flex items-center gap-1 opacity-60 cursor-not-allowed"
                     >
-                      <span>🇨🇭 CH</span>
+                      <span>CH</span>
                       <span className="text-[8px] bg-surface-dim px-0.5 rounded">Soon</span>
                     </span>
                   </div>
@@ -1189,7 +1211,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             onClick={handleNextPage}
             className="flex-1 h-14 sm:h-16 rounded-2xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-base sm:text-lg lg:text-xl font-semibold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all cursor-pointer"
           >
-            <span>{currentPage < totalPages - 1 ? `Continue Story (Scene ${currentPage + 2}/${totalPages})` : 'Story Completed 🎉'}</span>
+            <span>{currentPage < totalPages - 1 ? `Continue Story (Scene ${currentPage + 2}/${totalPages})` : 'Story Completed'}</span>
             <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
         </footer>
