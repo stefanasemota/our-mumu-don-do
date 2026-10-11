@@ -109,11 +109,11 @@ export function StoryList() {
 
         return (
           <div key={category}>
-            <div className="mb-4 flex items-center gap-3">
-               <Icon className="h-7 w-7 text-primary" />
+            <div className="mb-5 flex items-center gap-3.5">
+               <Icon className="h-8 w-8 text-primary flex-shrink-0" />
                <div>
-                  <h2 className="text-2xl font-headline font-semibold text-foreground/90">{category}</h2>
-                  <p className="text-muted-foreground">{description}</p>
+                  <h2 className="text-2xl sm:text-3xl font-headline font-semibold text-foreground/90">{category}</h2>
+                  <p className="text-muted-foreground text-sm sm:text-base">{description}</p>
                </div>
             </div>
             <TopicAccordion topics={stories} defaultValue={defaultOpenStoryId} />

@@ -14,10 +14,10 @@ interface HeaderProps {
 export function Header({ isLoggedIn }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm">
-      <div className="container mx-auto flex flex-col items-start justify-center gap-2 px-4 py-4">
+      <div className="w-full max-w-[1600px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-4 sm:px-8 lg:px-12 py-4">
         <Link href="/" className="flex items-center space-x-2">
           <Icons.gorilla className="h-8 w-8 text-primary" />
-          <span className="inline-block font-headline text-xl font-bold text-primary">
+          <span className="inline-block font-headline text-xl sm:text-2xl font-bold text-primary">
             Our Mumu Don Do
           </span>
         </Link>

@@ -49,12 +49,37 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Auto-hide controls state & timer
+  const [showControls, setShowControls] = useState(true);
+  const controlsTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const totalPages = topic.pages?.length || 1;
   const page: StoryPage = topic.pages?.[currentPage] || { text: topic.description || '', imageUrl: '' };
+
+  const triggerShowControls = useCallback(() => {
+    setShowControls(true);
+    if (controlsTimerRef.current) {
+      clearTimeout(controlsTimerRef.current);
+    }
+    if (isPlaying) {
+      controlsTimerRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2500);
+    }
+  }, [isPlaying]);
+
+  const handleStageMouseLeave = () => {
+    if (isPlaying) {
+      setShowControls(false);
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    }
+  };
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages - 1) {
@@ -92,6 +117,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
     const onEnded = () => {
       setIsPlaying(false);
+      setShowControls(true);
       setCurrentTime(0);
     };
 
@@ -114,15 +140,21 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
+      setShowControls(true);
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
     } else {
       audio
         .play()
         .then(() => {
           setIsPlaying(true);
+          triggerShowControls();
         })
         .catch((err) => {
           console.warn('Audio playback simulated or blocked:', err);
           setIsPlaying(true);
+          triggerShowControls();
         });
     }
   };
@@ -226,30 +258,30 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
       {/* STITCH APP SHELL HEADER (Rendered in standalone story reader mode) */}
       {standalone && (
-        <header className="sticky top-0 inset-x-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl pt-safe shadow-[0_4px_20px_rgba(0,0,0,0.35)] border-b border-surface-container mb-4">
-          <div className="max-w-4xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 min-w-0">
+        <header className="sticky top-0 inset-x-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl pt-safe shadow-[0_4px_20px_rgba(0,0,0,0.35)] border-b border-surface-container mb-6">
+          <div className="w-full max-w-[1600px] mx-auto h-16 sm:h-20 px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 min-w-0">
               <Link
                 href="/"
                 aria-label="Go Back"
-                className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors flex-shrink-0"
+                className="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors flex-shrink-0"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-6 h-6" />
               </Link>
-              <div className="h-8 w-8 rounded-full bg-primary-container border border-stitch-secondary/40 flex items-center justify-center flex-shrink-0">
-                <Icons.gorilla className="h-5 w-5 text-stitch-secondary" />
+              <div className="h-10 w-10 rounded-full bg-primary-container border border-stitch-secondary/40 flex items-center justify-center flex-shrink-0">
+                <Icons.gorilla className="h-6 w-6 text-stitch-secondary" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="font-label-code text-[11px] text-stitch-primary uppercase tracking-wider truncate">
+                <span className="font-label-code text-xs sm:text-sm text-stitch-primary uppercase tracking-wider truncate">
                   Our Mumu Don Do
                 </span>
-                <h1 className="font-headline-sm text-sm sm:text-base text-on-surface truncate leading-tight font-medium">
+                <h1 className="font-headline text-base sm:text-xl text-on-surface truncate leading-tight font-semibold">
                   {topic.title}
                 </h1>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 flex-shrink-0">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 type="button"
                 aria-label="Bookmark"
@@ -260,31 +292,31 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     description: isBookmarked ? 'Removed from reading list.' : 'Saved to your civic reading list.',
                   });
                 }}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+                className="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
               >
-                <Bookmark className={cn('w-5 h-5', isBookmarked && 'fill-stitch-secondary text-stitch-secondary')} />
+                <Bookmark className={cn('w-6 h-6', isBookmarked && 'fill-stitch-secondary text-stitch-secondary')} />
               </button>
               <button
                 type="button"
                 aria-label="Share"
                 onClick={handleShare}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+                className="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
               >
-                <Share2 className="w-5 h-5" />
+                <Share2 className="w-6 h-6" />
               </button>
-              <div className="w-8 h-8 rounded-full bg-stitch-primary flex items-center justify-center flex-shrink-0">
-                <User className="w-4 h-4 text-on-primary" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-stitch-primary flex items-center justify-center flex-shrink-0">
+                <User className="w-5 h-5 text-on-primary" />
               </div>
             </div>
           </div>
         </header>
       )}
 
-      {/* Main Container */}
-      <div className="w-full max-w-4xl mx-auto flex flex-col gap-5 px-3 sm:px-6">
+      {/* Main Container - Full Width with generous margins and responsive breathing room */}
+      <div className="w-full max-w-[1600px] mx-auto flex flex-col gap-8 px-4 sm:px-8 lg:px-12">
         {/* TOP PROGRESS COMPONENT: Story Segment Capsules */}
-        <div className="flex flex-col gap-2 pt-1">
-          <div className="flex items-center gap-1.5 w-full">
+        <div className="flex flex-col gap-3 pt-2">
+          <div className="flex items-center gap-2 w-full">
             {Array.from({ length: totalPages }).map((_, idx) => {
               const isCompleted = idx < currentPage;
               const isActive = idx === currentPage;
@@ -295,15 +327,15 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   aria-label={`Go to Segment ${idx + 1}`}
                   onClick={() => setCurrentPage(idx)}
                   className={cn(
-                    'h-1.5 flex-1 rounded-full transition-all duration-300 relative overflow-hidden',
+                    'h-2 sm:h-2.5 flex-1 rounded-full transition-all duration-300 relative overflow-hidden',
                     isCompleted && 'bg-primary-container hover:opacity-90',
-                    isActive && 'bg-surface-bright relative group',
+                    isActive && 'bg-surface-bright relative group ring-1 ring-stitch-secondary/40',
                     !isCompleted && !isActive && 'bg-surface-bright/50 hover:bg-surface-bright transition-colors'
                   )}
                 >
                   {isActive && (
                     <div
-                      className="absolute inset-y-0 left-0 bg-stitch-secondary shadow-[0_0_8px_rgba(74,225,118,0.8)] rounded-full transition-all duration-300"
+                      className="absolute inset-y-0 left-0 bg-stitch-secondary shadow-[0_0_10px_rgba(74,225,118,0.9)] rounded-full transition-all duration-300"
                       style={{
                         width: duration > 0 ? `${Math.max(25, progressPercent)}%` : '50%',
                       }}
@@ -315,27 +347,32 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           </div>
 
           {/* Chapter Metadata & Monospace Counter */}
-          <div className="flex items-center justify-between text-on-surface-variant pt-0.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="w-2 h-2 rounded-full bg-stitch-secondary animate-pulse flex-shrink-0" />
-              <span className="font-label-ui text-xs uppercase tracking-wider text-stitch-secondary font-semibold truncate">
+          <div className="flex items-center justify-between text-on-surface-variant pt-1">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-stitch-secondary animate-pulse flex-shrink-0" />
+              <span className="font-label-ui text-sm sm:text-base uppercase tracking-wider text-stitch-secondary font-semibold truncate">
                 Scene {currentPage + 1} • {topic.title}
               </span>
             </div>
-            <span className="font-label-code text-xs text-on-surface-variant bg-surface-container px-2.5 py-0.5 rounded-full flex-shrink-0">
+            <span className="font-label-code text-xs sm:text-sm text-on-surface-variant bg-surface-container px-3.5 py-1 rounded-full flex-shrink-0 font-medium">
               Page {currentPage + 1} of {totalPages}
             </span>
           </div>
         </div>
 
         {/* SECTION 1: CINEMATIC STORY STAGE (16:9 Artwork with Ambient Glow) */}
-        <div className="relative my-1 group">
+        <div className="relative my-2 group">
           {/* Ambient Gaussian Backlight Flare */}
-          <div className="absolute -inset-1.5 bg-gradient-to-r from-primary-container/40 via-secondary-container/25 to-tertiary-container/30 rounded-2xl blur-xl -z-10 opacity-70 group-hover:opacity-100 transition-opacity" />
+          <div className="absolute -inset-2 bg-gradient-to-r from-primary-container/40 via-secondary-container/25 to-tertiary-container/30 rounded-3xl blur-2xl -z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
 
           <div
             ref={stageRef}
-            className="relative w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl bg-surface-container-low group border border-outline-variant/30"
+            onMouseEnter={triggerShowControls}
+            onMouseMove={triggerShowControls}
+            onMouseLeave={handleStageMouseLeave}
+            onTouchStart={triggerShowControls}
+            onClick={triggerShowControls}
+            className="relative w-full aspect-video rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl bg-surface-container-low group border border-outline-variant/30 select-none cursor-pointer"
           >
             {/* 16:9 Narrative Stage Artwork */}
             {page.imageUrl ? (
@@ -344,7 +381,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 alt={`Story scene ${currentPage + 1}`}
                 fill
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                sizes="(max-width: 1600px) 100vw, 1600px"
                 priority={currentPage === 0}
               />
             ) : (
@@ -357,94 +394,125 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             )}
 
             {/* Soft Scrim Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/95 via-surface-dim/40 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-dim/95 via-surface-dim/35 to-transparent pointer-events-none" />
 
-            {/* Directional Chevron Overlays */}
+            {/* Directional Chevrons: Visible on hover/touch or paused */}
             <button
               type="button"
               aria-label="Previous scene"
-              onClick={handlePrevPage}
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevPage();
+              }}
               disabled={currentPage === 0}
               className={cn(
-                'absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface-dim/75 backdrop-blur-md flex items-center justify-center text-on-surface transition-all shadow-lg border border-white/10 z-20',
+                'absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface transition-all duration-300 shadow-xl border border-white/10 z-20',
+                !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none',
                 currentPage === 0
                   ? 'opacity-20 cursor-not-allowed'
                   : 'hover:bg-stitch-secondary hover:text-on-secondary active:scale-95 cursor-pointer'
               )}
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
             <button
               type="button"
               aria-label="Next scene"
-              onClick={handleNextPage}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextPage();
+              }}
               disabled={currentPage === totalPages - 1}
               className={cn(
-                'absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface-dim/75 backdrop-blur-md flex items-center justify-center text-on-surface transition-all shadow-lg border border-white/10 z-20',
+                'absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface transition-all duration-300 shadow-xl border border-white/10 z-20',
+                !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none',
                 currentPage === totalPages - 1
                   ? 'opacity-20 cursor-not-allowed'
                   : 'hover:bg-stitch-secondary hover:text-on-secondary active:scale-95 cursor-pointer'
               )}
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
-            {/* Prominent Central Play/Pause Button for Kids with Glow */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10 pointer-events-none">
+            {/* PROMINENT CENTRAL PLAY/PAUSE BUTTON:
+                Only appears when paused, or when mouse hovers / user touches the video briefly */}
+            <div
+              className={cn(
+                'absolute inset-0 flex flex-col items-center justify-center gap-3.5 z-20 transition-all duration-300 pointer-events-none',
+                !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+              )}
+            >
               <div className="relative flex items-center justify-center pointer-events-auto">
                 {isPlaying && (
-                  <div className="absolute -inset-3 rounded-full bg-stitch-secondary/30 animate-ping pointer-events-none" />
+                  <div className="absolute -inset-4 rounded-full bg-stitch-secondary/35 animate-ping pointer-events-none" />
                 )}
                 <button
                   type="button"
-                  aria-label={isPlaying ? 'Pause storytelling narration' : 'Play story video narration'}
-                  onClick={togglePlay}
-                  className="relative w-16 h-16 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  aria-label={isPlaying ? 'Pause storytelling narration' : 'Play story narration'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePlay();
+                  }}
+                  className="relative w-18 h-18 sm:w-22 sm:h-22 p-5 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer ring-4 ring-stitch-secondary/30"
                 >
                   {isPlaying ? (
-                    <Pause className="w-8 h-8 fill-on-secondary text-on-secondary" />
+                    <Pause className="w-9 h-9 sm:w-11 sm:h-11 fill-on-secondary text-on-secondary" />
                   ) : (
-                    <Play className="w-8 h-8 fill-on-secondary text-on-secondary ml-1" />
+                    <Play className="w-9 h-9 sm:w-11 sm:h-11 fill-on-secondary text-on-secondary ml-1" />
                   )}
                 </button>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-surface-dim/80 backdrop-blur-md text-[13px] font-label-ui text-on-surface shadow-sm">
-                {isPlaying ? 'Narration Active' : 'Tap to Play Story Audio'}
+              <span className="px-4 py-1.5 rounded-full bg-surface-dim/90 backdrop-blur-md text-sm sm:text-base font-label-ui text-on-surface shadow-lg border border-white/10">
+                {isPlaying ? 'Narration Active (Tap to Pause)' : 'Tap to Play Story Narration'}
               </span>
             </div>
 
             {/* Location Pill & Fullscreen Toggle Top Overlay */}
-            <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-dim/75 backdrop-blur-md text-on-surface text-[13px] font-medium border border-white/5">
-                <MapPin className="w-4 h-4 text-stitch-secondary" />
+            <div
+              className={cn(
+                'absolute top-4 sm:top-6 inset-x-4 sm:inset-x-6 flex items-center justify-between z-20 transition-all duration-300',
+                !isPlaying || showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              )}
+            >
+              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-dim/80 backdrop-blur-md text-on-surface text-sm sm:text-base font-medium border border-white/10 shadow-md">
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-stitch-secondary" />
                 <span>{topic.guidelineCategory?.[0] || 'Palace of Zazzau'}</span>
               </div>
               <button
                 type="button"
                 aria-label="Fullscreen"
-                onClick={toggleFullscreen}
-                className="w-8 h-8 rounded-full bg-surface-dim/75 backdrop-blur-md flex items-center justify-center text-on-surface hover:bg-surface-bright transition-all border border-white/5"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFullscreen();
+                }}
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:bg-surface-bright transition-all border border-white/10 shadow-md"
               >
-                <Maximize2 className="w-4 h-4" />
+                <Maximize2 className="w-5 h-5" />
               </button>
             </div>
 
             {/* Integrated Video Progress Bar & Audio Time at Bottom */}
-            <div className="absolute bottom-2.5 inset-x-3 flex flex-col gap-1.5 p-2 rounded-xl bg-surface-dim/85 backdrop-blur-md border border-white/10 z-10">
+            <div
+              className={cn(
+                'absolute bottom-3 sm:bottom-4 inset-x-4 sm:inset-x-6 flex flex-col gap-2 p-3 sm:p-4 rounded-2xl bg-surface-dim/90 backdrop-blur-md border border-white/10 z-20 transition-all duration-300 shadow-xl',
+                !isPlaying || showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
               <div
                 role="button"
                 tabIndex={0}
                 aria-label="Scrub timeline"
                 onClick={handleScrub}
-                className="relative w-full h-2 bg-surface-bright rounded-full overflow-hidden cursor-pointer"
+                className="relative w-full h-2.5 sm:h-3 bg-surface-bright rounded-full overflow-hidden cursor-pointer"
               >
                 <div
-                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)] transition-all duration-150"
+                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_10px_rgba(74,225,118,0.9)] transition-all duration-150"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
-              <div className="flex items-center justify-between text-on-surface font-label-code text-[12px]">
-                <div className="flex items-center gap-1.5">
+              <div className="flex items-center justify-between text-on-surface font-label-code text-xs sm:text-sm">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     aria-label={isMuted ? 'Unmute' : 'Mute'}
@@ -452,64 +520,64 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     className="hover:text-stitch-secondary transition-colors"
                   >
                     {isMuted ? (
-                      <VolumeX className="w-3.5 h-3.5 text-error" />
+                      <VolumeX className="w-4 h-4 text-error" />
                     ) : (
-                      <Volume2 className="w-3.5 h-3.5 text-stitch-secondary" />
+                      <Volume2 className="w-4 h-4 text-stitch-secondary" />
                     )}
                   </button>
-                  <span className="text-stitch-secondary font-medium">
+                  <span className="text-stitch-secondary font-semibold">
                     {formatTime(currentTime)}
                   </span>
                 </div>
-                <span>{formatTime(activeDuration)}</span>
+                <span className="font-medium">{formatTime(activeDuration)}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* SECTION 3: EDITORIAL STORY READING PASSAGE */}
-        <article className="mt-2 flex flex-col gap-4">
+        <article className="mt-2 flex flex-col gap-6">
           {/* Friendly Voice Reader Badge */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-surface-container border border-outline-variant/30">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-stitch-secondary flex-shrink-0">
-                <Mic className="w-4 h-4" />
+          <div className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-surface-container border border-outline-variant/30 shadow-md">
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-primary-container flex items-center justify-center text-stitch-secondary flex-shrink-0">
+                <Mic className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="font-label-ui text-xs text-on-surface font-semibold">
-                  Listening Mode: {isPlaying ? 'On' : 'Ready'}
+                <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold">
+                  Listening Mode: {isPlaying ? 'Active' : 'Ready'}
                 </span>
-                <span className="font-body-sm text-xs text-on-surface-variant">
-                  Uncle Aminu is reading this story
+                <span className="font-body text-xs sm:text-sm text-on-surface-variant">
+                  Uncle Aminu & Sabi Storytellers reading this story
                 </span>
               </div>
             </div>
             <button
               type="button"
-              className="px-3 py-1 rounded-full bg-surface-bright text-on-surface text-[13px] font-label-ui hover:bg-surface-variant transition-colors"
+              className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-surface-bright text-on-surface text-sm sm:text-base font-label-ui hover:bg-surface-variant transition-colors font-medium border border-outline-variant/30 shadow-sm"
               onClick={cycleSpeed}
             >
               <span>{PLAYBACK_SPEEDS[speedIndex]}x Speed</span>
             </button>
           </div>
 
-          {/* Easy-to-read Story Text with Drop Cap */}
-          <div className="flex flex-col gap-4 text-on-surface leading-loose">
-            <div className="font-body-lg text-base sm:text-lg text-on-surface whitespace-pre-line leading-relaxed">
+          {/* Easy-to-read Story Text with Generous Typography */}
+          <div className="flex flex-col gap-6 text-on-surface">
+            <div className="text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-loose text-on-surface whitespace-pre-line font-body font-normal">
               {firstLetter && (
-                <span className="float-left text-headline-lg text-4xl sm:text-5xl font-semibold text-stitch-secondary leading-none pr-3 pt-1">
+                <span className="float-left text-5xl sm:text-6xl lg:text-7xl font-headline font-semibold text-stitch-secondary leading-none pr-4 pt-1">
                   {firstLetter}
                 </span>
               )}
               {remainingText}
             </div>
 
-            {/* Simplified Quote Card */}
-            <div className="p-4 rounded-xl bg-surface-container my-1 border-l-4 border-stitch-secondary">
-              <p className="font-headline-sm text-base sm:text-lg italic text-on-surface leading-snug">
+            {/* Simplified Quote Card with Grand Typography */}
+            <div className="p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-surface-container my-2 border-l-4 sm:border-l-6 border-stitch-secondary shadow-lg">
+              <p className="font-headline text-xl sm:text-2xl lg:text-3xl italic text-on-surface leading-relaxed sm:leading-snug">
                 “Walls protect those who are scared. Safe trade routes build a strong kingdom. We must trade peacefully with our neighbors!”
               </p>
-              <span className="font-label-code text-xs text-stitch-secondary block mt-1.5">
+              <span className="font-label-code text-sm sm:text-base text-stitch-secondary block mt-3 font-semibold">
                 — Queen Amina of Zazzau • Leadership Wisdom
               </span>
             </div>
@@ -518,35 +586,35 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
         {/* SECTION 4: CRITICAL INQUIRY & CIVIC REFLECTION CARD */}
         <section className="mt-4">
-          <div className="p-4 sm:p-5 rounded-2xl bg-surface-container shadow-lg flex flex-col gap-3 border border-outline-variant/30">
-            <div className="flex items-center gap-2">
-              <HelpCircle className="w-5 h-5 text-stitch-secondary" />
-              <h2 className="font-label-ui text-xs text-on-surface uppercase tracking-wider font-semibold">
+          <div className="p-6 sm:p-8 rounded-2xl lg:rounded-3xl bg-surface-container shadow-xl flex flex-col gap-5 border border-outline-variant/30">
+            <div className="flex items-center gap-3">
+              <HelpCircle className="w-6 h-6 text-stitch-secondary flex-shrink-0" />
+              <h2 className="font-label-ui text-sm sm:text-base text-on-surface uppercase tracking-wider font-semibold">
                 Quick Question for You
               </h2>
             </div>
-            <p className="font-headline-sm text-lg sm:text-xl text-on-surface leading-snug">
+            <p className="font-headline text-2xl sm:text-3xl lg:text-4xl text-on-surface leading-snug font-semibold">
               What would you have done if you were Queen Amina?
             </p>
-            <div className="flex flex-col gap-2 pt-1">
+            <div className="flex flex-col gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setSelectedPerspective('peace')}
                 className={cn(
-                  'w-full py-2.5 px-3 rounded-xl font-label-ui text-sm flex items-center justify-between text-left transition-all',
+                  'w-full py-3.5 sm:py-4 px-4 sm:px-5 rounded-2xl font-label-ui text-base sm:text-lg lg:text-xl flex items-center justify-between text-left transition-all',
                   selectedPerspective === 'peace'
-                    ? 'bg-primary-container text-on-primary-container font-semibold'
+                    ? 'bg-primary-container text-on-primary-container font-semibold shadow-md'
                     : 'bg-surface-bright text-on-surface-variant hover:bg-surface-variant'
                 )}
               >
-                <span className="flex items-center gap-2.5">
-                  <Handshake className="w-4 h-4 text-stitch-secondary" />
+                <span className="flex items-center gap-3 sm:gap-4">
+                  <Handshake className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
                   <span>Choose peace and open trade</span>
                 </span>
                 {selectedPerspective === 'peace' ? (
-                  <CheckCircle className="w-4 h-4 text-stitch-secondary" />
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
                 ) : (
-                  <span className="w-4 h-4 rounded-full border border-outline-variant" />
+                  <span className="w-5 h-5 rounded-full border border-outline-variant flex-shrink-0" />
                 )}
               </button>
 
@@ -554,20 +622,20 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 type="button"
                 onClick={() => setSelectedPerspective('walls')}
                 className={cn(
-                  'w-full py-2.5 px-3 rounded-xl font-label-ui text-sm flex items-center justify-between text-left transition-all',
+                  'w-full py-3.5 sm:py-4 px-4 sm:px-5 rounded-2xl font-label-ui text-base sm:text-lg lg:text-xl flex items-center justify-between text-left transition-all',
                   selectedPerspective === 'walls'
-                    ? 'bg-primary-container text-on-primary-container font-semibold'
+                    ? 'bg-primary-container text-on-primary-container font-semibold shadow-md'
                     : 'bg-surface-bright text-on-surface-variant hover:bg-surface-variant'
                 )}
               >
-                <span className="flex items-center gap-2.5">
-                  <Shield className="w-4 h-4 text-stitch-secondary" />
-                  <span>Stay safe behind the palace walls</span>
+                <span className="flex items-center gap-3 sm:gap-4">
+                  <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
+                  <span>Stay safe behind the palace fortress walls</span>
                 </span>
                 {selectedPerspective === 'walls' ? (
-                  <CheckCircle className="w-4 h-4 text-stitch-secondary" />
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
                 ) : (
-                  <span className="w-4 h-4 rounded-full border border-outline-variant" />
+                  <span className="w-5 h-5 rounded-full border border-outline-variant flex-shrink-0" />
                 )}
               </button>
 
@@ -575,36 +643,36 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 type="button"
                 onClick={() => setSelectedPerspective('youth')}
                 className={cn(
-                  'w-full py-2.5 px-3 rounded-xl font-label-ui text-sm flex items-center justify-between text-left transition-all',
+                  'w-full py-3.5 sm:py-4 px-4 sm:px-5 rounded-2xl font-label-ui text-base sm:text-lg lg:text-xl flex items-center justify-between text-left transition-all',
                   selectedPerspective === 'youth'
-                    ? 'bg-primary-container text-on-primary-container font-semibold'
+                    ? 'bg-primary-container text-on-primary-container font-semibold shadow-md'
                     : 'bg-surface-bright text-on-surface-variant hover:bg-surface-variant'
                 )}
               >
-                <span className="flex items-center gap-2.5">
-                  <Users className="w-4 h-4 text-stitch-secondary" />
+                <span className="flex items-center gap-3 sm:gap-4">
+                  <Users className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
                   <span>Mobilize the youth council for homegrown solutions</span>
                 </span>
                 {selectedPerspective === 'youth' ? (
-                  <CheckCircle className="w-4 h-4 text-stitch-secondary" />
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stitch-secondary flex-shrink-0" />
                 ) : (
-                  <span className="w-4 h-4 rounded-full border border-outline-variant" />
+                  <span className="w-5 h-5 rounded-full border border-outline-variant flex-shrink-0" />
                 )}
               </button>
             </div>
 
             {/* Optional write-in reflection */}
-            <div className="flex flex-col gap-2 pt-2 border-t border-outline-variant/30">
+            <div className="flex flex-col gap-3 pt-3 border-t border-outline-variant/30">
               <textarea
                 value={reflectionText}
                 onChange={(e) => setReflectionText(e.target.value)}
                 disabled={isSubmitted}
-                placeholder="Share your reflection on this story chapter... (shared with your learning circle)"
-                rows={2}
-                className="w-full rounded-xl bg-surface-container-lowest p-3 text-sm text-on-surface placeholder:text-on-surface-variant/60 border border-outline-variant/40 focus:outline-none focus:border-stitch-secondary transition-all resize-none"
+                placeholder="Share your personal reflection on this story chapter... (shared with your learning circle)"
+                rows={3}
+                className="w-full rounded-2xl bg-surface-container-lowest p-4 sm:p-5 text-base sm:text-lg text-on-surface placeholder:text-on-surface-variant/60 border border-outline-variant/40 focus:outline-none focus:border-stitch-secondary transition-all resize-none"
               />
-              <div className="flex items-center justify-between">
-                <span className="font-label-code text-[11px] text-on-surface-variant">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <span className="font-label-code text-xs sm:text-sm text-on-surface-variant">
                   +5 Civic Points awarded upon saving
                 </span>
                 <button
@@ -618,7 +686,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     });
                   }}
                   className={cn(
-                    'px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm',
+                    'px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold flex items-center gap-2 transition-all shadow-md',
                     isSubmitted
                       ? 'bg-primary-container text-stitch-secondary'
                       : selectedPerspective || reflectionText.trim()
@@ -628,7 +696,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 >
                   {isSubmitted ? (
                     <>
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-4 h-4" />
                       <span>Perspective Recorded</span>
                     </>
                   ) : (
@@ -641,19 +709,19 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         </section>
 
         {/* SECTION 5: HISTORICAL TIMELINE / RELATED ARCHIVAL RECORDS */}
-        <section className="mt-4 flex flex-col gap-3">
+        <section className="mt-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-label-ui text-xs text-on-surface-variant uppercase tracking-wider font-semibold">
+            <h3 className="font-label-ui text-sm sm:text-base text-on-surface-variant uppercase tracking-wider font-semibold">
               Related Archival Records
             </h3>
-            <span className="font-label-code text-xs text-stitch-secondary">
+            <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
               3 Documents
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Record Card 1 */}
-            <div className="p-3 rounded-xl bg-surface-container flex flex-col gap-2 shadow-sm border border-outline-variant/20 hover:border-stitch-secondary/40 transition-colors group cursor-pointer">
-              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low relative">
+            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col gap-3 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-colors group cursor-pointer">
+              <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
                 <div
                   className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                   style={{
@@ -662,18 +730,18 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="font-label-code text-[11px] text-stitch-secondary font-medium">
+                <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
                   MAP • 1576
                 </span>
-                <h4 className="font-label-ui text-sm text-on-surface truncate font-semibold">
+                <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
                   Walls of Zazzau (Ganuwa)
                 </h4>
               </div>
             </div>
 
             {/* Record Card 2 */}
-            <div className="p-3 rounded-xl bg-surface-container flex flex-col gap-2 shadow-sm border border-outline-variant/20 hover:border-stitch-secondary/40 transition-colors group cursor-pointer">
-              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low relative">
+            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container flex flex-col gap-3 shadow-md border border-outline-variant/20 hover:border-stitch-secondary/40 transition-colors group cursor-pointer">
+              <div className="w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low relative">
                 <div
                   className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                   style={{
@@ -682,10 +750,10 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="font-label-code text-[11px] text-stitch-secondary font-medium">
+                <span className="font-label-code text-xs sm:text-sm text-stitch-secondary font-semibold">
                   ARMAMENT • 1580
                 </span>
-                <h4 className="font-label-ui text-sm text-on-surface truncate font-semibold">
+                <h4 className="font-label-ui text-base sm:text-lg lg:text-xl text-on-surface truncate font-semibold">
                   Cavalry Cuirass & Lance
                 </h4>
               </div>
@@ -694,28 +762,28 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         </section>
 
         {/* SECTION 6: CHAPTER NAVIGATION DOCK */}
-        <footer className="mt-4 flex items-center justify-between gap-3 pb-8">
+        <footer className="mt-6 flex items-center justify-between gap-4 pb-12">
           <button
             type="button"
             aria-label="Go to previous page"
             onClick={handlePrevPage}
             disabled={currentPage === 0}
             className={cn(
-              'w-12 h-12 rounded-xl bg-surface-container text-on-surface flex items-center justify-center flex-shrink-0 transition-colors border border-outline-variant/30',
+              'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-surface-container text-on-surface flex items-center justify-center flex-shrink-0 transition-colors border border-outline-variant/30',
               currentPage === 0
                 ? 'opacity-30 cursor-not-allowed'
-                : 'hover:bg-surface-bright active:scale-95 cursor-pointer'
+                : 'hover:bg-surface-bright active:scale-95 cursor-pointer shadow-md'
             )}
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
           <button
             type="button"
             onClick={handleNextPage}
-            className="flex-1 h-12 rounded-xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-base font-semibold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+            className="flex-1 h-14 sm:h-16 rounded-2xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-base sm:text-lg lg:text-xl font-semibold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all"
           >
             <span>{currentPage < totalPages - 1 ? 'Continue Story' : 'Story Completed'}</span>
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
         </footer>
       </div>

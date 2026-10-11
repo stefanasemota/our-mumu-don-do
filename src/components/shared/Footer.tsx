@@ -50,14 +50,14 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border/40 bg-background/95">
-      <div className="container mx-auto flex flex-col items-start justify-center gap-4 px-4 py-6">
+      <div className="w-full max-w-[1600px] mx-auto flex flex-col items-start justify-center gap-4 px-4 sm:px-8 lg:px-12 py-8">
         <Button onClick={handleShare}>
           <Share2 className="mr-2" />
           Share App
         </Button>
         <p className="space-x-2 text-sm text-muted-foreground">
           <span>&copy; 2025-26 Our Mumu Don Do.</span>
-          <span className="font-semibold text-primary">v1.1</span>
+          <span className="font-semibold text-primary">v1.2</span>
           <span className="text-border">|</span>
           <Link
             href="/about"

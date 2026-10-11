@@ -33,7 +33,7 @@ export function TopicAccordion({ topics, defaultValue }: TopicAccordionProps) {
           : [topic.guidelineCategory];
         return (
           <AccordionItem value={topic.id} key={topic.id}>
-            <AccordionTrigger className="text-lg font-headline hover:no-underline text-left px-6">
+            <AccordionTrigger className="text-xl sm:text-2xl font-headline hover:no-underline text-left px-6 py-5">
               <div className="flex flex-wrap items-center gap-4">
                 <span>{topic.title}</span>
                 <div className="flex flex-wrap items-center gap-2">
@@ -41,7 +41,7 @@ export function TopicAccordion({ topics, defaultValue }: TopicAccordionProps) {
                     <Badge
                       key={category}
                       variant="secondary"
-                      className="font-normal text-sm"
+                      className="font-medium text-sm sm:text-base px-3 py-1 rounded-full"
                     >
                       {category}
                     </Badge>
@@ -50,7 +50,7 @@ export function TopicAccordion({ topics, defaultValue }: TopicAccordionProps) {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <div className="pt-4 pb-8">
+              <div className="pt-4 pb-10 px-1 sm:px-4">
                 <StoryPlayer topic={topic} />
               </div>
             </AccordionContent>
