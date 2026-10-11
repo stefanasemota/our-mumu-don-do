@@ -98,13 +98,41 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     }
   };
 
+  const getAudioSource = useCallback(() => {
+    if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
+    const lowerTitle = (topic.title || '').toLowerCase();
+    if (lowerTitle.includes('zazzau') || lowerTitle.includes('giants') || lowerTitle.includes('amina')) {
+      return '/audio/The_Great_Giants_of_Zazzau.mp3';
+    }
+    if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
+      return '/audio/The-Glass-of-Milk.mp3';
+    }
+    if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
+      return '/audio/The-Kings-Signature.mp3';
+    }
+    if (lowerTitle.includes('river of') || lowerTitle.includes('thousand songs')) {
+      return '/audio/The-River-of-a-Thousand-Songs.mp3';
+    }
+    if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
+      return '/audio/The-River-was-always-there.mp3';
+    }
+    if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
+      return '/audio/Colonisation.mp3';
+    }
+    if (lowerTitle.includes('never lost')) {
+      return '/audio/we-were-never-lost.mp3';
+    }
+    return '/audio/The_Great_Giants_of_Zazzau.mp3';
+  }, [topic.audioUrl, topic.title]);
+
   // Audio Sync & Event Listeners
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (topic.audioUrl && audio.src !== topic.audioUrl) {
-      audio.src = topic.audioUrl;
+    const source = getAudioSource();
+    if (source && (!audio.src || !audio.src.endsWith(source))) {
+      audio.src = source;
     }
 
     const onTimeUpdate = () => {
@@ -757,10 +785,23 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </div>
               <div className="flex items-center justify-between pt-3 border-t border-outline-variant/20">
                 <span className="font-label-code text-xs text-on-surface-variant">30 MB • Illustrated PDF</span>
-                <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
-                  <BookOpen className="w-4 h-4" />
-                  Read Book
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePlay();
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-surface-bright hover:bg-surface-variant text-stitch-secondary text-xs font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+                    <span>{isPlaying ? 'Pause' : 'Listen'}</span>
+                  </button>
+                  <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
+                    <BookOpen className="w-4 h-4" />
+                    Read Book
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -902,6 +943,56 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   <X className="w-5 h-5" />
                 </button>
               </div>
+            </div>
+
+            {/* Modal Audio Narration Toolbar */}
+            <div className="px-5 sm:px-8 py-2.5 bg-surface-container-high border-b border-outline-variant/30 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  aria-label={isPlaying ? 'Pause audio narration' : 'Play audio narration'}
+                  onClick={togglePlay}
+                  className="w-9 h-9 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all"
+                >
+                  {isPlaying ? (
+                    <Pause className="w-4 h-4 fill-on-secondary" />
+                  ) : (
+                    <Play className="w-4 h-4 fill-on-secondary ml-0.5" />
+                  )}
+                </button>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-label-ui text-xs sm:text-sm text-on-surface font-semibold truncate">
+                    Audio Narration • The Great Giants of Zazzau
+                  </span>
+                  <span className="font-label-code text-[11px] text-stitch-secondary">
+                    {formatTime(currentTime)} / {formatTime(activeDuration)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Mini scrubber */}
+              <div
+                role="button"
+                tabIndex={0}
+                aria-label="Seek audio"
+                onClick={handleScrub}
+                className="flex-1 max-w-xs sm:max-w-md h-2 bg-surface-bright rounded-full overflow-hidden cursor-pointer hidden sm:block"
+              >
+                <div
+                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)]"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+
+              {/* Mute button */}
+              <button
+                type="button"
+                aria-label={isMuted ? 'Unmute' : 'Mute'}
+                onClick={toggleMute}
+                className="p-1.5 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
+              >
+                {isMuted ? <VolumeX className="w-4 h-4 text-error" /> : <Volume2 className="w-4 h-4" />}
+              </button>
             </div>
 
             {/* Modal Body: Embedded PDF Viewer */}
