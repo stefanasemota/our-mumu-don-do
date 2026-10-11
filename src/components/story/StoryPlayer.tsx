@@ -84,7 +84,7 @@ const ARHUAN_BOOK: StorybookBookData = {
   author: 'By Stefan Asemota • Inspired by Mama Africa',
   pdfUrl: '/books/arhuan-the-giant-prince-of-benin.pdf',
   downloadName: 'Arhuan_The_Giant_Prince_of_Benin.pdf',
-  audioUrl: '/audio/Arhuan_The_Giant_Prince_of_Benin.mp3',
+  audioUrl: '/audio/arhuan-the-giant-prince-of-benin.mp3',
   audioTitle: 'Audio Narration • Arhuan: The Giant Prince of Benin',
   inspirationUrl: 'https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw',
   inspirationTitle: "Watch Mama Africa's Storytelling Video",
@@ -220,7 +220,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         return '/audio/The_Great_Giants_of_Zazzau.mp3';
       }
       if (lowerTitle.includes('arhuan') || lowerTitle.includes('prince of benin')) {
-        return '/audio/Arhuan_The_Giant_Prince_of_Benin.mp3';
+        return '/audio/arhuan-the-giant-prince-of-benin.mp3';
       }
       if (lowerTitle.includes('glass') || lowerTitle.includes('milk')) {
         return '/audio/The-Glass-of-Milk.mp3';

@@ -281,7 +281,7 @@ export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
       "Inspired by Mama Africa. The epic legend of Prince Arhuan, the giant prince of the Benin Kingdom whose immense physical strength was guided by royal courage and ancestral wisdom.",
     date: '2026-10-11T00:00:00.000Z',
     guidelineCategory: ['Historical Context', 'Unity & Identity'],
-    audioUrl: '/audio/Arhuan_The_Giant_Prince_of_Benin.mp3',
+    audioUrl: '/audio/arhuan-the-giant-prince-of-benin.mp3',
     pages: [
       {
         text: "In the legendary kingdom of Benin, Prince Arhuan grew taller and stronger than any warrior in the realm. As the wonderful storyteller Mama Africa narrates with so much warmth, true royalty is not measured by physical might alone, but by wisdom, honor, and loyalty to one's roots.",
