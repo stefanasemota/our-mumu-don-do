@@ -305,6 +305,7 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
 export function resolveTopicMedia(topic: WeeklyEducationalTopic): WeeklyEducationalTopic {
   return {
     ...topic,
+    imageUrl: (topic as any).imageUrl ? getMediaUrl((topic as any).imageUrl) : undefined,
     audioUrl: topic.audioUrl ? getMediaUrl(topic.audioUrl) : undefined,
     audioUrlDeCH: topic.audioUrlDeCH ? getMediaUrl(topic.audioUrlDeCH) : undefined,
     pages: (topic.pages || []).map((p) => ({

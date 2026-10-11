@@ -72,10 +72,11 @@ export function ShareCard({ topic }: ShareCardProps) {
       : 'topic-critical-thinking';
   const placeholder = PlaceHolderImages.find((p) => p.id === placeholderId);
 
-  const imageUrl =
+  const rawImageUrl =
     topic.pages && topic.pages[0]?.imageUrl
       ? topic.pages[0].imageUrl
       : placeholder?.imageUrl || '/images/the-glass-of-milk/page_0.png';
+  const imageUrl = getMediaUrl(rawImageUrl);
 
   useEffect(() => {
     const audioElement = audioRef.current;

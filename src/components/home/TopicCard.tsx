@@ -96,6 +96,7 @@ export function TopicCard({ topic }: TopicCardProps) {
             src={imageUrl}
             alt={topic.title}
             fill
+            unoptimized
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             data-ai-hint={placeholder?.imageHint}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

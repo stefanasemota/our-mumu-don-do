@@ -373,6 +373,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 src={getMediaUrl('/images/the-great-giants-of-zazzau-cover.png')}
                 alt="Queen Amina Quest Artwork"
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="80px"
               />
@@ -470,6 +471,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 src={getMediaUrl('/images/the-great-giants-of-zazzau-cover.png')}
                 alt="The Great Giants of Zazzau Cover"
                 fill
+                unoptimized
                 className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 80vw"
                 priority
@@ -572,9 +574,10 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               >
                 <div className="relative w-full h-36 bg-surface-container-low">
                   <Image
-                    src={story.imageUrl}
+                    src={getMediaUrl(story.imageUrl)}
                     alt={story.title}
                     fill
+                    unoptimized
                     className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                     sizes="256px"
                   />
@@ -658,9 +661,10 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               >
                 <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container-low relative border border-outline-variant/30">
                   <Image
-                    src={story.imageUrl}
+                    src={getMediaUrl(story.imageUrl)}
                     alt={story.title}
                     fill
+                    unoptimized
                     className="object-cover"
                     sizes="80px"
                   />
@@ -735,9 +739,10 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               >
                 <div className="relative w-full h-36 bg-surface-container-low">
                   <Image
-                    src={wonder.imageUrl}
+                    src={getMediaUrl(wonder.imageUrl)}
                     alt={wonder.title}
                     fill
+                    unoptimized
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 640px) 100vw, 50vw"
                   />

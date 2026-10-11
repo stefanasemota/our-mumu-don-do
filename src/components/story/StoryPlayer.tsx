@@ -138,7 +138,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   // Compute effective pages:
   // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
-  const effectivePages: StoryPage[] =
+  const rawPages: StoryPage[] =
     topic.pages && topic.pages.length > 1
       ? topic.pages
       : isZazzau
@@ -149,6 +149,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       : topic.pages?.length
       ? topic.pages
       : [{ text: topic.description || '', imageUrl: '' }];
+
+  const effectivePages: StoryPage[] = rawPages.map((p) => ({
+    ...p,
+    imageUrl: p.imageUrl ? getMediaUrl(p.imageUrl) : '',
+  }));
 
   const totalPages = effectivePages.length;
   const page: StoryPage = effectivePages[currentPage] || { text: topic.description || '', imageUrl: '' };
@@ -625,6 +630,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 src={getMediaUrl(page.imageUrl)}
                 alt={`Story scene ${currentPage + 1}`}
                 fill
+                unoptimized
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 sizes="(max-width: 1600px) 100vw, 1600px"
                 priority={currentPage === 0}
@@ -1071,6 +1077,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     src={getMediaUrl('/images/the-great-giants-of-zazzau-cover.png')}
                     alt="The Great Giants of Zazzau Book Cover by Stefan Asemota"
                     fill
+                    unoptimized
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
@@ -1148,6 +1155,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     src={getMediaUrl('/images/arhuan-the-giant-prince-of-benin-cover.png')}
                     alt="Arhuan: The Giant Prince of Benin Book Cover by Stefan Asemota"
                     fill
+                    unoptimized
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
