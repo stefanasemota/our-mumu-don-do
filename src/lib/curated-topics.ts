@@ -153,7 +153,7 @@ export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     id: '4',
     title: 'Understanding Colonisation',
     description:
-      'Experience the journey of Osas, a young boy discovering his heritage, the resilience of his roots, and the true meaning of cultural identity.',
+      'Created with Stefan & Mr. Abeg (@mr-abeg.japa.techie). Experience the journey of Osas, a young boy discovering his heritage, the resilience of his roots, and the true meaning of cultural identity.',
     date: '2024-06-01T00:00:00.000Z',
     guidelineCategory: ['Historical Context'],
     audioUrl: '/audio/Colonisation.mp3',

@@ -207,10 +207,10 @@ const REAL_STORIES_CATALOG: StoryItem[] = [
   {
     id: '4',
     title: 'Understanding Colonisation',
-    subtitle: 'Osas, The Bronze Staff & Remembering Who We Are',
+    subtitle: 'Created with Stefan & Mr. Abeg (@mr-abeg.japa.techie)',
     categoryTag: 'Historical Context',
     description:
-      'Osas discovers an ancient picture of a royal rattle staff and learns how remembering our true history empowers the next generation.',
+      'Created with Stefan & Mr. Abeg. Osas discovers an ancient picture of a royal rattle staff and learns how remembering our true history empowers the next generation.',
     archetype: 'ancient-wonders',
     archetypeLabel: 'Historical Context',
     imageUrl: '/images/understanding-colonisation/Osa-1.jpeg',

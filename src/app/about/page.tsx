@@ -12,6 +12,7 @@ import {
   Search,
   Globe,
   Languages,
+  User,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -133,6 +134,34 @@ export default function AboutPage() {
 
           <Separator className="my-10" />
 
+          {/* MEET THE CREATOR: A NOTE FROM STEFAN ASEMOTA */}
+          <section className="mb-12 not-prose">
+            <div className="p-6 md:p-8 rounded-3xl bg-gradient-to-br from-primary/10 via-surface-container to-primary/5 border border-primary/25 shadow-lg relative overflow-hidden">
+              <div className="flex items-center gap-2.5 mb-3 text-primary font-label-ui text-xs md:text-sm uppercase tracking-wider font-semibold">
+                <User className="w-4 h-4" />
+                <span>Meet the Creator • A Personal Journey</span>
+              </div>
+
+              <h2 className="font-headline text-2xl md:text-3xl text-foreground font-bold mb-3">
+                A Note from Stefan Asemota
+              </h2>
+
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed font-medium mb-4">
+                I am <strong className="text-primary font-semibold">Stefan Asemota</strong>—father, husband, Scrum Master, and writer.
+              </p>
+
+              <p className="text-base md:text-lg text-foreground/80 leading-relaxed mb-4">
+                Born of both Nigerian and Swiss heritage, I navigate life across cultures and speak three languages: English, Swiss German, and French. The heartbeat behind <strong>Our Mumu Don Do</strong> started right at home with my own children.
+              </p>
+
+              <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
+                Growing up in the diaspora with limited opportunities to travel back to Nigeria, I wanted to give my children a genuine connection to their roots. This platform was born to help them see the bigger picture, celebrate authentic African history, unlearn outdated narratives, and grow up with pride in who they are.
+              </p>
+            </div>
+          </section>
+
+          <Separator className="my-10" />
+
           {/* WHAT EVERY YOUNG EXPLORER LEARNS HERE */}
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-primary mb-2">
@@ -197,6 +226,41 @@ export default function AboutPage() {
               >
                 <Play className="w-4 h-4 fill-slate-950" />
                 <span>Watch Mama Africa&apos;s Storytelling Video</span>
+                <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          </section>
+
+          <Separator className="my-10" />
+
+          {/* CREATIVE COLLABORATION: STEFAN & MR. ABEG */}
+          <section className="mb-12 not-prose">
+            <div className="p-6 md:p-8 rounded-3xl bg-gradient-to-br from-emerald-500/10 via-surface-container to-emerald-500/5 border border-emerald-500/30 shadow-lg relative overflow-hidden">
+              <div className="flex items-center gap-2.5 mb-3 text-emerald-400 font-label-ui text-xs md:text-sm uppercase tracking-wider font-semibold">
+                <Sparkles className="w-4 h-4 text-emerald-400" />
+                <span>Creative Collaboration • Digital Storytelling</span>
+              </div>
+
+              <h2 className="font-headline text-2xl md:text-3xl text-foreground font-bold mb-3">
+                Understanding Colonisation: Created with Stefan &amp; Mr. Abeg
+              </h2>
+
+              <p className="text-base md:text-lg text-foreground/85 leading-relaxed mb-4">
+                The illuminating quest of <strong className="text-emerald-300 font-semibold">Understanding Colonisation</strong> was collaboratively created by <strong>Stefan Asemota</strong> and <strong>Mr. Abeg</strong>. Together, they transformed complex historical realities into an empowering narrative about Osas, the sacred royal rattle staff, and the true meaning of cultural remembrance.
+              </p>
+
+              <p className="text-sm md:text-base text-foreground/75 leading-relaxed mb-5">
+                Mr. Abeg brings vibrant African digital creativity, tech wisdom, and cultural pride to life across his content. We celebrate this creative partnership in shaping authentic educational stories that encourage children to question everything and take pride in their roots.
+              </p>
+
+              <a
+                href="https://www.youtube.com/@mr-abeg.japa.techie"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 text-slate-950 hover:bg-emerald-400 font-semibold text-sm transition-all shadow-md active:scale-95 group"
+              >
+                <Play className="w-4 h-4 fill-slate-950" />
+                <span>Visit Mr. Abeg&apos;s Channel (@mr-abeg.japa.techie)</span>
                 <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>

@@ -118,6 +118,9 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const isArhuan =
     lowerTitle.includes('arhuan') ||
     lowerTitle.includes('benin');
+  const isColonisation =
+    lowerTitle.includes('colonis') ||
+    lowerTitle.includes('coloniz');
   const hasDeCHAudio =
     Boolean(topic.audioUrlDeCH) ||
     lowerTitle.includes('river was') ||
@@ -761,6 +764,28 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
         {/* SECTION 3: EDITORIAL STORY READING PASSAGE */}
         <article className="mt-2 flex flex-col gap-6">
+          {/* Stefan & Mr. Abeg Co-Creator Attribution for Understanding Colonisation */}
+          {isColonisation && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3.5 sm:px-5 sm:py-3 rounded-2xl bg-surface-container border border-emerald-500/30 text-xs sm:text-sm shadow-sm">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-semibold text-foreground">
+                  Created with Stefan Asemota &amp; Mr. Abeg
+                </span>
+                <span className="text-muted-foreground hidden sm:inline">•</span>
+                <span className="text-muted-foreground text-xs">Osas &amp; The Sacred Bronze Staff</span>
+              </div>
+              <a
+                href="https://www.youtube.com/@mr-abeg.japa.techie"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-stitch-secondary hover:underline font-medium group flex-shrink-0"
+              >
+                <span>Mr. Abeg on YouTube</span>
+                <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          )}
+
           {/* Friendly Voice Reader Badge */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-surface-container border border-outline-variant/30 shadow-md">
             <div className="flex items-center gap-3.5">
