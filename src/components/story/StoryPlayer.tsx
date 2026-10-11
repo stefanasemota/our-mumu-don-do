@@ -110,17 +110,20 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  const lowerTitle = (topic.title || '').toLowerCase();
   const isZazzau =
-    (topic.title || '').toLowerCase().includes('zazzau') ||
-    (topic.title || '').toLowerCase().includes('amina') ||
-    (topic.title || '').toLowerCase().includes('giant');
+    lowerTitle.includes('zazzau') ||
+    lowerTitle.includes('amina') ||
+    lowerTitle.includes('giant');
   const isArhuan =
-    (topic.title || '').toLowerCase().includes('arhuan') ||
-    (topic.title || '').toLowerCase().includes('benin');
+    lowerTitle.includes('arhuan') ||
+    lowerTitle.includes('benin');
   const hasDeCHAudio =
     Boolean(topic.audioUrlDeCH) ||
-    (topic.title || '').toLowerCase().includes('river was') ||
-    (topic.title || '').toLowerCase().includes('always there');
+    lowerTitle.includes('river was') ||
+    lowerTitle.includes('always there') ||
+    lowerTitle.includes('signature') ||
+    lowerTitle.includes('colonis');
 
   // Compute effective pages:
   // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
@@ -192,13 +195,18 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   const getAudioSource = useCallback(
     (lang: StoryLanguage = activeLanguage) => {
-      const lowerTitle = (topic.title || '').toLowerCase();
       if (lang === 'de-CH') {
         if (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) {
           return topic.audioUrlDeCH.trim();
         }
         if (lowerTitle.includes('river was') || lowerTitle.includes('always there')) {
           return '/audio/de_The_River_was_always_there.mp3';
+        }
+        if (lowerTitle.includes('signature') || lowerTitle.includes('king')) {
+          return '/audio/The_Kings_Signature_ch.mp3';
+        }
+        if (lowerTitle.includes('colonis') || lowerTitle.includes('coloniz')) {
+          return '/audio/Colonisation_ch.mp3';
         }
       }
       if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
@@ -228,7 +236,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       }
       return '';
     },
-    [activeLanguage, topic.audioUrl, topic.audioUrlDeCH, topic.title]
+    [activeLanguage, lowerTitle, topic.audioUrl, topic.audioUrlDeCH]
   );
 
   const handleLanguageChange = (newLang: StoryLanguage) => {
@@ -568,7 +576,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 )}
                 {hasDeCHAudio && (
                   <span className="px-1.5 py-0.5 rounded text-[10px] font-label-code bg-secondary-container text-on-secondary font-bold">
-                    Song
+                    {lowerTitle.includes('river was') || lowerTitle.includes('always there') ? 'Song' : 'Audio'}
                   </span>
                 )}
               </button>
@@ -764,7 +772,9 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   <span className="font-label-ui text-sm sm:text-base text-on-surface font-semibold">
                     {activeLanguage === 'de-CH'
                       ? hasDeCHAudio
-                        ? '🎵 Schwiizerdütsches Lied & Gschicht'
+                        ? lowerTitle.includes('river was') || lowerTitle.includes('always there')
+                          ? '🎵 Schwiizerdütsches Lied & Gschicht'
+                          : '🎙️ Schwiizerdütschi Audio-Gschicht'
                         : '🎙️ Gschichteverzeller: Tante Heidi'
                       : '🎙️ Storyteller: Uncle Aminu'}
                   </span>
@@ -775,7 +785,9 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 <span className="font-body text-xs sm:text-sm text-on-surface-variant">
                   {activeLanguage === 'de-CH'
                     ? hasDeCHAudio
-                      ? 'Traditionells Lied und Gschicht uf Schwiizerdütsch'
+                      ? lowerTitle.includes('river was') || lowerTitle.includes('always there')
+                        ? 'Traditionells Lied und Gschicht uf Schwiizerdütsch'
+                        : 'Authentischi Audio-Vorläsig uf Schwiizerdütsch'
                       : 'Tante Heidi liist uf Schwiizerdütsch'
                     : 'Uncle Aminu is reading this story'}
                 </span>

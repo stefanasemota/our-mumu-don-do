@@ -114,29 +114,36 @@ export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2024-04-26T00:00:00.000Z',
     guidelineCategory: ['Critical Thinking'],
     audioUrl: '/audio/The-Kings-Signature.mp3',
+    audioUrlDeCH: '/audio/The_Kings_Signature_ch.mp3',
     pages: [
       {
         text: 'Simi was visiting Uncle Edet. Between the tall glass buildings and the ancient mud walls, she saw it—the building with the red curved roof.',
+        textDeCH: 'D\'Simi isch bim Unkel Edet z\'Bsuech gsi. Zwüsche de hoche Glasgebäud und de uralte Lehmmure het si es gseh—das Huus mit em rote, gschwungene Dach.',
         imageUrl: '/images/the-kings-signature/page_0.png',
       },
       {
         text: '"Uncle Edet, why we dey look this old place? The future is out there, no be so?"\n"Ah, my pikin. If you no know where you come from, you no go know where you dey go."',
+        textDeCH: '"Unkel Edet, werum luegemer das alte Gebäude aa? D\'Zuekunft isch doch duss, oder nid?"\n"Ah, mis Chind. Wenn nid weisch, vo wo du chunnsch, weisch au nid, woane du gasch."',
         imageUrl: '/images/the-kings-signature/page_1.png',
       },
       {
         text: 'Inside the hall of records, the air smelled like teakwood and wisdom. Uncle Edet pointed to the royal seal of 1855.',
+        textDeCH: 'I dr Halle vo de Dokument het d\'Luft nach Teakholz und Wiisheit gschmöckt. Dr Unkel Edet het uf s\'königliche Sigel vo 1855 zeigt.',
         imageUrl: '/images/the-kings-signature/page_5.png',
       },
       {
         text: '"In 1855, our King, Duke Ephraim, signed the law to protect the innocent. He was the Architect. He changed the old ways so life could flourish."',
+        textDeCH: '"Im Johr 1855 het üse König, dr Duke Ephraim, s\'Gsetz zum Schutz vo de Unschuldige underschribe. Er isch dr Architekt gsi. Er het di alte Brüüch gänderet, damit s\'Läbe cha ufblüehe."',
         imageUrl: '/images/the-kings-signature/page_6.png',
       },
       {
         text: '"Mary Slessor took the King’s foundation. She was the Caretaker. She furnished the house with hope and love. Architect and Caretaker, moving hand in hand."',
+        textDeCH: '"D\'Mary Slessor het uf em Fundamänt vom König ufbout. Sie isch d\'Pflägeri gsi. Sie het s\'Huus mit Hoffnig und Liebi gfüllt. Architekt und Pflägeri, Hand in Hand."',
         imageUrl: '/images/the-kings-signature/page_9.png',
       },
       {
         text: '"I see am now, Uncle. One built the house; the other brought the fire. We are the guides of the future. Confirm."',
+        textDeCH: '"Jetzt verstahni\'s, Unkel. Dr eint het s\'Huus bout, di anderi het s\'Füür bracht. Mir sind d\'Wägwiiser vo dr Zuekunft. Ganz sicher."',
         imageUrl: '/images/the-kings-signature/page_12.png',
       },
     ],
@@ -150,21 +157,26 @@ export const REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     date: '2024-06-01T00:00:00.000Z',
     guidelineCategory: ['Historical Context'],
     audioUrl: '/audio/Colonisation.mp3',
+    audioUrlDeCH: '/audio/Colonisation_ch.mp3',
     pages: [
       {
         text: 'Hear the story of Osas, a boy with a heart of gold. In our bright village, under the smiling sun...\nOsas lived in a colorful village. His father, Fosa, made beautiful bronze art.',
+        textDeCH: 'Los d\'Gschicht vom Osas, emene Bueb mit emene goldige Härz. I üsem farbige Dorf, under dr lachende Sunne...\nDr Osas het imene lebhafte Dorf gläbt. Si Vater, dr Fosa, het wunderschöni Bronzechunst gschaffe.',
         imageUrl: '/images/understanding-colonisation/Osa-1.jpeg',
       },
       {
         text: 'One day, Osas found an old picture of a royal rattle staff. "Father! Where is this beautiful rattle staff?"\n"Ah, my son. That staff was moved by people who visited from very far away long ago."',
+        textDeCH: 'Eines Tages het dr Osas es alts Bild vonere königliche Rattle-Rassle gseh. "Vater! Wo isch die schöni königlichi Rassle?"\n"Ah, mi Sohn. Die Rassle isch vor langer Zit vo Lüt mitgno worde, wo vo wit här z\'Bsuech cho sind."',
         imageUrl: '/images/understanding-colonisation/Osa-3.jpeg',
       },
       {
         text: '"Imagine if a stranger came into your room without asking, changing things around and taking your favorite toys. Our ancestors were brave, but visitors were strong."',
+        textDeCH: '"Stell dr vor, en Fremde chäm ohni z\'froge i diis Zimmer, würdi alles umstelle und diis Lieblingsspilzüg mitnäh. Üsi Vorfahre sind tapfer gsi, aber d\'Bsuecher sind mächtig gsi."',
         imageUrl: '/images/understanding-colonisation/Osa-5.jpeg',
       },
       {
         text: '"The rattle staff is gone, but the spirit remains! Our stories are living. Getting the staff back is important, but helping us remember who we are? That\'s even more important!"',
+        textDeCH: '"D\'Rassle isch zwar furt, aber dr Geist blibt do! Üsi Gschichte läbed. Dass mer d\'Rassle zruggbechömed isch wichtig, aber dass mer üs dra erinnered, wer mir sind? Das isch no viel wichtiger!"',
         imageUrl: '/images/understanding-colonisation/Osa-8.png',
       },
     ],
