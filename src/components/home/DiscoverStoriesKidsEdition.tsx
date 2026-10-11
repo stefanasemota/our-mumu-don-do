@@ -318,12 +318,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 3-Day Quest
               </span>
             </div>
-            <div className="flex items-center gap-1.5 bg-primary-container/40 px-3 py-1.5 rounded-full">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span className="font-label-code text-xs sm:text-sm text-secondary font-semibold">
-                Lvl 2
-              </span>
-            </div>
           </div>
         </div>
 
