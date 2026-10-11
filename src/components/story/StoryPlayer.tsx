@@ -124,17 +124,15 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const isColonisation =
     lowerTitle.includes('colonis') ||
     lowerTitle.includes('coloniz');
-  const hasDeCHAudio =
-    Boolean(topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) ||
+  const hasGermanAudio = Boolean(
+    (topic.audioUrlDeCH && topic.audioUrlDeCH.trim()) ||
     isZazzau ||
     isArhuan ||
     isColonisation ||
     lowerTitle.includes('river was') ||
     lowerTitle.includes('always there') ||
-    lowerTitle.includes('signature');
-  const hasGermanVersion =
-    hasDeCHAudio ||
-    Boolean(topic.pages && topic.pages.some((p) => Boolean(p.textDeCH && p.textDeCH.trim())));
+    lowerTitle.includes('signature')
+  );
 
   // Compute effective pages:
   // If topic has multiple pages, use them; if topic has <= 1 page and is Zazzau, enrich with full chapter scenes.
@@ -231,7 +229,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           if (isColonisation) {
             return '/audio/Colonisation_ch.mp3';
           }
+          // Explicitly return empty when German is requested but no German audio exists
+          return '';
         }
+
+        // English narration fallback
         if (topic.audioUrl && topic.audioUrl.trim()) return topic.audioUrl.trim();
         if (isZazzau) {
           return '/audio/The_Great_Giants_of_Zazzau.mp3';
@@ -259,7 +261,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         }
         return '';
       };
-      return getMediaUrl(getRaw());
+      const raw = getRaw();
+      return raw ? getMediaUrl(raw) : '';
     },
     [activeLanguage, isArhuan, isColonisation, isZazzau, lowerTitle, topic.audioUrl, topic.audioUrlDeCH]
   );
@@ -271,11 +274,21 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     if (audio) {
       const wasPlaying = isPlaying;
       const targetSrc = getAudioSource(newLang);
-      if (targetSrc && (!audio.src || !audio.src.endsWith(targetSrc))) {
+      if (targetSrc) {
+        audio.pause();
         audio.src = targetSrc;
+        audio.load();
         if (wasPlaying) {
-          audio.play().catch((err) => console.warn('Audio switch playback:', err));
+          audio
+            .play()
+            .then(() => setIsPlaying(true))
+            .catch((err) => console.warn('Audio switch playback:', err));
+        } else {
+          setIsPlaying(false);
         }
+      } else {
+        audio.pause();
+        setIsPlaying(false);
       }
     }
   };
@@ -288,6 +301,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     const source = getAudioSource(activeLanguage);
     if (source && (!audio.src || !audio.src.endsWith(source))) {
       audio.src = source;
+      audio.load();
     }
 
     const onTimeUpdate = () => {
@@ -315,6 +329,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         const legacySrc = getMediaUrl('/audio/de_The_River_was_always_there.mp3');
         if (audio.src !== legacySrc) {
           audio.src = legacySrc;
+          audio.load();
           if (isPlaying) {
             audio.play().catch(() => {});
           }
@@ -333,7 +348,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
     };
-  }, [topic.audioUrl]);
+  }, [activeLanguage, getAudioSource]);
 
   // Handle Play/Pause
   const togglePlay = () => {
@@ -597,15 +612,15 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </button>
               <button
                 type="button"
-                disabled={!hasGermanVersion}
-                onClick={() => hasGermanVersion && handleLanguageChange('de-CH')}
-                title={hasGermanVersion ? 'Schwiizerdütsch' : 'Schwiizerdütsch coming soon'}
+                disabled={!hasGermanAudio}
+                onClick={() => hasGermanAudio && handleLanguageChange('de-CH')}
+                title={hasGermanAudio ? 'Schwiizerdütsch Audio Narration' : 'Schwiizerdütsch audio coming soon'}
                 className={cn(
                   'px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-label-ui font-semibold flex items-center gap-1.5 transition-all',
-                  hasGermanVersion ? 'cursor-pointer' : 'cursor-not-allowed opacity-35',
+                  hasGermanAudio ? 'cursor-pointer' : 'cursor-not-allowed opacity-35',
                   activeLanguage === 'de-CH'
                     ? 'bg-stitch-secondary text-on-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)] scale-102'
-                    : hasGermanVersion
+                    : hasGermanAudio
                     ? 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/60'
                     : 'text-on-surface-variant/50'
                 )}
@@ -615,7 +630,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 {activeLanguage === 'de-CH' && (
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse ml-0.5" />
                 )}
-                {hasDeCHAudio && (
+                {hasGermanAudio && (
                   <span className="px-1.5 py-0.5 rounded text-[10px] font-label-code bg-secondary-container text-on-secondary font-bold">
                     {lowerTitle.includes('river was') || lowerTitle.includes('always there') ? 'Song' : 'Audio'}
                   </span>

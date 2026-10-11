@@ -57,7 +57,7 @@ export function ShareCard({ topic }: ShareCardProps) {
   const deCHAudioSource = rawDeCHAudio ? getMediaUrl(rawDeCHAudio) : undefined;
   const hasDeCH = Boolean(deCHAudioSource);
   const currentAudioUrl =
-    activeLanguage === 'de-CH' && deCHAudioSource
+    activeLanguage === 'de-CH'
       ? deCHAudioSource
       : topic.audioUrl
       ? getMediaUrl(topic.audioUrl)
@@ -125,17 +125,23 @@ export function ShareCard({ topic }: ShareCardProps) {
     setActiveLanguage(newLang);
     const audioElement = audioRef.current;
     if (audioElement) {
+      const wasPlaying = isPlaying;
       const targetSrc =
-        newLang === 'de-CH' && deCHAudioSource
+        newLang === 'de-CH'
           ? deCHAudioSource
           : topic.audioUrl
           ? getMediaUrl(topic.audioUrl)
           : undefined;
-      if (targetSrc && (!audioElement.src || !audioElement.src.endsWith(targetSrc))) {
+      if (targetSrc) {
+        audioElement.pause();
         audioElement.src = targetSrc;
+        audioElement.load();
         if (wasPlaying) {
           audioElement.play().catch((err) => console.warn('Audio switch playback failed:', err));
         }
+      } else {
+        audioElement.pause();
+        setIsPlaying(false);
       }
     }
   };
