@@ -13,7 +13,6 @@ import {
   ZoomOut,
   RotateCcw,
   BookOpen,
-  FileText,
   Play,
   Pause,
   Volume2,
@@ -42,7 +41,6 @@ interface StorybookModalProps {
 
 export function StorybookModal({ book, onClose }: StorybookModalProps) {
   const [currentSpread, setCurrentSpread] = useState(0);
-  const [viewMode, setViewMode] = useState<'storybook' | 'pdf'>('storybook');
   const [zoom, setZoom] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showThumbnails, setShowThumbnails] = useState(false);
@@ -248,53 +246,8 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
             </div>
           </div>
 
-          {/* Viewer Mode & Actions */}
+          {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-
-            {/* View Mode Toggle */}
-            <div className="flex items-center p-0.5 rounded-xl bg-surface-bright border border-outline-variant/30 text-xs font-semibold">
-              <button
-                type="button"
-                onClick={() => setViewMode('storybook')}
-                className={cn(
-                  'px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors',
-                  viewMode === 'storybook'
-                    ? 'bg-stitch-secondary text-on-secondary shadow-sm'
-                    : 'text-on-surface-variant hover:text-on-surface'
-                )}
-                title="Interactive 2-Page Storybook Spread"
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Storybook</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('pdf')}
-                className={cn(
-                  'px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors',
-                  viewMode === 'pdf'
-                    ? 'bg-stitch-secondary text-on-secondary shadow-sm'
-                    : 'text-on-surface-variant hover:text-on-surface'
-                )}
-                title="Standard PDF Document View"
-              >
-                <FileText className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">PDF</span>
-              </button>
-            </div>
-
-            {/* Open Original PDF in Tab */}
-            <a
-              href={book.pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-surface-bright text-on-surface hover:bg-surface-variant transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
-              title="Open full PDF in a new browser tab"
-            >
-              <ExternalLink className="w-4 h-4" />
-              <span className="hidden md:inline">Open Tab</span>
-            </a>
-
             {/* Download PDF */}
             <a
               href={book.pdfUrl}
@@ -426,115 +379,103 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
             </div>
           )}
 
-          {/* Quick Zoom Tools (Storybook Mode only) */}
-          {viewMode === 'storybook' && (
-            <div className="flex items-center gap-1 border-l border-outline-variant/30 pl-3">
+          {/* Quick Zoom Tools */}
+          <div className="flex items-center gap-1 border-l border-outline-variant/30 pl-3">
+            <button
+              type="button"
+              onClick={() => setZoom((z) => Math.max(0.8, z - 0.15))}
+              className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
+              title="Zoom Out"
+            >
+              <ZoomOut className="w-3.5 h-3.5" />
+            </button>
+            <span className="font-label-code text-[11px] text-on-surface-variant w-10 text-center">
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              type="button"
+              onClick={() => setZoom((z) => Math.min(2.0, z + 0.15))}
+              className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
+              title="Zoom In"
+            >
+              <ZoomIn className="w-3.5 h-3.5" />
+            </button>
+            {zoom !== 1 && (
               <button
                 type="button"
-                onClick={() => setZoom((z) => Math.max(0.8, z - 0.15))}
+                onClick={() => setZoom(1)}
                 className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
-                title="Zoom Out"
+                title="Reset Zoom"
               >
-                <ZoomOut className="w-3.5 h-3.5" />
+                <RotateCcw className="w-3.5 h-3.5" />
               </button>
-              <span className="font-label-code text-[11px] text-on-surface-variant w-10 text-center">
-                {Math.round(zoom * 100)}%
-              </span>
-              <button
-                type="button"
-                onClick={() => setZoom((z) => Math.min(2.0, z + 0.15))}
-                className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
-                title="Zoom In"
-              >
-                <ZoomIn className="w-3.5 h-3.5" />
-              </button>
-              {zoom !== 1 && (
-                <button
-                  type="button"
-                  onClick={() => setZoom(1)}
-                  className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
-                  title="Reset Zoom"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* MAIN VIEWER STAGE */}
         <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden bg-[#070b14] flex items-center justify-center p-2 sm:p-4">
-          {viewMode === 'storybook' ? (
-            <div className="relative w-full h-full min-h-0 flex items-center justify-center">
-              {/* Storybook Spread Frame */}
-              <div
-                className="relative max-w-full max-h-full flex items-center justify-center transition-transform duration-200 ease-out shadow-2xl rounded-xl overflow-hidden bg-black/60 border border-white/10"
-                style={{
-                  transform: `scale(${zoom})`,
-                }}
-              >
-                {/* Book Spread Image with intrinsic aspect ratio */}
-                <img
-                  src={book.pages[currentSpread]}
-                  alt={`${book.title} Spread ${currentSpread + 1}`}
-                  className="max-h-[calc(78vh-130px)] max-w-[calc(100vw-64px)] sm:max-w-full w-auto h-auto object-contain rounded-xl select-none shadow-2xl block"
-                  loading="eager"
-                />
+          <div className="relative w-full h-full min-h-0 flex items-center justify-center">
+            {/* Storybook Spread Frame */}
+            <div
+              className="relative max-w-full max-h-full flex items-center justify-center transition-transform duration-200 ease-out shadow-2xl rounded-xl overflow-hidden bg-black/60 border border-white/10"
+              style={{
+                transform: `scale(${zoom})`,
+              }}
+            >
+              {/* Book Spread Image with intrinsic aspect ratio */}
+              <img
+                src={book.pages[currentSpread]}
+                alt={`${book.title} Spread ${currentSpread + 1}`}
+                className="max-h-[calc(78vh-130px)] max-w-[calc(100vw-64px)] sm:max-w-full w-auto h-auto object-contain rounded-xl select-none shadow-2xl block"
+                loading="eager"
+              />
 
-                {/* Subtle Book Spine Shadow Down Center of Spread (only for open spreads) */}
-                {currentSpread > 0 && (
-                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-8 pointer-events-none bg-gradient-to-r from-transparent via-black/25 to-transparent mix-blend-multiply opacity-60" />
-                )}
+              {/* Subtle Book Spine Shadow Down Center of Spread (only for open spreads) */}
+              {currentSpread > 0 && (
+                <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-8 pointer-events-none bg-gradient-to-r from-transparent via-black/25 to-transparent mix-blend-multiply opacity-60" />
+              )}
 
-                {/* Corner Storybook Page Curl Effect */}
-                <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none bg-gradient-to-bl from-white/10 to-transparent" />
-              </div>
-
-              {/* Prev Button Overlay */}
-              <button
-                type="button"
-                aria-label="Previous Page"
-                onClick={handlePrev}
-                disabled={currentSpread === 0}
-                className={cn(
-                  'absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-surface-dim/90 hover:bg-surface-container text-on-surface border border-outline-variant/40 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-200 z-30',
-                  currentSpread === 0
-                    ? 'opacity-0 pointer-events-none'
-                    : 'opacity-85 hover:opacity-100 hover:scale-105 active:scale-95'
-                )}
-              >
-                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
-              </button>
-
-              {/* Next Button Overlay */}
-              <button
-                type="button"
-                aria-label="Next Page"
-                onClick={handleNext}
-                disabled={currentSpread === totalSpreads - 1}
-                className={cn(
-                  'absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-surface-dim/90 hover:bg-surface-container text-on-surface border border-outline-variant/40 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-200 z-30',
-                  currentSpread === totalSpreads - 1
-                    ? 'opacity-0 pointer-events-none'
-                    : 'opacity-85 hover:opacity-100 hover:scale-105 active:scale-95'
-                )}
-              >
-                <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
-              </button>
+              {/* Corner Storybook Page Curl Effect */}
+              <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none bg-gradient-to-bl from-white/10 to-transparent" />
             </div>
-          ) : (
-            /* Fallback PDF Iframe */
-            <iframe
-              src={`${book.pdfUrl}#toolbar=1`}
-              className="w-full h-full border-0 rounded-xl bg-surface-container-lowest"
-              title={`${book.title} PDF Document`}
-            />
-          )}
+
+            {/* Prev Button Overlay */}
+            <button
+              type="button"
+              aria-label="Previous Page"
+              onClick={handlePrev}
+              disabled={currentSpread === 0}
+              className={cn(
+                'absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-surface-dim/90 hover:bg-surface-container text-on-surface border border-outline-variant/40 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-200 z-30',
+                currentSpread === 0
+                  ? 'opacity-0 pointer-events-none'
+                  : 'opacity-85 hover:opacity-100 hover:scale-105 active:scale-95'
+              )}
+            >
+              <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
+
+            {/* Next Button Overlay */}
+            <button
+              type="button"
+              aria-label="Next Page"
+              onClick={handleNext}
+              disabled={currentSpread === totalSpreads - 1}
+              className={cn(
+                'absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-surface-dim/90 hover:bg-surface-container text-on-surface border border-outline-variant/40 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-200 z-30',
+                currentSpread === totalSpreads - 1
+                  ? 'opacity-0 pointer-events-none'
+                  : 'opacity-85 hover:opacity-100 hover:scale-105 active:scale-95'
+              )}
+            >
+              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
+          </div>
         </div>
 
         {/* BOTTOM STORYBOOK NAVIGATION TRAY */}
-        {viewMode === 'storybook' && (
-          <footer className="px-4 sm:px-6 py-2.5 bg-surface-dim/95 border-t border-outline-variant/30 flex items-center justify-between gap-3 z-20">
+        <footer className="px-4 sm:px-6 py-2.5 bg-surface-dim/95 border-t border-outline-variant/30 flex items-center justify-between gap-3 z-20">
             {/* Spread Indicator */}
             <div className="flex items-center gap-2">
               <span className="font-label-code text-xs text-stitch-secondary font-semibold bg-surface-container px-2.5 py-1 rounded-full border border-stitch-secondary/30">
@@ -587,10 +528,9 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
               </button>
             </div>
           </footer>
-        )}
 
         {/* THUMBNAIL EXPANDABLE TRAY */}
-        {showThumbnails && viewMode === 'storybook' && (
+        {showThumbnails && (
           <div className="px-4 py-3 bg-surface-container-high border-t border-outline-variant/30 flex items-center gap-3 overflow-x-auto z-20">
             {book.pages.map((pageImg, idx) => (
               <button
