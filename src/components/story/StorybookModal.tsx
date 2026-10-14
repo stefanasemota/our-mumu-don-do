@@ -252,6 +252,8 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
             <a
               href={book.pdfUrl}
               download={book.downloadName}
+              target="_blank"
+              rel="noopener noreferrer"
               className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-stitch-secondary text-on-secondary hover:bg-secondary-container transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
               title="Download original offline PDF"
             >
