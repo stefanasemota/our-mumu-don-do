@@ -281,7 +281,7 @@ const RAW_REAL_STORIES: Record<string, WeeklyEducationalTopic> = {
     id: 'arhuan-the-giant-prince-of-benin',
     title: 'Arhuan: The Giant Prince of Benin',
     description:
-      "Inspired by Mama Africa. The epic legend of Prince Arhuan, the giant prince of the Benin Kingdom whose immense physical strength was guided by royal courage and ancestral wisdom.",
+      "Tribute to Mama Africa's YouTube storytelling channel. The epic legend of Prince Arhuan, the giant prince of the Benin Kingdom whose immense physical strength was guided by royal courage and ancestral wisdom.",
     date: '2026-10-11T00:00:00.000Z',
     guidelineCategory: ['Historical Context', 'Unity & Identity'],
     audioUrl: '/audio/arhuan-the-giant-prince-of-benin.mp3',

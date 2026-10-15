@@ -57,12 +57,21 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
     return { title: 'Story Not Found' };
   }
 
+  const isArhuan =
+    topic.id === 'arhuan-the-giant-prince-of-benin' ||
+    (topic.title || '').toLowerCase().includes('arhuan');
+
+  let desc = topic.description || 'Educational story for young Nigerians.';
+  if (isArhuan && !desc.toLowerCase().includes('mama africa')) {
+    desc = `Tribute to Mama Africa's YouTube storytelling channel. ${desc}`;
+  }
+
   return {
     title: `Our Mumu Don Do: "${topic.title}"`,
-    description: topic.description || 'Educational story for young Nigerians.',
+    description: desc,
     openGraph: {
       title: topic.title,
-      description: topic.description,
+      description: desc,
       images: [{ url: topic.pages?.[0]?.imageUrl || '' }],
     },
   };

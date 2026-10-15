@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, ExternalLink, Home } from 'lucide-react';
+import { Play, Pause, ExternalLink, Home, Youtube } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
@@ -42,6 +42,15 @@ export function ShareCard({ topic }: ShareCardProps) {
   const { toast } = useToast();
 
   const lowerTitle = (topic.title || '').toLowerCase();
+  const isArhuan =
+    topic.id === 'arhuan-the-giant-prince-of-benin' ||
+    lowerTitle.includes('arhuan');
+
+  const currentDescription =
+    activeLanguage === 'de-CH' && topic.pages?.[0]?.textDeCH
+      ? topic.pages[0].textDeCH
+      : topic.description;
+
   const rawDeCHAudio =
     topic.audioUrlDeCH ||
     (lowerTitle.includes('glass') || lowerTitle.includes('milk')
@@ -197,8 +206,51 @@ export function ShareCard({ topic }: ShareCardProps) {
             {topic.title}
           </CardTitle>
           <CardDescription className="text-slate-400 text-base leading-relaxed">
-            {topic.description}
+            {currentDescription}
           </CardDescription>
+
+          {isArhuan && (
+            <div className="mt-4 p-4 rounded-xl bg-gradient-to-br from-amber-500/10 via-amber-950/25 to-slate-900/60 border border-amber-500/30 text-slate-200 shadow-md">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 text-amber-400 text-xs font-bold uppercase tracking-wider">
+                  <Youtube className="w-4 h-4 text-red-500 fill-red-500" />
+                  <span>Cultural Tribute</span>
+                </div>
+                <span className="text-[10px] font-mono text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20 font-semibold">
+                  Mama Africa
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                {activeLanguage === 'de-CH' ? (
+                  <>
+                    Mit Liebi inspiriert dur d&apos;mündlechi Gschichteerzellig vo de{' '}
+                    <strong className="text-amber-300 font-semibold">Mama Africa</strong>. Mir fiired
+                    ihre YouTube-Kanal und di lebändigi Tradition vo afrikanische Gschichte.
+                  </>
+                ) : (
+                  <>
+                    Lovingly inspired by the oral storytelling of{' '}
+                    <strong className="text-amber-300 font-semibold">Mama Africa</strong>. Celebrating
+                    her YouTube channel and the sacred tradition of African oral folklore.
+                  </>
+                )}
+              </p>
+              <a
+                href="https://youtu.be/I_xZDq9vj7c?si=jykeZn-g5xbh8qbw"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-amber-200 hover:text-white border border-red-500/30 font-medium text-xs transition-colors w-full justify-center group"
+              >
+                <Youtube className="w-4 h-4 text-red-500 fill-red-500 group-hover:scale-110 transition-transform" />
+                <span>
+                  {activeLanguage === 'de-CH'
+                    ? 'Mama Africa uf YouTube luege'
+                    : 'Watch Mama Africa on YouTube'}
+                </span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100" />
+              </a>
+            </div>
+          )}
         </CardHeader>
 
         <CardContent className="space-y-4">
