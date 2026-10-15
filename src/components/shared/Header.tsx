@@ -4,9 +4,7 @@ import Link from 'next/link';
 import { Icons } from './Icons';
 import { Button } from '../ui/button';
 import { LogoutButton } from '../admin/LogoutButton';
-import { ShareButton } from './ShareButton';
 import { LayoutDashboard } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -22,21 +20,17 @@ export function Header({ isLoggedIn }: HeaderProps) {
             Our Mumu Don Do
           </span>
         </Link>
-        <div className="flex items-center space-x-2">
-          {isLoggedIn ? (
-            <div className="flex items-center space-x-2">
-              <Button asChild variant="secondary" size="sm">
-                <Link href="/admin-dashboard">
-                  <LayoutDashboard className="mr-2 h-4 w-4" />
-                  Admin
-                </Link>
-              </Button>
-              <LogoutButton />
-            </div>
-          ) : (
-            <ShareButton />
-          )}
-        </div>
+        {isLoggedIn && (
+          <div className="flex items-center space-x-2">
+            <Button asChild variant="secondary" size="sm">
+              <Link href="/admin-dashboard">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Admin
+              </Link>
+            </Button>
+            <LogoutButton />
+          </div>
+        )}
       </div>
     </header>
   );

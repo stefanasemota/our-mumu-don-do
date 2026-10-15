@@ -112,7 +112,7 @@ export default function RootLayout({
   const isLoggedIn = !!ADMIN_PASSWORD && authToken === ADMIN_PASSWORD;
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -135,7 +135,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={cn('min-h-screen bg-background font-body antialiased')}>
+      <body
+        className={cn('min-h-screen bg-background font-body antialiased')}
+        suppressHydrationWarning
+      >
         <FirebaseClientProvider>
           <AppBody isLoggedIn={isLoggedIn}>{children}</AppBody>
           <Toaster />
