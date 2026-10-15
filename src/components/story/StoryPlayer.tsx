@@ -14,7 +14,6 @@ import {
   Minimize2,
   ArrowLeft,
   ArrowRight,
-  MapPin,
   Mic,
   HelpCircle,
   CheckCircle,
@@ -463,10 +462,10 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   };
 
   const formatTime = (secs: number) => {
-    if (isNaN(secs) || secs === 0) return '00:00';
+    if (isNaN(secs) || secs <= 0) return '0:00';
     const m = Math.floor(secs / 60);
     const s = Math.floor(secs % 60);
-    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
   const activeDuration = duration > 0 ? duration : 340;
@@ -650,7 +649,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               'relative w-full overflow-hidden shadow-2xl bg-surface-container-low group select-none cursor-pointer',
               isFullscreen
                 ? 'h-full max-h-screen rounded-none border-0 bg-black flex items-center justify-center'
-                : 'aspect-video rounded-2xl lg:rounded-3xl border border-outline-variant/30'
+                : 'aspect-[4/3] sm:aspect-[16/10] md:aspect-video min-h-[360px] sm:min-h-[440px] md:min-h-[480px] rounded-2xl lg:rounded-3xl border border-outline-variant/30 flex items-center justify-center'
             )}
           >
             {/* Story Narrative Stage Artwork */}
@@ -705,10 +704,10 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               }}
               disabled={currentPage === 0}
               className={cn(
-                'absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface transition-all duration-300 shadow-xl border border-white/10 z-20',
+                'absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface transition-all duration-300 shadow-xl border border-white/10 z-20',
                 !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none',
                 currentPage === 0
-                  ? 'opacity-20 cursor-not-allowed'
+                  ? 'opacity-0 pointer-events-none'
                   : 'hover:bg-stitch-secondary hover:text-on-secondary active:scale-95 cursor-pointer'
               )}
             >
@@ -723,28 +722,25 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               }}
               disabled={currentPage === totalPages - 1}
               className={cn(
-                'absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface transition-all duration-300 shadow-xl border border-white/10 z-20',
+                'absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface transition-all duration-300 shadow-xl border border-white/10 z-20',
                 !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none',
                 currentPage === totalPages - 1
-                  ? 'opacity-20 cursor-not-allowed'
+                  ? 'opacity-0 pointer-events-none'
                   : 'hover:bg-stitch-secondary hover:text-on-secondary active:scale-95 cursor-pointer'
               )}
             >
               <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
-            {/* PROMINENT CENTRAL PLAY/PAUSE BUTTON:
-                Only appears when paused, or when mouse hovers / user touches the video briefly */}
+            {/* PROMINENT CENTRAL PLAY/PAUSE BUTTON (Harmonized with StorybookModal & Image 2) */}
             <div
               className={cn(
-                'absolute inset-0 flex flex-col items-center justify-center gap-3.5 z-20 transition-all duration-300 pointer-events-none',
-                !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                'absolute inset-0 flex flex-col items-center justify-center gap-3 z-20 pointer-events-auto transition-all duration-300',
+                !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
               )}
             >
-              <div className="relative flex items-center justify-center pointer-events-auto">
-                {isPlaying && (
-                  <div className="absolute -inset-4 rounded-full bg-stitch-secondary/35 animate-ping pointer-events-none" />
-                )}
+              <div className="relative group">
+                <div className="absolute -inset-2 bg-stitch-secondary/40 rounded-full blur-xl group-hover:bg-stitch-secondary/60 transition-all animate-pulse" />
                 <button
                   type="button"
                   aria-label={isPlaying ? 'Pause storytelling narration' : 'Play story narration'}
@@ -752,21 +748,21 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     e.stopPropagation();
                     togglePlay();
                   }}
-                  className="relative w-18 h-18 sm:w-22 sm:h-22 p-5 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer ring-4 ring-stitch-secondary/30"
+                  className="relative w-16 h-16 sm:w-20 sm:h-20 p-4 sm:p-5 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer ring-4 ring-stitch-secondary/30"
                 >
                   {isPlaying ? (
-                    <Pause className="w-9 h-9 sm:w-11 sm:h-11 fill-on-secondary text-on-secondary" />
+                    <Pause className="w-8 h-8 sm:w-10 sm:h-10 fill-on-secondary text-on-secondary" />
                   ) : (
-                    <Play className="w-9 h-9 sm:w-11 sm:h-11 fill-on-secondary text-on-secondary ml-1" />
+                    <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-on-secondary text-on-secondary ml-1" />
                   )}
                 </button>
               </div>
-              <span className="px-4 py-1.5 rounded-full bg-surface-dim/90 backdrop-blur-md text-sm sm:text-base font-label-ui text-on-surface shadow-lg border border-white/10">
+              <span className="px-4 py-1.5 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs sm:text-sm font-label-ui text-on-surface shadow-lg border border-white/10 select-none">
                 {isPlaying ? 'Narration Active (Tap to Pause)' : 'Tap to Play Story Narration'}
               </span>
             </div>
 
-            {/* TOP AUDIO TOOLBAR (Harmonized with StorybookModal - no small play button, placed at top) */}
+            {/* TOP AUDIO TOOLBAR (Harmonized with StorybookModal & Image 2) */}
             <div
               className={cn(
                 'absolute top-3 sm:top-4 inset-x-3 sm:inset-x-6 flex flex-col gap-1.5 p-2 sm:px-4 sm:py-2.5 rounded-2xl bg-surface-dim/95 backdrop-blur-md border border-white/10 z-20 transition-all duration-300 shadow-xl',
@@ -778,7 +774,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                 {/* Audio Narration Title & Timestamps */}
                 <div className="flex flex-col min-w-0 pr-1">
                   <span className="font-label-ui font-semibold text-on-surface truncate text-xs sm:text-sm">
-                    {topic.title} • {activeLanguage === 'de-CH' ? 'Audio-Gschicht' : 'Audio Narration'}
+                    {activeLanguage === 'de-CH' ? 'Audio-Gschicht' : 'Audio Narration'} • {topic.title}
                   </span>
                   <span className="font-label-code text-[11px] sm:text-xs text-stitch-secondary">
                     {formatTime(currentTime)} / {formatTime(activeDuration)}
@@ -828,19 +824,6 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)] transition-all duration-150"
                   style={{ width: `${progressPercent}%` }}
                 />
-              </div>
-            </div>
-
-            {/* Subtle Location Pill at Bottom Left */}
-            <div
-              className={cn(
-                'absolute bottom-3 sm:bottom-4 left-3 sm:left-6 z-20 transition-all duration-300 pointer-events-none',
-                !isPlaying || showControls ? 'opacity-100' : 'opacity-0'
-              )}
-            >
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-dim/80 backdrop-blur-md text-on-surface text-xs font-medium border border-white/10 shadow-md">
-                <MapPin className="w-3.5 h-3.5 text-stitch-secondary" />
-                <span>{topic.guidelineCategory?.[0] || 'Palace of Zazzau'}</span>
               </div>
             </div>
           </div>
