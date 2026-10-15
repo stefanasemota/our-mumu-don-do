@@ -38,8 +38,8 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { getMediaUrl } from '@/lib/media';
 import { Icons } from '../shared/Icons';
-
 import { StorybookModal, type StorybookBookData } from './StorybookModal';
+import { ShareStoryModal } from '../shared/ShareStoryModal';
 
 interface StoryPlayerProps {
   topic: WeeklyEducationalTopic;
@@ -110,6 +110,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   // Auto-hide controls state & timer
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const controlsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -451,35 +452,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   };
 
   // Share action
-  const handleShare = async () => {
-    const shareData = {
-      title: topic.title,
-      text: topic.description,
-      url: `/share/story/${topic.id}`,
-    };
-    const absoluteUrl = typeof window !== 'undefined' ? new URL(shareData.url, window.location.origin).href : shareData.url;
-
-    if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare && navigator.canShare({ ...shareData, url: absoluteUrl })) {
-      try {
-        await navigator.share({ ...shareData, url: absoluteUrl });
-      } catch (error) {
-        console.error('Error sharing:', error);
-      }
-    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-      try {
-        await navigator.clipboard.writeText(absoluteUrl);
-        toast({
-          title: 'Link Copied!',
-          description: 'The story link has been copied to your clipboard.',
-        });
-      } catch {
-        toast({
-          variant: 'destructive',
-          title: 'Failed to Copy',
-          description: 'Could not copy the link to your clipboard.',
-        });
-      }
-    }
+  const handleShare = () => {
+    setIsShareModalOpen(true);
   };
 
   const toggleFullscreen = () => {
@@ -1312,7 +1286,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         </section>
 
         {/* SECTION 6: CHAPTER NAVIGATION DOCK */}
-        <footer className="mt-6 flex items-center justify-between gap-4 pb-12">
+        <footer className="mt-6 flex items-center justify-between gap-3 sm:gap-4 pb-12">
           <button
             type="button"
             aria-label="Go to previous page"
@@ -1335,8 +1309,32 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             <span>{currentPage < totalPages - 1 ? `Continue Story (Scene ${currentPage + 2}/${totalPages})` : 'Story Completed'}</span>
             <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
+          <button
+            type="button"
+            aria-label="Share story"
+            title="Share Story"
+            onClick={handleShare}
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-surface-container hover:bg-surface-bright text-stitch-secondary flex items-center justify-center flex-shrink-0 transition-colors border border-outline-variant/30 active:scale-95 cursor-pointer shadow-md"
+          >
+            <Share2 className="w-6 h-6 sm:w-7 sm:h-7" />
+          </button>
         </footer>
       </div>
+
+      {/* STORY SHARE MODAL */}
+      <ShareStoryModal
+        story={{
+          id: topic.id,
+          title: topic.title,
+          description: topic.description,
+          imageUrl: topic.pages?.[0]?.imageUrl || (topic as any).imageUrl,
+          categoryTag: Array.isArray(topic.guidelineCategory)
+            ? topic.guidelineCategory[0]
+            : topic.guidelineCategory,
+        }}
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+      />
 
       {/* INTERACTIVE STORYBOOK SPREAD MODAL */}
       {activeStorybook && (

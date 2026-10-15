@@ -25,12 +25,14 @@ import {
   Clock,
   Gift,
   Unlock,
+  Share2,
 } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { getMediaUrl } from '@/lib/media';
 import { StorybookModal, type StorybookBookData } from '../story/StorybookModal';
+import { ShareStoryModal, type ShareStoryData } from '../shared/ShareStoryModal';
 
 interface KidsEditionProps {
   topics?: WeeklyEducationalTopic[];
@@ -256,6 +258,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isPlayingPreview, setIsPlayingPreview] = useState(false);
   const [resumeText, setResumeText] = useState('Resume Chapter');
+  const [sharingStory, setSharingStory] = useState<ShareStoryData | null>(null);
 
   const { toast } = useToast();
 
@@ -419,6 +422,27 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>Read Book</span>
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSharingStory({
+                      id: 'the-great-giants-of-zazzau',
+                      title: 'The Great Giants of Zazzau',
+                      subtitle: 'Queen Amina: Warrior of Zazzau',
+                      description:
+                        'Ride across the golden savannah with Queen Amina! Discover how brave strategy, safe trade routes, and towering clay walls protected her people.',
+                      imageUrl: '/images/the-great-giants-of-zazzau-cover.png',
+                      categoryTag: 'Northern Kingdom',
+                    })
+                  }
+                  aria-label="Share story"
+                  title="Share Story"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary font-label-ui text-xs font-semibold border border-outline-variant/30 transition-all cursor-pointer"
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Share</span>
+                </button>
               </div>
             </div>
           </div>
@@ -490,19 +514,40 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 </span>
               </div>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setIsBookmarked(!isBookmarked);
-                  toast({
-                    title: !isBookmarked ? 'Saved to Favorite Quests!' : 'Removed from Favorites',
-                  });
-                }}
-                aria-label="Save to favorite quests"
-                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant hover:text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <Bookmark className={cn('w-4 h-4', isBookmarked && 'fill-stitch-secondary text-stitch-secondary')} />
-              </button>
+              <div className="absolute top-3 right-3 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSharingStory({
+                      id: 'the-great-giants-of-zazzau',
+                      title: 'The Great Giants of Zazzau',
+                      subtitle: 'Queen Amina: Warrior of Zazzau',
+                      description:
+                        'Ride into the golden savannah with Queen Amina! Discover how brave strategy, safe trade routes, and towering clay walls protected her people.',
+                      imageUrl: '/images/the-great-giants-of-zazzau-cover.png',
+                      categoryTag: 'Northern Kingdom',
+                    })
+                  }
+                  aria-label="Share story"
+                  title="Share Story"
+                  className="w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant hover:text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsBookmarked(!isBookmarked);
+                    toast({
+                      title: !isBookmarked ? 'Saved to Favorite Quests!' : 'Removed from Favorites',
+                    });
+                  }}
+                  aria-label="Save to favorite quests"
+                  className="w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant hover:text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <Bookmark className={cn('w-4 h-4', isBookmarked && 'fill-stitch-secondary text-stitch-secondary')} />
+                </button>
+              </div>
             </div>
 
             <div className="p-4 sm:p-5 flex flex-col gap-2 -mt-4 relative z-10">
@@ -547,6 +592,26 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   className="w-12 h-12 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer border border-outline-variant/30"
                 >
                   <Volume2 className={cn('w-5 h-5', isPlayingPreview && 'animate-pulse text-stitch-secondary')} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSharingStory({
+                      id: 'the-great-giants-of-zazzau',
+                      title: 'The Great Giants of Zazzau',
+                      subtitle: 'Queen Amina: Warrior of Zazzau',
+                      description:
+                        'Ride into the golden savannah with Queen Amina! Discover how brave strategy, safe trade routes, and towering clay walls protected her people.',
+                      imageUrl: '/images/the-great-giants-of-zazzau-cover.png',
+                      categoryTag: 'Northern Kingdom',
+                    })
+                  }
+                  aria-label="Share story"
+                  title="Share Story"
+                  className="w-12 h-12 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer border border-outline-variant/30"
+                >
+                  <Share2 className="w-5 h-5" />
                 </button>
               </div>
             </div>
@@ -625,6 +690,16 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                         </button>
                       )}
 
+                      <button
+                        type="button"
+                        onClick={() => setSharingStory(story)}
+                        className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
+                        title={`Share ${story.title}`}
+                        aria-label={`Share ${story.title}`}
+                      >
+                        <Share2 className="w-3.5 h-3.5" />
+                      </button>
+
                       <Link
                         href={`/story/${story.id}`}
                         className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-secondary-container transition-colors shadow-sm"
@@ -702,17 +777,29 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   </p>
                 </div>
 
-                <Link
-                  href={`/story/${story.id}`}
-                  className="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-primary-container text-stitch-secondary flex items-center justify-center flex-shrink-0 transition-colors shadow-sm cursor-pointer"
-                  aria-label={`Play ${story.title}`}
-                >
-                  {story.badgeType === 'quiz' ? (
-                    <Brain className="w-5 h-5 text-stitch-secondary" />
-                  ) : (
-                    <Music className="w-5 h-5 text-stitch-secondary" />
-                  )}
-                </Link>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setSharingStory(story)}
+                    className="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-surface-bright text-stitch-secondary flex items-center justify-center transition-colors shadow-sm cursor-pointer border border-outline-variant/20"
+                    title={`Share ${story.title}`}
+                    aria-label={`Share ${story.title}`}
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </button>
+
+                  <Link
+                    href={`/story/${story.id}`}
+                    className="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-primary-container text-stitch-secondary flex items-center justify-center flex-shrink-0 transition-colors shadow-sm cursor-pointer"
+                    aria-label={`Play ${story.title}`}
+                  >
+                    {story.badgeType === 'quiz' ? (
+                      <Brain className="w-5 h-5 text-stitch-secondary" />
+                    ) : (
+                      <Music className="w-5 h-5 text-stitch-secondary" />
+                    )}
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -762,13 +849,26 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                     </p>
                   </div>
 
-                  <Link
-                    href={`/story/${wonder.id}`}
-                    className="w-full py-2 rounded-lg bg-surface-container-high hover:bg-primary-container text-on-surface hover:text-on-primary font-label-code text-xs font-semibold transition-colors flex items-center justify-center gap-1 shadow-sm"
-                  >
-                    <span>Read Tale</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSharingStory(wonder)}
+                      className="py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-stitch-secondary font-label-code text-xs font-semibold transition-colors flex items-center justify-center gap-1 shadow-sm border border-outline-variant/20 cursor-pointer"
+                      title={`Share ${wonder.title}`}
+                      aria-label={`Share ${wonder.title}`}
+                    >
+                      <Share2 className="w-3.5 h-3.5" />
+                      <span>Share</span>
+                    </button>
+
+                    <Link
+                      href={`/story/${wonder.id}`}
+                      className="flex-1 py-2 rounded-lg bg-surface-container-high hover:bg-primary-container text-on-surface hover:text-on-primary font-label-code text-xs font-semibold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                    >
+                      <span>Read Tale</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -821,6 +921,13 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
           </div>
         </div>
       </section>
+
+      {/* STORY SHARE MODAL */}
+      <ShareStoryModal
+        story={sharingStory}
+        isOpen={Boolean(sharingStory)}
+        onClose={() => setSharingStory(null)}
+      />
 
       {/* STORYBOOK SPREAD MODAL */}
       {activeStorybook && (
