@@ -11,7 +11,6 @@ import {
   Volume2,
   VolumeX,
   Share2,
-  Bookmark,
   Check,
   Maximize2,
   Minimize2,
@@ -24,7 +23,6 @@ import {
   Handshake,
   Shield,
   Users,
-  User,
   BookOpen,
   Download,
   ExternalLink,
@@ -101,7 +99,6 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [speedIndex, setSpeedIndex] = useState(1); // default 1.0x
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const [selectedPerspective, setSelectedPerspective] = useState<string | null>('peace');
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -530,29 +527,12 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 type="button"
-                aria-label="Bookmark"
-                onClick={() => {
-                  setIsBookmarked(!isBookmarked);
-                  toast({
-                    title: isBookmarked ? 'Bookmark Removed' : 'Story Bookmarked',
-                    description: isBookmarked ? 'Removed from reading list.' : 'Saved to your civic reading list.',
-                  });
-                }}
-                className="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-              >
-                <Bookmark className={cn('w-6 h-6', isBookmarked && 'fill-stitch-secondary text-stitch-secondary')} />
-              </button>
-              <button
-                type="button"
                 aria-label="Share"
                 onClick={handleShare}
                 className="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
               >
                 <Share2 className="w-6 h-6" />
               </button>
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-stitch-primary flex items-center justify-center flex-shrink-0">
-                <User className="w-5 h-5 text-on-primary" />
-              </div>
             </div>
           </div>
         </header>

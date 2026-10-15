@@ -13,7 +13,6 @@ import {
   Headphones,
   Music,
   Brain,
-  Bookmark,
   Volume2,
   X,
   Mic,
@@ -255,7 +254,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
 
   // Daily Riddle Reveal State
   const [isRiddleCracked, setIsRiddleCracked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const [isPlayingPreview, setIsPlayingPreview] = useState(false);
   const [resumeText, setResumeText] = useState('Resume Chapter');
   const [sharingStory, setSharingStory] = useState<ShareStoryData | null>(null);
@@ -532,19 +530,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   className="w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant hover:text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
                 >
                   <Share2 className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsBookmarked(!isBookmarked);
-                    toast({
-                      title: !isBookmarked ? 'Saved to Favorite Quests!' : 'Removed from Favorites',
-                    });
-                  }}
-                  aria-label="Save to favorite quests"
-                  className="w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant hover:text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
-                >
-                  <Bookmark className={cn('w-4 h-4', isBookmarked && 'fill-stitch-secondary text-stitch-secondary')} />
                 </button>
               </div>
             </div>
