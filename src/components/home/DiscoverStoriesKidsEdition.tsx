@@ -14,7 +14,6 @@ import {
   Headphones,
   Music,
   Brain,
-  Volume2,
   X,
   Mic,
   ChevronRight,
@@ -31,6 +30,7 @@ import type { WeeklyEducationalTopic } from '@/types';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { getMediaUrl } from '@/lib/media';
+import { getCuratedTopic } from '@/lib/curated-topics';
 import { StorybookModal, type StorybookBookData } from '../story/StorybookModal';
 import { ShareStoryModal, type ShareStoryData } from '../shared/ShareStoryModal';
 
@@ -82,6 +82,25 @@ const ARHUAN_BOOK: StorybookBookData = {
   inspirationTitle: "Watch Mama Africa's Storytelling Video",
   pages: Array.from({ length: 12 }, (_, i) => getMediaUrl(`/books/arhuan/page-${i + 1}.jpg`)),
 };
+
+function getStorybookForStory(story: StoryItem): StorybookBookData {
+  if (story.storybookData) return story.storybookData;
+  if (story.id === 'the-great-giants-of-zazzau') return ZAZZAU_BOOK;
+  if (story.id === 'arhuan-the-giant-prince-of-benin') return ARHUAN_BOOK;
+
+  const topic = getCuratedTopic(story.id);
+  const topicPages = topic?.pages?.map((p) => getMediaUrl(p.imageUrl)).filter(Boolean) || [];
+
+  return {
+    title: story.title,
+    author: 'By Stefan Asemota • Illustrated Story Book',
+    pdfUrl: getMediaUrl(story.imageUrl),
+    downloadName: `${story.id}-storybook.pdf`,
+    audioUrl: story.audioUrl || (topic?.audioUrl ? getMediaUrl(topic.audioUrl) : undefined),
+    audioTitle: `Audio Narration • ${story.title}`,
+    pages: topicPages.length > 0 ? topicPages : [getMediaUrl(story.imageUrl)],
+  };
+}
 
 // Authoritative Catalog: Only the 8 REAL existing stories in Our Mumu Don Do
 const RAW_REAL_STORIES_CATALOG: StoryItem[] = [
@@ -255,11 +274,9 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
 
   // Daily Riddle Reveal State
   const [isRiddleCracked, setIsRiddleCracked] = useState(false);
-  const [isPlayingPreview, setIsPlayingPreview] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [resumeText, setResumeText] = useState('Resume Chapter');
   const [sharingStory, setSharingStory] = useState<ShareStoryData | null>(null);
-  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const { toast } = useToast();
 
@@ -318,46 +335,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
       title: 'Riddle Solved!',
       description: 'You solved today’s mystery riddle! Great detective thinking.',
     });
-  };
-
-  const handleAudioPreview = () => {
-    if (!previewAudioRef.current) {
-      const audio = new Audio(getMediaUrl('/audio/The_Great_Giants_of_Zazzau.mp3'));
-      audio.onended = () => setIsPlayingPreview(false);
-      audio.onerror = () => {
-        setIsPlayingPreview(false);
-        toast({
-          variant: 'destructive',
-          title: 'Audio Preview Unavailable',
-          description: 'Could not load Queen Amina audio stream.',
-        });
-      };
-      previewAudioRef.current = audio;
-    }
-
-    const audio = previewAudioRef.current;
-    if (isPlayingPreview) {
-      audio.pause();
-      setIsPlayingPreview(false);
-      toast({
-        title: 'Audio Paused',
-        description: 'Queen Amina preview audio paused.',
-      });
-    } else {
-      audio
-        .play()
-        .then(() => {
-          setIsPlayingPreview(true);
-          toast({
-            title: 'Now Playing Audio Preview',
-            description: 'Queen Amina: Warrior of Zazzau',
-          });
-        })
-        .catch((err) => {
-          console.warn('Audio preview play error:', err);
-          setIsPlayingPreview(false);
-        });
-    }
   };
 
   const handleVoiceSearch = () => {
@@ -424,15 +401,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
       });
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (previewAudioRef.current) {
-        previewAudioRef.current.pause();
-        previewAudioRef.current = null;
-      }
-    };
-  }, []);
 
   const handleResumeClick = () => {
     setResumeText('Loading Quest...');
@@ -519,6 +487,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 unoptimized
                 className="object-cover"
                 sizes="80px"
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent" />
               <span className="absolute bottom-1 left-1 font-label-code text-[10px] text-stitch-secondary px-1.5 py-0.5 rounded bg-surface-container-lowest/90 font-bold">
@@ -544,18 +513,10 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               </div>
 
               <div className="flex items-center gap-2">
-                <Link
-                  href="/story/the-great-giants-of-zazzau"
-                  onClick={handleResumeClick}
-                  className="flex items-center justify-center gap-2 bg-primary-container hover:bg-secondary-container active:scale-95 text-on-primary font-label-ui text-xs sm:text-sm px-4 py-2 rounded-xl transition-all shadow-sm w-fit font-semibold"
-                >
-                  <Play className="w-4 h-4 fill-on-primary" />
-                  <span>{resumeText}</span>
-                </Link>
-
+                {/* 1. Book */}
                 <button
                   type="button"
-                  onClick={() => setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true })}
+                  onClick={() => setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: false })}
                   aria-label="Read Illustrated Book"
                   title="Read Illustrated Book"
                   className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center border border-outline-variant/30 transition-all cursor-pointer flex-shrink-0"
@@ -563,6 +524,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   <BookOpen className="w-4 h-4" />
                 </button>
 
+                {/* 2. Share */}
                 <button
                   type="button"
                   onClick={() =>
@@ -582,6 +544,16 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 >
                   <Share2 className="w-4 h-4" />
                 </button>
+
+                {/* 3. Play */}
+                <Link
+                  href="/story/the-great-giants-of-zazzau"
+                  onClick={handleResumeClick}
+                  className="flex items-center justify-center gap-2 bg-primary-container hover:bg-secondary-container active:scale-95 text-on-primary font-label-ui text-xs sm:text-sm px-4 py-2 rounded-xl transition-all shadow-sm w-fit font-semibold"
+                >
+                  <Play className="w-4 h-4 fill-on-primary" />
+                  <span>{resumeText}</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -693,17 +665,10 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               </p>
 
               <div className="pt-2 flex items-center justify-between gap-3">
-                <Link
-                  href="/story/the-great-giants-of-zazzau"
-                  className="flex-1 flex items-center justify-center gap-2 bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-sm sm:text-base py-3 px-4 rounded-xl shadow-md active:scale-98 transition-all font-bold"
-                >
-                  <Play className="w-5 h-5 fill-on-secondary" />
-                  <span>Start Adventure</span>
-                </Link>
-
+                {/* 1. Book */}
                 <button
                   type="button"
-                  onClick={() => setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true })}
+                  onClick={() => setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: false })}
                   className="w-12 h-12 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary border border-outline-variant/30 flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer"
                   title="Open Illustrated Story Book"
                   aria-label="Open Illustrated Story Book"
@@ -711,25 +676,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   <BookOpen className="w-5 h-5" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleAudioPreview}
-                  aria-label={isPlayingPreview ? 'Pause Audio Preview' : 'Listen to Audio Preview'}
-                  title={isPlayingPreview ? 'Pause Audio Preview' : 'Listen to Audio Preview'}
-                  className={cn(
-                    'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer border',
-                    isPlayingPreview
-                      ? 'bg-stitch-secondary text-on-secondary border-stitch-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)]'
-                      : 'bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary border-outline-variant/30'
-                  )}
-                >
-                  {isPlayingPreview ? (
-                    <Pause className="w-5 h-5 fill-current" />
-                  ) : (
-                    <Volume2 className="w-5 h-5" />
-                  )}
-                </button>
-
+                {/* 2. Share */}
                 <button
                   type="button"
                   onClick={() =>
@@ -749,6 +696,15 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 >
                   <Share2 className="w-5 h-5" />
                 </button>
+
+                {/* 3. Play */}
+                <Link
+                  href="/story/the-great-giants-of-zazzau"
+                  className="flex-1 flex items-center justify-center gap-2 bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-sm sm:text-base py-3 px-4 rounded-xl shadow-md active:scale-98 transition-all font-bold"
+                >
+                  <Play className="w-5 h-5 fill-on-secondary" />
+                  <span>Start Adventure</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -813,19 +769,19 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                       {story.ageRange || 'Ages 7–10'}
                     </span>
 
-                    <div className="flex items-center gap-1.5">
-                      {story.hasStorybook && story.storybookData && (
-                        <button
-                          type="button"
-                          onClick={() => setActiveStorybook(story.storybookData!)}
-                          className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
-                          title="Open Illustrated Book"
-                          aria-label="Open Illustrated Book"
-                        >
-                          <BookOpen className="w-3.5 h-3.5" />
-                        </button>
-                      )}
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {/* 1. Book */}
+                      <button
+                        type="button"
+                        onClick={() => setActiveStorybook(getStorybookForStory(story))}
+                        className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
+                        title={`Read ${story.title} Book`}
+                        aria-label={`Read ${story.title} Book`}
+                      >
+                        <BookOpen className="w-3.5 h-3.5" />
+                      </button>
 
+                      {/* 2. Share */}
                       <button
                         type="button"
                         onClick={() => setSharingStory(story)}
@@ -836,6 +792,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                         <Share2 className="w-3.5 h-3.5" />
                       </button>
 
+                      {/* 3. Play */}
                       <Link
                         href={`/story/${story.id}`}
                         className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-secondary-container transition-colors shadow-sm"
@@ -913,7 +870,19 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                  {/* 1. Book */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveStorybook(getStorybookForStory(story))}
+                    className="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-surface-bright text-stitch-secondary flex items-center justify-center transition-colors shadow-sm cursor-pointer border border-outline-variant/20"
+                    title={`Read ${story.title} Book`}
+                    aria-label={`Read ${story.title} Book`}
+                  >
+                    <BookOpen className="w-4 h-4" />
+                  </button>
+
+                  {/* 2. Share */}
                   <button
                     type="button"
                     onClick={() => setSharingStory(story)}
@@ -924,16 +893,13 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                     <Share2 className="w-4 h-4" />
                   </button>
 
+                  {/* 3. Play */}
                   <Link
                     href={`/story/${story.id}`}
-                    className="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-primary-container text-stitch-secondary flex items-center justify-center flex-shrink-0 transition-colors shadow-sm cursor-pointer"
+                    className="w-10 h-10 rounded-xl bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center flex-shrink-0 transition-colors shadow-sm cursor-pointer"
                     aria-label={`Play ${story.title}`}
                   >
-                    {story.badgeType === 'quiz' ? (
-                      <Brain className="w-5 h-5 text-stitch-secondary" />
-                    ) : (
-                      <Music className="w-5 h-5 text-stitch-secondary" />
-                    )}
+                    <Play className="w-4 h-4 fill-on-primary-container" />
                   </Link>
                 </div>
               </div>
@@ -986,6 +952,18 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {/* 1. Book */}
+                    <button
+                      type="button"
+                      onClick={() => setActiveStorybook(getStorybookForStory(wonder))}
+                      className="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-bright text-stitch-secondary flex items-center justify-center transition-colors shadow-sm border border-outline-variant/20 cursor-pointer flex-shrink-0"
+                      title={`Read ${wonder.title} Book`}
+                      aria-label={`Read ${wonder.title} Book`}
+                    >
+                      <BookOpen className="w-4 h-4" />
+                    </button>
+
+                    {/* 2. Share */}
                     <button
                       type="button"
                       onClick={() => setSharingStory(wonder)}
@@ -996,12 +974,14 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                       <Share2 className="w-4 h-4" />
                     </button>
 
+                    {/* 3. Play */}
                     <Link
                       href={`/story/${wonder.id}`}
-                      className="flex-1 py-2 rounded-lg bg-surface-container-high hover:bg-primary-container text-on-surface hover:text-on-primary font-label-code text-xs font-semibold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                      className="flex-1 py-2 rounded-lg bg-primary-container hover:bg-secondary-container text-on-primary-container font-label-code text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                      aria-label={`Play ${wonder.title}`}
                     >
-                      <span>Read Tale</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
+                      <Play className="w-3.5 h-3.5 fill-on-primary-container" />
+                      <span>Start Story</span>
                     </Link>
                   </div>
                 </div>

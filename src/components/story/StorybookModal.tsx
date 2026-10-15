@@ -15,11 +15,11 @@ import {
   BookOpen,
   Play,
   Pause,
-  Volume2,
-  VolumeX,
+  Share2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { ShareStoryModal } from '../shared/ShareStoryModal';
 
 export interface StorybookBookData {
   title: string;
@@ -50,7 +50,7 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const controlsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -191,13 +191,6 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
     setCurrentTime(audio.currentTime);
   };
 
-  const toggleMute = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.muted = !isMuted;
-    setIsMuted(!isMuted);
-  };
-
   const formatTime = (secs: number) => {
     if (isNaN(secs)) return '0:00';
     const m = Math.floor(secs / 60);
@@ -305,6 +298,17 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
               <span className="hidden md:inline">Download</span>
             </a>
 
+            {/* Share Story Book */}
+            <button
+              type="button"
+              onClick={() => setIsShareModalOpen(true)}
+              className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm border border-outline-variant/30 cursor-pointer"
+              title="Share Story Book"
+            >
+              <Share2 className="w-4 h-4" />
+              <span className="hidden md:inline">Share</span>
+            </button>
+
             {/* Fullscreen Button */}
             <button
               type="button"
@@ -371,22 +375,8 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
                   />
                 </div>
 
-                {/* Mute & Fullscreen Toggles */}
+                {/* Fullscreen Toggle */}
                 <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
-                  <button
-                    type="button"
-                    aria-label={isMuted ? 'Unmute' : 'Mute'}
-                    onClick={toggleMute}
-                    className="p-1.5 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
-                    title={isMuted ? 'Unmute' : 'Mute'}
-                  >
-                    {isMuted ? (
-                      <VolumeX className="w-4 h-4 text-error" />
-                    ) : (
-                      <Volume2 className="w-4 h-4 text-stitch-secondary" />
-                    )}
-                  </button>
-
                   <button
                     type="button"
                     aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
@@ -628,6 +618,18 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
             ))}
           </div>
         )}
+
+        {/* SHARE STORYBOOK MODAL */}
+        <ShareStoryModal
+          story={{
+            id: (book as any).id || (book.title.toLowerCase().includes('arhuan') ? 'arhuan-the-giant-prince-of-benin' : 'the-great-giants-of-zazzau'),
+            title: book.title,
+            imageUrl: book.pages[0],
+            audioUrl: book.audioUrl,
+          }}
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+        />
       </div>
     </div>
   );

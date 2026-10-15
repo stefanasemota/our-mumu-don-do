@@ -8,8 +8,6 @@ import {
   ChevronRight,
   Play,
   Pause,
-  Volume2,
-  VolumeX,
   Share2,
   Check,
   Maximize2,
@@ -37,7 +35,7 @@ import { cn } from '@/lib/utils';
 import { getMediaUrl } from '@/lib/media';
 import { Icons } from '../shared/Icons';
 import { StorybookModal, type StorybookBookData } from './StorybookModal';
-import { ShareStoryModal } from '../shared/ShareStoryModal';
+import { ShareStoryModal, type ShareStoryData } from '../shared/ShareStoryModal';
 
 interface StoryPlayerProps {
   topic: WeeklyEducationalTopic;
@@ -95,7 +93,6 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [activeLanguage, setActiveLanguage] = useState<StoryLanguage>('en');
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [speedIndex, setSpeedIndex] = useState(1); // default 1.0x
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -108,6 +105,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [sharingStoryOverride, setSharingStoryOverride] = useState<ShareStoryData | null>(null);
   const controlsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -448,14 +446,6 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
     if (audioRef.current) {
       audioRef.current.playbackRate = newSpeed;
     }
-  };
-
-  // Toggle Mute
-  const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-    }
-    setIsMuted(!isMuted);
   };
 
   // Share action
@@ -809,22 +799,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   />
                 </div>
 
-                {/* Mute & Fullscreen Toggles */}
+                {/* Fullscreen Toggle */}
                 <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
-                  <button
-                    type="button"
-                    aria-label={isMuted ? 'Unmute' : 'Mute'}
-                    onClick={toggleMute}
-                    className="p-1.5 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
-                    title={isMuted ? 'Unmute' : 'Mute'}
-                  >
-                    {isMuted ? (
-                      <VolumeX className="w-4 h-4 text-error" />
-                    ) : (
-                      <Volume2 className="w-4 h-4 text-stitch-secondary" />
-                    )}
-                  </button>
-
                   <button
                     type="button"
                     aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
@@ -1246,23 +1222,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (isPlaying && audioRef.current) {
-                        audioRef.current.pause();
-                        setIsPlaying(false);
-                      }
-                      setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true });
-                    }}
-                    title="Listen with Narration"
-                    aria-label="Listen with Narration"
-                    className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                  </button>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  {/* 1. Book */}
                   <button
                     type="button"
                     onClick={(e) => {
@@ -1275,9 +1236,50 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     }}
                     title="Open Illustrated Book"
                     aria-label="Open Illustrated Book"
-                    className="w-8 h-8 rounded-full bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer border border-outline-variant/20"
                   >
                     <BookOpen className="w-4 h-4" />
+                  </button>
+
+                  {/* 2. Share */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSharingStoryOverride({
+                        id: 'the-great-giants-of-zazzau',
+                        title: 'The Great Giants of Zazzau',
+                        subtitle: 'Queen Amina: Warrior of Zazzau',
+                        description:
+                          'Illustrated educational story book exploring Queen Amina, the historic city walls, and Nigerian heritage.',
+                        imageUrl: '/images/the-great-giants-of-zazzau-cover.png',
+                        categoryTag: 'Northern Kingdom',
+                      });
+                      setIsShareModalOpen(true);
+                    }}
+                    title="Share The Great Giants of Zazzau"
+                    aria-label="Share The Great Giants of Zazzau"
+                    className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer border border-outline-variant/20"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                  </button>
+
+                  {/* 3. Play */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isPlaying && audioRef.current) {
+                        audioRef.current.pause();
+                        setIsPlaying(false);
+                      }
+                      setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true });
+                    }}
+                    title="Listen with Narration"
+                    aria-label="Listen with Narration"
+                    className="w-8 h-8 rounded-full bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-current" />
                   </button>
                 </div>
               </div>
@@ -1348,10 +1350,8 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md bg-surface-bright text-[11px] font-mono text-stitch-secondary/80">
-                    Audio Soon
-                  </span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  {/* 1. Book */}
                   <button
                     type="button"
                     onClick={(e) => {
@@ -1364,9 +1364,50 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                     }}
                     title="Open Illustrated Book"
                     aria-label="Open Illustrated Book"
-                    className="w-8 h-8 rounded-full bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer border border-outline-variant/20"
                   >
                     <BookOpen className="w-4 h-4" />
+                  </button>
+
+                  {/* 2. Share */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSharingStoryOverride({
+                        id: 'arhuan-the-giant-prince-of-benin',
+                        title: 'Arhuan: The Giant Prince of Benin',
+                        subtitle: 'Inspired by Mama Africa',
+                        description:
+                          'The epic legend of Prince Arhuan, the giant prince of Benin Kingdom whose immense strength was guided by royal courage and ancestral wisdom.',
+                        imageUrl: '/images/arhuan-the-giant-prince-of-benin-cover.png',
+                        categoryTag: 'Benin Kingdom',
+                      });
+                      setIsShareModalOpen(true);
+                    }}
+                    title="Share Arhuan: The Giant Prince of Benin"
+                    aria-label="Share Arhuan: The Giant Prince of Benin"
+                    className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer border border-outline-variant/20"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                  </button>
+
+                  {/* 3. Play */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isPlaying && audioRef.current) {
+                        audioRef.current.pause();
+                        setIsPlaying(false);
+                      }
+                      setActiveStorybook({ ...ARHUAN_BOOK, autoPlay: true });
+                    }}
+                    title="Listen with Narration"
+                    aria-label="Listen with Narration"
+                    className="w-8 h-8 rounded-full bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-current" />
                   </button>
                 </div>
               </div>
@@ -1412,17 +1453,22 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
       {/* STORY SHARE MODAL */}
       <ShareStoryModal
-        story={{
-          id: topic.id,
-          title: topic.title,
-          description: topic.description,
-          imageUrl: topic.pages?.[0]?.imageUrl || (topic as any).imageUrl,
-          categoryTag: Array.isArray(topic.guidelineCategory)
-            ? topic.guidelineCategory[0]
-            : topic.guidelineCategory,
-        }}
+        story={
+          sharingStoryOverride || {
+            id: topic.id,
+            title: topic.title,
+            description: topic.description,
+            imageUrl: topic.pages?.[0]?.imageUrl || (topic as any).imageUrl,
+            categoryTag: Array.isArray(topic.guidelineCategory)
+              ? topic.guidelineCategory[0]
+              : topic.guidelineCategory,
+          }
+        }
         isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
+        onClose={() => {
+          setIsShareModalOpen(false);
+          setSharingStoryOverride(null);
+        }}
       />
 
       {/* INTERACTIVE STORYBOOK SPREAD MODAL */}
