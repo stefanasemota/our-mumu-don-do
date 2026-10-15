@@ -438,10 +438,9 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   }
                   aria-label="Share story"
                   title="Share Story"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary font-label-ui text-xs font-semibold border border-outline-variant/30 transition-all cursor-pointer"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center border border-outline-variant/30 transition-all cursor-pointer flex-shrink-0"
                 >
-                  <Share2 className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Share</span>
+                  <Share2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -569,9 +568,9 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               <div className="pt-2 flex items-center justify-between gap-3">
                 <Link
                   href="/story/the-great-giants-of-zazzau"
-                  className="flex-1 flex items-center justify-center gap-2 bg-stitch-primary hover:bg-stitch-secondary text-on-primary font-label-ui text-sm sm:text-base py-3 px-4 rounded-xl shadow-md active:scale-98 transition-all font-semibold"
+                  className="flex-1 flex items-center justify-center gap-2 bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-sm sm:text-base py-3 px-4 rounded-xl shadow-md active:scale-98 transition-all font-bold"
                 >
-                  <Play className="w-5 h-5 fill-on-primary" />
+                  <Play className="w-5 h-5 fill-on-secondary" />
                   <span>Start Adventure</span>
                 </Link>
 
@@ -853,12 +852,11 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                     <button
                       type="button"
                       onClick={() => setSharingStory(wonder)}
-                      className="py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-stitch-secondary font-label-code text-xs font-semibold transition-colors flex items-center justify-center gap-1 shadow-sm border border-outline-variant/20 cursor-pointer"
+                      className="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-bright text-stitch-secondary flex items-center justify-center transition-colors shadow-sm border border-outline-variant/20 cursor-pointer flex-shrink-0"
                       title={`Share ${wonder.title}`}
                       aria-label={`Share ${wonder.title}`}
                     >
-                      <Share2 className="w-3.5 h-3.5" />
-                      <span>Share</span>
+                      <Share2 className="w-4 h-4" />
                     </button>
 
                     <Link
@@ -902,7 +900,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
               <button
                 type="button"
                 onClick={handleCrackRiddle}
-                className="w-full bg-stitch-primary hover:bg-stitch-secondary text-on-primary font-label-ui text-sm sm:text-base py-3 rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-98 transition-all font-semibold cursor-pointer"
+                className="w-full bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-sm sm:text-base py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-md active:scale-98 transition-all font-bold cursor-pointer"
               >
                 <span>Crack The Riddle</span>
                 <Unlock className="w-4 h-4 ml-1" />
