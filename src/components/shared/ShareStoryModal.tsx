@@ -90,8 +90,12 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
+  const thumbnail = story.imageUrl
+    ? getMediaUrl(story.imageUrl)
+    : '/images/the-great-giants-of-zazzau-cover.png';
+
   const handleInstagramShare = async () => {
-    // Copy the link first so user can paste it anywhere in Instagram
+    // 1. Always copy the link first so the user can immediately paste it into Instagram's Link Sticker
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(shareUrl);
@@ -100,9 +104,40 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
       console.warn('Clipboard write failed:', e);
     }
 
-    // If native share is supported (mobile iOS/Android), open native share sheet which includes Instagram
+    // 2. On mobile, if we share an IMAGE file, Instagram unlocks "Stories" and "Feed" in the OS share sheet!
     if (canNativeShare) {
       try {
+        let imageFile: File | null = null;
+        if (thumbnail) {
+          try {
+            const res = await fetch(thumbnail, { mode: 'cors' });
+            if (res.ok) {
+              const blob = await res.blob();
+              const ext = blob.type.includes('png') ? 'png' : 'jpg';
+              imageFile = new File([blob], `${story.id}-story.${ext}`, {
+                type: blob.type || 'image/jpeg',
+              });
+            }
+          } catch (fetchErr) {
+            console.warn('Could not load image file for Instagram share sheet:', fetchErr);
+          }
+        }
+
+        // If file sharing is supported by device and image was loaded, share the image file
+        if (imageFile && navigator.canShare && navigator.canShare({ files: [imageFile] })) {
+          toast({
+            title: '📸 Ready for Instagram Story!',
+            description: 'Link copied! Select "Stories" in Instagram, then tap the 🔗 Sticker to paste the link.',
+          });
+          await navigator.share({
+            files: [imageFile],
+            title: story.title,
+            text: `📖 ${story.title} • ${shareUrl}`,
+          });
+          return;
+        }
+
+        // Fallback to URL/text share if image file sharing cannot be invoked
         await navigator.share({
           title: story.title,
           text: `📖 ${story.title} • African Heritage Story on Our Mumu Don Do`,
@@ -110,12 +145,12 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
         });
         return;
       } catch (err: any) {
-        // User may cancel native share sheet; fall through to toast tip
+        // User may cancel native share sheet; do not show error on AbortError
         if (err?.name === 'AbortError') return;
       }
     }
 
-    // Desktop or native share fallback
+    // Desktop or non-mobile fallback
     toast({
       title: '📸 Link Copied for Instagram!',
       description: 'Link copied! Open Instagram to paste into your Story sticker, Bio, or Direct Message.',
@@ -137,10 +172,6 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
       }
     }
   };
-
-  const thumbnail = story.imageUrl
-    ? getMediaUrl(story.imageUrl)
-    : '/images/the-great-giants-of-zazzau-cover.png';
 
   return (
     <div
