@@ -624,28 +624,6 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                   <span>8 mins</span>
                 </span>
               </div>
-
-              <div className="absolute top-3 right-3 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSharingStory({
-                      id: 'the-great-giants-of-zazzau',
-                      title: 'The Great Giants of Zazzau',
-                      subtitle: 'Queen Amina: Warrior of Zazzau',
-                      description:
-                        'Ride into the golden savannah with Queen Amina! Discover how brave strategy, safe trade routes, and towering clay walls protected her people.',
-                      imageUrl: '/images/the-great-giants-of-zazzau-cover.png',
-                      categoryTag: 'Northern Kingdom',
-                    })
-                  }
-                  aria-label="Share story"
-                  title="Share Story"
-                  className="w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant hover:text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
-                >
-                  <Share2 className="w-4 h-4" />
-                </button>
-              </div>
             </div>
 
             <div className="p-4 sm:p-5 flex flex-col gap-2 -mt-4 relative z-10">
