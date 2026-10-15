@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   Search,
   Star,
   Play,
+  Pause,
   BookOpen,
   ArrowRight,
   Compass,
@@ -255,14 +256,45 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
   // Daily Riddle Reveal State
   const [isRiddleCracked, setIsRiddleCracked] = useState(false);
   const [isPlayingPreview, setIsPlayingPreview] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [resumeText, setResumeText] = useState('Resume Chapter');
   const [sharingStory, setSharingStory] = useState<ShareStoryData | null>(null);
+  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const { toast } = useToast();
 
-  // Filtered stories from the authoritative real catalog
+  // Dynamic merge: Preserve rich metadata of REAL_STORIES_CATALOG,
+  // but let Firestore edits (title, description, audioUrl, imageUrl) update stories live.
+  const mergedCatalog = useMemo(() => {
+    if (!topics || topics.length === 0) return REAL_STORIES_CATALOG;
+
+    const topicMap = new Map<string, WeeklyEducationalTopic>();
+    topics.forEach((t) => {
+      if (t.id) topicMap.set(t.id, t);
+      if (t.title) topicMap.set(t.title.toLowerCase().trim(), t);
+    });
+
+    return REAL_STORIES_CATALOG.map((story) => {
+      const match =
+        topicMap.get(story.id) ||
+        topicMap.get(story.title.toLowerCase().trim());
+
+      if (!match) return story;
+
+      return {
+        ...story,
+        title: match.title || story.title,
+        description: match.description || story.description,
+        audioUrl: match.audioUrl ? getMediaUrl(match.audioUrl) : story.audioUrl,
+        audioUrlDeCH: match.audioUrlDeCH ? getMediaUrl(match.audioUrlDeCH) : story.audioUrlDeCH,
+        imageUrl: (match as any).imageUrl ? getMediaUrl((match as any).imageUrl) : story.imageUrl,
+      };
+    });
+  }, [topics]);
+
+  // Filtered stories from the authoritative real catalog (merged with Firestore updates)
   const filteredStories = useMemo(() => {
-    return REAL_STORIES_CATALOG.filter((story) => {
+    return mergedCatalog.filter((story) => {
       const matchesSearch =
         searchQuery === '' ||
         story.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -274,7 +306,7 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
 
       return matchesSearch && matchesTheme;
     });
-  }, [searchQuery, selectedTheme]);
+  }, [searchQuery, selectedTheme, mergedCatalog]);
 
   const warriorStories = filteredStories.filter((s) => s.archetype === 'kings-warriors');
   const riddleStories = filteredStories.filter((s) => s.archetype === 'riddles-mysteries');
@@ -289,15 +321,118 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
   };
 
   const handleAudioPreview = () => {
-    setIsPlayingPreview(true);
-    toast({
-      title: 'Now Playing Audio Preview',
-      description: 'The Legend of Queen Amina of Zazzau',
-    });
-    setTimeout(() => {
+    if (!previewAudioRef.current) {
+      const audio = new Audio(getMediaUrl('/audio/The_Great_Giants_of_Zazzau.mp3'));
+      audio.onended = () => setIsPlayingPreview(false);
+      audio.onerror = () => {
+        setIsPlayingPreview(false);
+        toast({
+          variant: 'destructive',
+          title: 'Audio Preview Unavailable',
+          description: 'Could not load Queen Amina audio stream.',
+        });
+      };
+      previewAudioRef.current = audio;
+    }
+
+    const audio = previewAudioRef.current;
+    if (isPlayingPreview) {
+      audio.pause();
       setIsPlayingPreview(false);
-    }, 3000);
+      toast({
+        title: 'Audio Paused',
+        description: 'Queen Amina preview audio paused.',
+      });
+    } else {
+      audio
+        .play()
+        .then(() => {
+          setIsPlayingPreview(true);
+          toast({
+            title: 'Now Playing Audio Preview',
+            description: 'Queen Amina: Warrior of Zazzau',
+          });
+        })
+        .catch((err) => {
+          console.warn('Audio preview play error:', err);
+          setIsPlayingPreview(false);
+        });
+    }
   };
+
+  const handleVoiceSearch = () => {
+    if (typeof window === 'undefined') return;
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      toast({
+        title: 'Voice Search Not Supported',
+        description: 'Your browser does not support speech recognition. Please type your search query!',
+      });
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+        toast({
+          title: '🎙️ Listening...',
+          description: 'Say the name of a hero, kingdom, or story!',
+        });
+      };
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setSearchQuery(transcript);
+        toast({
+          title: 'Voice Query Captured',
+          description: `Searching for: "${transcript}"`,
+        });
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event: any) => {
+        console.warn('Speech recognition error:', event.error);
+        setIsListening(false);
+        if (event.error !== 'no-speech') {
+          toast({
+            variant: 'destructive',
+            title: 'Voice Recognition Error',
+            description: `Could not understand audio (${event.error}).`,
+          });
+        }
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } catch (err) {
+      console.warn('Speech recognition failed to start:', err);
+      setIsListening(false);
+      toast({
+        variant: 'destructive',
+        title: 'Microphone Permission Needed',
+        description: 'Please grant microphone access to use voice search.',
+      });
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewAudioRef.current) {
+        previewAudioRef.current.pause();
+        previewAudioRef.current = null;
+      }
+    };
+  }, []);
 
   const handleResumeClick = () => {
     setResumeText('Loading Quest...');
@@ -344,11 +479,17 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
           ) : (
             <button
               type="button"
-              onClick={() => toast({ title: 'Microphone Activated', description: 'Speak the name of a hero or kingdom!' })}
+              onClick={handleVoiceSearch}
               aria-label="Voice Search"
-              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-stitch-secondary transition-colors"
+              title="Search by Voice"
+              className={cn(
+                'absolute inset-y-0 right-0 pr-3.5 flex items-center transition-colors cursor-pointer',
+                isListening
+                  ? 'text-red-500 animate-pulse'
+                  : 'text-on-surface-variant hover:text-stitch-secondary'
+              )}
             >
-              <Mic className="w-4 h-4" />
+              <Mic className={cn('w-4 h-4', isListening && 'scale-125 text-red-500')} />
             </button>
           )}
         </div>
@@ -572,10 +713,20 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 <button
                   type="button"
                   onClick={handleAudioPreview}
-                  aria-label="Listen to Audio Story"
-                  className="w-12 h-12 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer border border-outline-variant/30"
+                  aria-label={isPlayingPreview ? 'Pause Audio Preview' : 'Listen to Audio Preview'}
+                  title={isPlayingPreview ? 'Pause Audio Preview' : 'Listen to Audio Preview'}
+                  className={cn(
+                    'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer border',
+                    isPlayingPreview
+                      ? 'bg-stitch-secondary text-on-secondary border-stitch-secondary shadow-[0_0_12px_rgba(74,225,118,0.5)]'
+                      : 'bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary border-outline-variant/30'
+                  )}
                 >
-                  <Volume2 className={cn('w-5 h-5', isPlayingPreview && 'animate-pulse text-stitch-secondary')} />
+                  {isPlayingPreview ? (
+                    <Pause className="w-5 h-5 fill-current" />
+                  ) : (
+                    <Volume2 className="w-5 h-5" />
+                  )}
                 </button>
 
                 <button

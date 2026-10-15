@@ -90,9 +90,9 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const thumbnail = story.imageUrl
-    ? getMediaUrl(story.imageUrl)
-    : '/images/the-great-giants-of-zazzau-cover.png';
+  const thumbnail = getMediaUrl(
+    story.imageUrl || '/images/the-great-giants-of-zazzau-cover.png'
+  );
 
   const handleInstagramShare = async () => {
     // 1. Always copy the link first so the user can immediately paste it into Instagram's Link Sticker
