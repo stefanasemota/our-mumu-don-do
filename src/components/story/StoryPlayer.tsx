@@ -192,9 +192,9 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   const scrollToStage = useCallback(() => {
     if (stageRef.current) {
-      const headerOffset = 90;
+      const headerOffset = 80;
       const elementPosition = stageRef.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      const offsetPosition = elementPosition + (window.scrollY || window.pageYOffset || 0) - headerOffset;
       window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -222,8 +222,15 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
   // Bottom footer navigation (after reading text) - advances slide & scrolls smoothly to stage
   const handleBottomContinue = useCallback(() => {
     if (currentPage < totalPages - 1) {
-      setCurrentPage((prev) => prev + 1);
-      setTimeout(scrollToStage, 40);
+      const nextScene = currentPage + 1;
+      setCurrentPage(nextScene);
+      toast({
+        title: `Scene ${nextScene + 1} of ${totalPages}`,
+        description: 'Advancing to the next scene...',
+      });
+      setTimeout(() => {
+        scrollToStage();
+      }, 50);
     } else {
       toast({
         title: 'Story Completed!',
@@ -234,8 +241,11 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
 
   const handleBottomPrev = useCallback(() => {
     if (currentPage > 0) {
-      setCurrentPage((prev) => prev - 1);
-      setTimeout(scrollToStage, 40);
+      const prevScene = currentPage - 1;
+      setCurrentPage(prevScene);
+      setTimeout(() => {
+        scrollToStage();
+      }, 50);
     }
   }, [currentPage, scrollToStage]);
 
@@ -766,57 +776,47 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
               </span>
             </div>
 
-            {/* Location Pill & Fullscreen Toggle Top Overlay */}
+            {/* TOP AUDIO TOOLBAR (Harmonized with StorybookModal - no small play button, placed at top) */}
             <div
               className={cn(
-                'absolute top-4 sm:top-6 inset-x-4 sm:inset-x-6 flex items-center justify-between z-20 transition-all duration-300',
-                !isPlaying || showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              )}
-            >
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-dim/80 backdrop-blur-md text-on-surface text-sm sm:text-base font-medium border border-white/10 shadow-md">
-                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-stitch-secondary" />
-                <span>{topic.guidelineCategory?.[0] || 'Palace of Zazzau'}</span>
-              </div>
-              <button
-                type="button"
-                aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleFullscreen();
-                }}
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-surface-dim/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:bg-surface-bright transition-all border border-white/10 shadow-md"
-              >
-                {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-              </button>
-            </div>
-
-            {/* Integrated Video Progress Bar & Audio Time at Bottom */}
-            <div
-              className={cn(
-                'absolute bottom-3 sm:bottom-4 inset-x-4 sm:inset-x-6 flex flex-col gap-2 p-3 sm:p-4 rounded-2xl bg-surface-dim/90 backdrop-blur-md border border-white/10 z-20 transition-all duration-300 shadow-xl',
-                !isPlaying || showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
+                'absolute top-3 sm:top-4 inset-x-3 sm:inset-x-6 flex flex-col gap-1.5 p-2 sm:px-4 sm:py-2.5 rounded-2xl bg-surface-dim/95 backdrop-blur-md border border-white/10 z-20 transition-all duration-300 shadow-xl',
+                !isPlaying || showControls ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
               )}
               onClick={(e) => e.stopPropagation()}
             >
-              <div
-                role="button"
-                tabIndex={0}
-                aria-label="Scrub timeline"
-                onClick={handleScrub}
-                className="relative w-full h-2.5 sm:h-3 bg-surface-bright rounded-full overflow-hidden cursor-pointer"
-              >
+              <div className="flex items-center justify-between gap-3 text-xs">
+                {/* Audio Narration Title & Timestamps */}
+                <div className="flex flex-col min-w-0 pr-1">
+                  <span className="font-label-ui font-semibold text-on-surface truncate text-xs sm:text-sm">
+                    {topic.title} • {activeLanguage === 'de-CH' ? 'Audio-Gschicht' : 'Audio Narration'}
+                  </span>
+                  <span className="font-label-code text-[11px] sm:text-xs text-stitch-secondary">
+                    {formatTime(currentTime)} / {formatTime(activeDuration)}
+                  </span>
+                </div>
+
+                {/* Scrubber (desktop & tablet) */}
                 <div
-                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_10px_rgba(74,225,118,0.9)] transition-all duration-150"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-              <div className="flex items-center justify-between text-on-surface font-label-code text-xs sm:text-sm">
-                <div className="flex items-center gap-2">
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Seek narration"
+                  onClick={handleScrub}
+                  className="flex-1 max-w-xs sm:max-w-md h-2 bg-surface-bright rounded-full overflow-hidden cursor-pointer hidden sm:block"
+                >
+                  <div
+                    className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)] transition-all duration-150"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+
+                {/* Mute & Fullscreen Toggles */}
+                <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
                   <button
                     type="button"
                     aria-label={isMuted ? 'Unmute' : 'Mute'}
                     onClick={toggleMute}
-                    className="hover:text-stitch-secondary transition-colors"
+                    className="p-1.5 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
+                    title={isMuted ? 'Unmute' : 'Mute'}
                   >
                     {isMuted ? (
                       <VolumeX className="w-4 h-4 text-error" />
@@ -824,11 +824,47 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                       <Volume2 className="w-4 h-4 text-stitch-secondary" />
                     )}
                   </button>
-                  <span className="text-stitch-secondary font-semibold">
-                    {formatTime(currentTime)}
-                  </span>
+
+                  <button
+                    type="button"
+                    aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFullscreen();
+                    }}
+                    className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors"
+                    title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  >
+                    {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                  </button>
                 </div>
-                <span className="font-medium">{formatTime(activeDuration)}</span>
+              </div>
+
+              {/* Scrubber for mobile screens */}
+              <div
+                role="button"
+                tabIndex={0}
+                aria-label="Seek narration"
+                onClick={handleScrub}
+                className="w-full h-1.5 bg-surface-bright rounded-full overflow-hidden cursor-pointer sm:hidden"
+              >
+                <div
+                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)] transition-all duration-150"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Subtle Location Pill at Bottom Left */}
+            <div
+              className={cn(
+                'absolute bottom-3 sm:bottom-4 left-3 sm:left-6 z-20 transition-all duration-300 pointer-events-none',
+                !isPlaying || showControls ? 'opacity-100' : 'opacity-0'
+              )}
+            >
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-dim/80 backdrop-blur-md text-on-surface text-xs font-medium border border-white/10 shadow-md">
+                <MapPin className="w-3.5 h-3.5 text-stitch-secondary" />
+                <span>{topic.guidelineCategory?.[0] || 'Palace of Zazzau'}</span>
               </div>
             </div>
           </div>
@@ -946,6 +982,54 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   ? '— Königin Amina vo Zazzau • Weisheit & Aafüahrig'
                   : '— Queen Amina of Zazzau • Leadership Wisdom'}
               </span>
+            </div>
+
+            {/* Inline Scene Continuation Bar (immediately after reading the passage) */}
+            <div className="flex items-center justify-between gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  handlePrevPage();
+                  scrollToStage();
+                }}
+                disabled={currentPage === 0}
+                className={cn(
+                  'px-4 py-2.5 rounded-xl bg-surface-container text-on-surface font-label-ui text-sm font-semibold flex items-center gap-2 border border-outline-variant/30 transition-all',
+                  currentPage === 0
+                    ? 'opacity-30 cursor-not-allowed'
+                    : 'hover:bg-surface-bright active:scale-95 cursor-pointer shadow-sm'
+                )}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Previous Scene</span>
+              </button>
+
+              <span className="font-label-code text-xs text-on-surface-variant font-medium">
+                Scene {currentPage + 1} of {totalPages}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (currentPage < totalPages - 1) {
+                    handleNextPage();
+                    scrollToStage();
+                  } else {
+                    toast({
+                      title: 'Story Completed!',
+                      description: 'You have finished reading all scenes of this story.',
+                    });
+                  }
+                }}
+                className="px-5 py-2.5 rounded-xl bg-stitch-secondary hover:bg-secondary-container text-on-secondary font-label-ui text-sm font-bold flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer"
+              >
+                <span>
+                  {currentPage < totalPages - 1
+                    ? `Next Scene (${currentPage + 2}/${totalPages})`
+                    : 'Completed'}
+                </span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </article>
@@ -1173,15 +1257,28 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                       }
                       setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true });
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-surface-bright hover:bg-surface-variant text-stitch-secondary text-xs font-semibold flex items-center gap-1 transition-colors"
+                    title="Listen with Narration"
+                    aria-label="Listen with Narration"
+                    className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
                   >
-                    <Play className="w-3 h-3" />
-                    <span>Listen</span>
+                    <Play className="w-3.5 h-3.5 fill-current" />
                   </button>
-                  <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isPlaying && audioRef.current) {
+                        audioRef.current.pause();
+                        setIsPlaying(false);
+                      }
+                      setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: false });
+                    }}
+                    title="Open Illustrated Book"
+                    aria-label="Open Illustrated Book"
+                    className="w-8 h-8 rounded-full bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                  >
                     <BookOpen className="w-4 h-4" />
-                    Read Book
-                  </span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -1255,10 +1352,22 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
                   <span className="px-2 py-0.5 rounded-md bg-surface-bright text-[11px] font-mono text-stitch-secondary/80">
                     Audio Soon
                   </span>
-                  <span className="text-xs sm:text-sm font-semibold text-stitch-secondary flex items-center gap-1 group-hover:underline">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isPlaying && audioRef.current) {
+                        audioRef.current.pause();
+                        setIsPlaying(false);
+                      }
+                      setActiveStorybook({ ...ARHUAN_BOOK, autoPlay: false });
+                    }}
+                    title="Open Illustrated Book"
+                    aria-label="Open Illustrated Book"
+                    className="w-8 h-8 rounded-full bg-primary-container hover:bg-secondary-container text-on-primary-container flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                  >
                     <BookOpen className="w-4 h-4" />
-                    Read Book
-                  </span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -1266,7 +1375,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
         </section>
 
         {/* SECTION 6: CHAPTER NAVIGATION DOCK */}
-        <footer className="mt-6 flex items-center justify-between gap-3 sm:gap-4 pb-12">
+        <nav aria-label="Chapter navigation dock" className="mt-8 flex items-center justify-between gap-3 sm:gap-4 pb-12">
           <button
             type="button"
             aria-label="Go to previous page"
@@ -1298,7 +1407,7 @@ export function StoryPlayer({ topic, standalone = false }: StoryPlayerProps) {
           >
             <Share2 className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
-        </footer>
+        </nav>
       </div>
 
       {/* STORY SHARE MODAL */}

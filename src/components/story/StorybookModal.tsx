@@ -51,11 +51,55 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const controlsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { toast } = useToast();
 
   const totalSpreads = book.pages.length;
+
+  const triggerShowControls = useCallback(() => {
+    setShowControls(true);
+    if (controlsTimerRef.current) {
+      clearTimeout(controlsTimerRef.current);
+    }
+    if (isPlaying) {
+      controlsTimerRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2500);
+    }
+  }, [isPlaying]);
+
+  const handleStageMouseLeave = useCallback(() => {
+    if (isPlaying) {
+      setShowControls(false);
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+      controlsTimerRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2500);
+    } else {
+      setShowControls(true);
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    }
+    return () => {
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    };
+  }, [isPlaying]);
 
   // Handle Autoplay & Cleanup
   useEffect(() => {
@@ -283,140 +327,96 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
           </div>
         </header>
 
-        {/* NARRATION AUDIO STRIP */}
-        <div className="px-4 sm:px-6 py-2 bg-surface-container-high border-b border-outline-variant/30 flex items-center justify-between gap-3 text-xs z-10">
-          {book.audioUrl ? (
-            <>
-              <div className="flex items-center gap-2.5 min-w-0">
-                <button
-                  type="button"
-                  aria-label={isPlaying ? 'Pause narration' : 'Play narration'}
-                  onClick={toggleAudio}
-                  className="w-8 h-8 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all flex-shrink-0"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-3.5 h-3.5 fill-on-secondary" />
-                  ) : (
-                    <Play className="w-3.5 h-3.5 fill-on-secondary ml-0.5" />
-                  )}
-                </button>
-                <div className="flex flex-col min-w-0">
-                  <span className="font-label-ui font-semibold text-on-surface truncate text-xs">
-                    {book.audioTitle || 'Musical Audio Narration'}
+        {/* MAIN VIEWER STAGE */}
+        <div
+          onMouseEnter={triggerShowControls}
+          onMouseMove={triggerShowControls}
+          onMouseLeave={handleStageMouseLeave}
+          onTouchStart={triggerShowControls}
+          className="flex-1 relative w-full h-full min-h-0 overflow-hidden bg-[#070b14] flex items-center justify-center p-2 sm:p-4"
+        >
+          {/* TOP AUDIO TOOLBAR (Harmonized with StoryPlayer) */}
+          {book.audioUrl && (
+            <div
+              className={cn(
+                'absolute top-3 sm:top-4 inset-x-3 sm:inset-x-6 flex flex-col gap-1.5 p-2 sm:px-4 sm:py-2.5 rounded-2xl bg-surface-dim/95 backdrop-blur-md border border-white/10 z-30 transition-all duration-300 shadow-xl',
+                !isPlaying || showControls ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between gap-3 text-xs">
+                {/* Audio Narration Title & Timestamps */}
+                <div className="flex flex-col min-w-0 pr-1">
+                  <span className="font-label-ui font-semibold text-on-surface truncate text-xs sm:text-sm">
+                    {book.audioTitle || `${book.title} • Audio Narration`}
                   </span>
-                  <span className="font-label-code text-[11px] text-stitch-secondary">
+                  <span className="font-label-code text-[11px] sm:text-xs text-stitch-secondary">
                     {formatTime(currentTime)} / {formatTime(duration)}
                   </span>
                 </div>
+
+                {/* Scrubber (desktop & tablet) */}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Seek narration"
+                  onClick={handleScrub}
+                  className="flex-1 max-w-xs sm:max-w-md h-2 bg-surface-bright rounded-full overflow-hidden cursor-pointer hidden sm:block"
+                >
+                  <div
+                    className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)] transition-all duration-150"
+                    style={{
+                      width: `${duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0}%`,
+                    }}
+                  />
+                </div>
+
+                {/* Mute & Fullscreen Toggles */}
+                <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+                  <button
+                    type="button"
+                    aria-label={isMuted ? 'Unmute' : 'Mute'}
+                    onClick={toggleMute}
+                    className="p-1.5 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
+                    title={isMuted ? 'Unmute' : 'Mute'}
+                  >
+                    {isMuted ? (
+                      <VolumeX className="w-4 h-4 text-error" />
+                    ) : (
+                      <Volume2 className="w-4 h-4 text-stitch-secondary" />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                    onClick={toggleFullscreen}
+                    className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors"
+                    title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  >
+                    {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
-              {/* Scrubber */}
+              {/* Scrubber for mobile screens */}
               <div
                 role="button"
                 tabIndex={0}
                 aria-label="Seek narration"
                 onClick={handleScrub}
-                className="flex-1 max-w-md h-2 bg-surface-bright rounded-full overflow-hidden cursor-pointer hidden sm:block"
+                className="w-full h-1.5 bg-surface-bright rounded-full overflow-hidden cursor-pointer sm:hidden"
               >
                 <div
-                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)]"
+                  className="h-full bg-stitch-secondary rounded-full shadow-[0_0_8px_rgba(74,225,118,0.8)] transition-all duration-150"
                   style={{
                     width: `${duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0}%`,
                   }}
                 />
               </div>
-
-              {/* Mute */}
-              <button
-                type="button"
-                aria-label={isMuted ? 'Unmute' : 'Mute'}
-                onClick={toggleMute}
-                className="p-1 rounded-lg text-on-surface-variant hover:text-stitch-secondary transition-colors"
-              >
-                {isMuted ? <VolumeX className="w-4 h-4 text-error" /> : <Volume2 className="w-4 h-4" />}
-              </button>
-
-              {/* Multilingual Narration Language Selector */}
-              <div className="flex items-center gap-1 p-0.5 rounded-lg bg-surface-bright border border-outline-variant/30 text-[11px] font-semibold flex-shrink-0">
-                <span className="px-2 py-0.5 rounded-md bg-stitch-secondary text-on-secondary flex items-center gap-1 shadow-sm">
-                  <span className="text-[10px] font-mono font-bold">EN</span>
-                  <span className="hidden sm:inline">English</span>
-                </span>
-                <span
-                  title="Swiss German audio narration coming soon"
-                  className="px-2 py-0.5 rounded-md text-on-surface-variant/40 flex items-center gap-1 opacity-60 cursor-not-allowed select-none"
-                >
-                  <span className="text-[10px] font-mono font-bold">CH</span>
-                  <span className="hidden sm:inline">Schwiizerdütsch</span>
-                  <span className="text-[9px] font-label-code bg-surface-dim px-1 py-0.5 rounded border border-outline-variant/30 text-stitch-secondary/80">
-                    Audio Soon
-                  </span>
-                </span>
-              </div>
-            </>
-          ) : (
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-2 text-on-surface-variant text-xs">
-                <span className="w-2 h-2 rounded-full bg-stitch-secondary/60 animate-pulse" />
-                <span className="font-label-code text-stitch-secondary/90">
-                  Audio Narration Currently in Production
-                </span>
-              </div>
-              <div className="flex items-center gap-1 p-0.5 rounded-lg bg-surface-bright border border-outline-variant/30 text-[11px] font-semibold flex-shrink-0">
-                <span className="px-2 py-0.5 rounded-md bg-surface-dim text-on-surface-variant/80 flex items-center gap-1">
-                  <span className="text-[10px] font-mono font-bold">EN</span>
-                  <span className="hidden sm:inline">English</span>
-                </span>
-                <span
-                  title="Swiss German audio narration coming soon"
-                  className="px-2 py-0.5 rounded-md text-on-surface-variant/40 flex items-center gap-1 opacity-60 cursor-not-allowed select-none"
-                >
-                  <span className="text-[10px] font-mono font-bold">CH</span>
-                  <span className="hidden sm:inline">Schwiizerdütsch</span>
-                  <span className="text-[9px] font-label-code bg-surface-dim px-1 py-0.5 rounded border border-outline-variant/30 text-stitch-secondary/80">
-                    Audio Soon
-                  </span>
-                </span>
-              </div>
             </div>
           )}
 
-          {/* Quick Zoom Tools */}
-          <div className="flex items-center gap-1 border-l border-outline-variant/30 pl-3">
-            <button
-              type="button"
-              onClick={() => setZoom((z) => Math.max(0.8, z - 0.15))}
-              className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
-              title="Zoom Out"
-            >
-              <ZoomOut className="w-3.5 h-3.5" />
-            </button>
-            <span className="font-label-code text-[11px] text-on-surface-variant w-10 text-center">
-              {Math.round(zoom * 100)}%
-            </span>
-            <button
-              type="button"
-              onClick={() => setZoom((z) => Math.min(2.0, z + 0.15))}
-              className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
-              title="Zoom In"
-            >
-              <ZoomIn className="w-3.5 h-3.5" />
-            </button>
-            {zoom !== 1 && (
-              <button
-                type="button"
-                onClick={() => setZoom(1)}
-                className="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
-                title="Reset Zoom"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* MAIN VIEWER STAGE */}
-        <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden bg-[#070b14] flex items-center justify-center p-2 sm:p-4">
           <div className="relative w-full h-full min-h-0 flex items-center justify-center">
             {/* Storybook Spread Frame */}
             <div
@@ -440,6 +440,38 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
 
               {/* Corner Storybook Page Curl Effect */}
               <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none bg-gradient-to-bl from-white/10 to-transparent" />
+
+              {/* Center Floating Play / Pause Spine Button (Harmonized with Story Player) */}
+              {book.audioUrl && (
+                <div
+                  className={cn(
+                    'absolute inset-0 flex flex-col items-center justify-center gap-3 z-20 pointer-events-auto transition-all duration-300',
+                    !isPlaying || showControls ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                  )}
+                >
+                  <div className="relative group">
+                    <div className="absolute -inset-2 bg-stitch-secondary/40 rounded-full blur-xl group-hover:bg-stitch-secondary/60 transition-all animate-pulse" />
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleAudio();
+                      }}
+                      aria-label={isPlaying ? 'Pause Audio' : 'Play Audio'}
+                      className="relative w-16 h-16 sm:w-20 sm:h-20 p-4 sm:p-5 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer ring-4 ring-stitch-secondary/30"
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-8 h-8 sm:w-10 sm:h-10 fill-on-secondary text-on-secondary" />
+                      ) : (
+                        <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-on-secondary text-on-secondary ml-1" />
+                      )}
+                    </button>
+                  </div>
+                  <span className="px-4 py-1.5 rounded-full bg-surface-dim/90 backdrop-blur-md text-xs sm:text-sm font-label-ui text-on-surface shadow-lg border border-white/10 select-none">
+                    {isPlaying ? 'Narration Active (Tap to Pause)' : 'Tap to Play Story Narration'}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Prev Button Overlay */}
@@ -486,6 +518,39 @@ export function StorybookModal({ book, onClose }: StorybookModalProps) {
               <span className="font-label-ui text-xs text-on-surface-variant font-medium hidden sm:inline">
                 {getSpreadLabel(currentSpread)}
               </span>
+            </div>
+
+            {/* Quick Zoom Tools */}
+            <div className="hidden md:flex items-center gap-1 px-2 py-0.5 rounded-lg bg-surface-container border border-outline-variant/30 text-xs">
+              <button
+                type="button"
+                onClick={() => setZoom((z) => Math.max(0.8, z - 0.15))}
+                className="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
+                title="Zoom Out"
+              >
+                <ZoomOut className="w-3.5 h-3.5" />
+              </button>
+              <span className="font-label-code text-[11px] text-on-surface-variant w-9 text-center">
+                {Math.round(zoom * 100)}%
+              </span>
+              <button
+                type="button"
+                onClick={() => setZoom((z) => Math.min(2.0, z + 0.15))}
+                className="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
+                title="Zoom In"
+              >
+                <ZoomIn className="w-3.5 h-3.5" />
+              </button>
+              {zoom !== 1 && (
+                <button
+                  type="button"
+                  onClick={() => setZoom(1)}
+                  className="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-colors"
+                  title="Reset Zoom"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
             {/* Spread Quick Buttons */}

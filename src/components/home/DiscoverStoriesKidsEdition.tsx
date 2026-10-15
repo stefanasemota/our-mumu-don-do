@@ -556,10 +556,11 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 <button
                   type="button"
                   onClick={() => setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true })}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary font-label-ui text-xs font-semibold border border-outline-variant/30 transition-all cursor-pointer"
+                  aria-label="Read Illustrated Book"
+                  title="Read Illustrated Book"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center border border-outline-variant/30 transition-all cursor-pointer flex-shrink-0"
                 >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Read Book</span>
+                  <BookOpen className="w-4 h-4" />
                 </button>
 
                 <button
@@ -703,11 +704,11 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                 <button
                   type="button"
                   onClick={() => setActiveStorybook({ ...ZAZZAU_BOOK, autoPlay: true })}
-                  className="px-4 py-3 rounded-xl bg-surface-bright hover:bg-surface-variant text-stitch-secondary font-label-ui text-sm font-semibold border border-outline-variant/30 flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                  className="w-12 h-12 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-stitch-secondary border border-outline-variant/30 flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-sm cursor-pointer"
                   title="Open Illustrated Story Book"
+                  aria-label="Open Illustrated Story Book"
                 >
-                  <BookOpen className="w-4 h-4" />
-                  <span className="hidden sm:inline">Read Book</span>
+                  <BookOpen className="w-5 h-5" />
                 </button>
 
                 <button
@@ -817,11 +818,11 @@ export function DiscoverStoriesKidsEdition({ topics }: KidsEditionProps) {
                         <button
                           type="button"
                           onClick={() => setActiveStorybook(story.storybookData!)}
-                          className="px-2.5 py-1 rounded-lg bg-surface-bright hover:bg-surface-variant text-stitch-secondary text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                          className="w-8 h-8 rounded-full bg-surface-bright hover:bg-surface-variant text-stitch-secondary flex items-center justify-center transition-colors cursor-pointer"
                           title="Open Illustrated Book"
+                          aria-label="Open Illustrated Book"
                         >
-                          <BookOpen className="w-3 h-3" />
-                          <span>Book</span>
+                          <BookOpen className="w-3.5 h-3.5" />
                         </button>
                       )}
 

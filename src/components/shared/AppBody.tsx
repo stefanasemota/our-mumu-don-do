@@ -19,14 +19,16 @@ export function AppBody({
   const isSharePage = pathname.startsWith('/share/story');
   const isStoryPage = pathname.startsWith('/story/');
 
-  // Do not render the main header or footer on admin, share, or immersive story reader pages
-  const showChrome = !isAdminPage && !isSharePage && !isStoryPage;
+  // Hide the global header on admin, share, and story reader pages (story player has its own header)
+  const showHeader = !isAdminPage && !isSharePage && !isStoryPage;
+  // Render the footer on all standard pages including story reader pages
+  const showFooter = !isAdminPage && !isSharePage;
 
   return (
     <div className="relative flex min-h-screen flex-col">
-      {showChrome && <Header isLoggedIn={isLoggedIn} />}
+      {showHeader && <Header isLoggedIn={isLoggedIn} />}
       <div className="flex-1">{children}</div>
-      {showChrome && <Footer />}
+      {showFooter && <Footer />}
     </div>
   );
 }
