@@ -307,11 +307,11 @@ export function resolveTopicMedia(topic: WeeklyEducationalTopic): WeeklyEducatio
   return {
     ...topic,
     imageUrl: (topic as any).imageUrl ? getMediaUrl((topic as any).imageUrl) : undefined,
-    audioUrl: topic.audioUrl ? getMediaUrl(topic.audioUrl) : undefined,
+    audioUrl: topic.audioUrl ? getMediaUrl(topic.audioUrl) : '',
     audioUrlDeCH: topic.audioUrlDeCH ? getMediaUrl(topic.audioUrlDeCH) : undefined,
     pages: (topic.pages || []).map((p) => ({
       ...p,
-      imageUrl: p.imageUrl ? getMediaUrl(p.imageUrl) : undefined,
+      imageUrl: p.imageUrl ? getMediaUrl(p.imageUrl) : '',
     })),
   };
 }

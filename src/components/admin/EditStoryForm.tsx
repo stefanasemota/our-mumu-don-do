@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trash2, Plus, Save, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import type { WeeklyEducationalTopic } from '@/types';
+import type { WeeklyEducationalTopic, GuidelineCategory } from '@/types';
 import Link from 'next/link';
 
 export default function EditStoryForm({ story }: { story: WeeklyEducationalTopic }) {
@@ -22,7 +22,10 @@ export default function EditStoryForm({ story }: { story: WeeklyEducationalTopic
   // Form State
   const [description, setDescription] = useState(story.description || '');
   const [audioUrl, setAudioUrl] = useState(story.audioUrl || '');
-  const [guidelineCategory, setGuidelineCategory] = useState(story.guidelineCategory || '');
+  const initialCategory = Array.isArray(story.guidelineCategory)
+    ? story.guidelineCategory.join(', ')
+    : String(story.guidelineCategory || '');
+  const [guidelineCategory, setGuidelineCategory] = useState<string>(initialCategory);
   const [pages, setPages] = useState(story.pages || []);
 
   // Page Array Handlers
@@ -46,10 +49,15 @@ export default function EditStoryForm({ story }: { story: WeeklyEducationalTopic
     try {
       const docRef = doc(db, 'weeklyEducationalTopics', story.id);
       
+      const parsedCategories = guidelineCategory
+        .split(',')
+        .map((c) => c.trim())
+        .filter(Boolean) as GuidelineCategory[];
+
       await updateDoc(docRef, {
         description,
         audioUrl,
-        guidelineCategory,
+        guidelineCategory: parsedCategories,
         pages,
         lastUpdated: new Date().toISOString(),
       });

@@ -59,9 +59,9 @@ export function StoryList() {
         }
       }
       newTopic.date =
-        newTopic.date instanceof Date
-          ? newTopic.date.toISOString()
-          : String(newTopic.date);
+        (newTopic.date as unknown) instanceof Date
+          ? (newTopic.date as unknown as Date).toISOString()
+          : String(newTopic.date || '');
 
       return resolveTopicMedia(newTopic);
     }) || [];

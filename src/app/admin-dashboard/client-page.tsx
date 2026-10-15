@@ -26,8 +26,6 @@ import Link from 'next/link';
 
 interface AdminDashboardClientPageProps {
   isLoggedIn: boolean;
-  adminEmail?: string;
-  adminPassword?: string;
 }
 
 function StoryList() {
@@ -94,8 +92,6 @@ function StoryList() {
 
 export default function AdminDashboardClientPage({
   isLoggedIn,
-  adminEmail,    // <--- Add this
-  adminPassword  // <--- Add this
 }: AdminDashboardClientPageProps) {
   const auth = useAuth();
   const { user, isUserLoading } = useUser();

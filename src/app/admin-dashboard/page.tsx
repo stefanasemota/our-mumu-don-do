@@ -10,8 +10,6 @@ export default async function AdminDashboardPage() {
   return (
     <AdminDashboardClientPage 
       isLoggedIn={isLoggedIn} 
-      adminEmail={process.env.ADMIN_EMAIL}
-      adminPassword={process.env.ADMIN_PASSWORD}
     />
   );
 }
