@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { X, Copy, Check, Share2, Sparkles, ExternalLink } from 'lucide-react';
 import { Icons } from './Icons';
 import { getMediaUrl } from '@/lib/media';
+import { StoryAudiogramModal } from './StoryAudiogramModal';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
@@ -15,6 +16,7 @@ export interface ShareStoryData {
   description?: string;
   imageUrl?: string;
   categoryTag?: string;
+  audioUrl?: string;
 }
 
 interface ShareStoryModalProps {
@@ -26,6 +28,7 @@ interface ShareStoryModalProps {
 export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps) {
   const [copied, setCopied] = useState(false);
   const [canNativeShare, setCanNativeShare] = useState(false);
+  const [isAudiogramModalOpen, setIsAudiogramModalOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -239,14 +242,41 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
 
           {/* SOCIAL SHARING BUTTONS */}
           <div className="flex flex-col gap-2.5">
-            {/* WHATSAPP BUTTON */}
+            {/* OPTION A: WHATSAPP STATUS AUDIOGRAM TEASER (PLAYS AUDIO) */}
+            <button
+              type="button"
+              onClick={() => setIsAudiogramModalOpen(true)}
+              className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 active:scale-98 text-white font-label-ui shadow-lg hover:shadow-xl transition-all cursor-pointer border border-emerald-400/40 relative overflow-hidden group"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-sm sm:text-base font-bold leading-tight flex items-center gap-1.5">
+                      WhatsApp Status Audio Teaser
+                      <span className="px-1.5 py-0.5 rounded text-[10px] font-mono uppercase bg-yellow-400 text-black font-extrabold tracking-wider">
+                        Teaser
+                      </span>
+                    </span>
+                    <span className="text-xs text-emerald-100 font-normal leading-snug">
+                      Plays 15s audio excerpt & soundwaves on Status
+                    </span>
+                  </div>
+                </div>
+                <Icons.whatsapp className="w-6 h-6 fill-white opacity-90 flex-shrink-0" />
+              </div>
+            </button>
+
+            {/* WHATSAPP LINK BUTTON */}
             <button
               type="button"
               onClick={handleWhatsAppShare}
               className="w-full py-3.5 px-4 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] active:scale-98 text-white font-label-ui text-sm sm:text-base font-bold flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all cursor-pointer"
             >
               <Icons.whatsapp className="w-5 h-5 fill-current" />
-              <span>Share on WhatsApp</span>
+              <span>Share Link on WhatsApp</span>
             </button>
 
             {/* INSTAGRAM BUTTON */}
@@ -312,6 +342,13 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
           </div>
         </div>
       </div>
+
+      {/* 9:16 WHATSAPP STATUS AUDIOGRAM MODAL */}
+      <StoryAudiogramModal
+        story={story}
+        isOpen={isAudiogramModalOpen}
+        onClose={() => setIsAudiogramModalOpen(false)}
+      />
     </div>
   );
 }
