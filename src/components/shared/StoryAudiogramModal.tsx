@@ -26,6 +26,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(15);
   const [isSharing, setIsSharing] = useState(false);
+  const [hasCompleted, setHasCompleted] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { toast } = useToast();
 
@@ -38,6 +39,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
     if (isOpen) {
       setIsPlaying(true);
       setCurrentTime(0);
+      setHasCompleted(false);
       const video = videoRef.current;
       if (video) {
         video.currentTime = 0;
@@ -51,6 +53,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
       }
       setIsPlaying(false);
       setIsSharing(false);
+      setHasCompleted(false);
     }
   }, [isOpen]);
 
@@ -82,15 +85,21 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
 
   const handleTimeUpdate = () => {
     if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-      if (videoRef.current.duration && !isNaN(videoRef.current.duration)) {
-        setDuration(videoRef.current.duration);
+      const cur = videoRef.current.currentTime;
+      setCurrentTime(cur);
+      const dur = videoRef.current.duration;
+      if (dur && !isNaN(dur)) {
+        setDuration(dur);
+        if (cur >= dur - 0.25) {
+          setHasCompleted(true);
+        }
       }
     }
   };
 
   const handleEnded = () => {
     setIsPlaying(false);
+    setHasCompleted(true);
     if (videoRef.current) {
       setCurrentTime(videoRef.current.duration || 15);
     }
@@ -106,6 +115,9 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
     const newTime = pct * targetDuration;
     video.currentTime = newTime;
     setCurrentTime(newTime);
+    if (pct >= 0.95) {
+      setHasCompleted(true);
+    }
   };
 
   // Instant Share to WhatsApp Status using pre-generated server video file
@@ -198,7 +210,8 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
 
   if (!isOpen || !story) return null;
 
-  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const progressPercent = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
+  const isReadyToShare = hasCompleted || (duration > 0 && currentTime >= duration - 0.3);
 
   return (
     <div
@@ -294,15 +307,32 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
 
         {/* ACTION BUTTONS */}
         <div className="p-4 sm:p-5 flex flex-col gap-2.5 bg-surface-container">
-          {/* PRIMARY: SHARE WHATSAPP AUDIOGRAM */}
+          {/* PRIMARY: SHARE WHATSAPP AUDIOGRAM (ENABLED ONLY WHEN PROGRESS BAR IS FULL) */}
           <button
             type="button"
             onClick={handleShareToWhatsAppStatus}
-            disabled={isSharing}
-            className="w-full py-3.5 px-4 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] active:scale-98 text-white font-label-ui text-sm sm:text-base font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-70"
+            disabled={!isReadyToShare || isSharing}
+            className={cn(
+              'w-full py-3.5 px-4 rounded-2xl font-label-ui text-sm sm:text-base font-bold flex items-center justify-center gap-3 transition-all duration-300',
+              isReadyToShare
+                ? 'bg-[#25D366] hover:bg-[#20ba59] active:scale-98 text-white shadow-lg hover:shadow-xl cursor-pointer ring-2 ring-[#25D366]/40'
+                : 'bg-surface-container-high/80 text-on-surface-variant/40 border border-outline-variant/30 cursor-not-allowed opacity-60'
+            )}
+            title={isReadyToShare ? 'Share to WhatsApp Status' : 'Listen to preview to unlock sharing'}
           >
-            <Icons.whatsapp className="w-5 h-5 fill-current" />
-            <span>{isSharing ? 'Preparing...' : 'Share WhatsApp Audiogram'}</span>
+            <Icons.whatsapp
+              className={cn(
+                'w-5 h-5 transition-opacity',
+                isReadyToShare ? 'fill-current opacity-100' : 'fill-on-surface-variant/30 opacity-40'
+              )}
+            />
+            <span>
+              {isSharing
+                ? 'Preparing WhatsApp...'
+                : isReadyToShare
+                ? 'Share WhatsApp Audiogram'
+                : `Previewing Audiogram (${Math.min(15, Math.round(currentTime))}s / 15s)`}
+            </span>
           </button>
 
           {/* SECONDARY: DIRECT DOWNLOAD MP4 */}
