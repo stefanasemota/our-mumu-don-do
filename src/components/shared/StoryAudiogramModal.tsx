@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Play, Pause, Download, Share2, Sparkles, Check } from 'lucide-react';
+import { X, Play, Pause, Download, Share2, Sparkles, Check, RotateCcw } from 'lucide-react';
 import { Icons } from './Icons';
 import { getStoryTeaserUrl } from '@/lib/story-teasers';
 import { useToast } from '@/hooks/use-toast';
@@ -67,7 +67,11 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
-    if (video.paused) {
+    if (video.paused || video.ended) {
+      if (video.ended || currentTime >= duration - 0.2) {
+        video.currentTime = 0;
+        setCurrentTime(0);
+      }
       video.play().catch(() => {});
       setIsPlaying(true);
     } else {
@@ -83,6 +87,25 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
         setDuration(videoRef.current.duration);
       }
     }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.duration || 15);
+    }
+  };
+
+  const handleScrub = (e: React.MouseEvent<HTMLDivElement>) => {
+    const video = videoRef.current;
+    if (!video) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, clickX / rect.width));
+    const targetDuration = duration > 0 ? duration : 15;
+    const newTime = pct * targetDuration;
+    video.currentTime = newTime;
+    setCurrentTime(newTime);
   };
 
   // Instant Share to WhatsApp Status using pre-generated server video file
@@ -225,13 +248,12 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
               ref={videoRef}
               src={teaserUrl}
               playsInline
-              loop
               onTimeUpdate={handleTimeUpdate}
-              onEnded={() => setIsPlaying(false)}
+              onEnded={handleEnded}
               className="w-full h-full object-cover block"
             />
 
-            {/* FLOATING CENTRAL PLAY/PAUSE OVERLAY */}
+            {/* FLOATING CENTRAL PLAY/PAUSE/REPLAY OVERLAY */}
             <div
               className={cn(
                 'absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity duration-200 pointer-events-none',
@@ -241,6 +263,8 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
               <div className="w-14 h-14 rounded-full bg-stitch-secondary text-on-secondary flex items-center justify-center shadow-2xl ring-4 ring-stitch-secondary/40">
                 {isPlaying ? (
                   <Pause className="w-7 h-7 fill-on-secondary" />
+                ) : currentTime >= duration - 0.3 ? (
+                  <RotateCcw className="w-7 h-7 stroke-[2.5]" />
                 ) : (
                   <Play className="w-7 h-7 fill-on-secondary ml-1" />
                 )}
@@ -249,16 +273,22 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
 
             {/* SUBTLE DURATION BADGE */}
             <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-[10px] font-mono text-stitch-secondary font-semibold border border-white/10 pointer-events-none">
-              {Math.round(currentTime)}s / 15s
+              {Math.min(15, Math.round(currentTime))}s / 15s
             </div>
           </div>
 
-          {/* SCRUBBER BAR */}
-          <div className="w-full max-w-[280px] h-1.5 bg-surface-bright rounded-full overflow-hidden">
-            <div
-              className="h-full bg-stitch-secondary transition-all duration-100 rounded-full"
-              style={{ width: `${progressPercent}%` }}
-            />
+          {/* INTERACTIVE SCRUBBER BAR */}
+          <div
+            onClick={handleScrub}
+            className="w-full max-w-[280px] py-1 cursor-pointer group flex items-center"
+            title="Click or drag to seek"
+          >
+            <div className="w-full h-1.5 group-hover:h-2 bg-surface-bright rounded-full overflow-hidden transition-all relative">
+              <div
+                className="h-full bg-stitch-secondary transition-all duration-100 rounded-full"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
           </div>
         </div>
 
