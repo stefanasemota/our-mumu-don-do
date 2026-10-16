@@ -59,9 +59,19 @@ export default function AboutPage() {
         'The smart brain behind adapting long historical tales into exciting, kid-friendly adventures.',
     },
     {
-      name: 'AI Narration',
+      name: 'Multilingual Audio Narration',
       description:
-        'Natural audio storytelling voices that bring every character and kingdom alive in your ears.',
+        'Natural storytelling voices in English, Nigerian Pidgin, and Swiss German (de-CH) that bring every character alive.',
+    },
+    {
+      name: 'WhatsApp & Social Audiograms',
+      description:
+        'Pre-generated 9:16 vertical video teasers with soundwave animations, book covers, and direct links for one-tap WhatsApp Status sharing.',
+    },
+    {
+      name: 'Cloud Firestore & Storage',
+      description:
+        'Fast and secure delivery for interactive illustrated pages, audio streaming, and downloadable offline PDF editions.',
     },
   ];
 

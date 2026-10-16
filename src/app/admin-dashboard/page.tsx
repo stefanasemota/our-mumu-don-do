@@ -5,7 +5,12 @@ import AdminDashboardClientPage from './client-page';
 
 export default async function AdminDashboardPage() {
   const cookieStore = await cookies();
-  const isLoggedIn = cookieStore.has('__session');
+  const sessionVal = cookieStore.get('__session')?.value;
+  const isLoggedIn = Boolean(
+    process.env.ADMIN_PASSWORD &&
+    sessionVal &&
+    sessionVal === process.env.ADMIN_PASSWORD
+  );
 
   return (
     <AdminDashboardClientPage 

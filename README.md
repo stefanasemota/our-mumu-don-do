@@ -34,16 +34,21 @@ Every story in the catalog is grounded in authentic history, celebrating indigen
 
 ### 4. Multilingual & Dialect Audio Narrations
 - **Audio Storytelling**: High-quality audio narrations bringing characters and kingdoms to life.
-- **Swiss German & Pidgin Options**: Multi-language and multi-dialect storytelling toggles to support diaspora children and global cultural exchange.
+- **Swiss German & Pidgin Options**: Multi-language and multi-dialect storytelling toggles (English, Nigerian Pidgin, Swiss German `de-CH`) to support diaspora children and global cultural exchange.
 
-### 5. Living Cultural Heritage & Tributes
+### 5. WhatsApp & Social Audiograms (Video Teasers)
+- **15-Second Vertical Video Teasers**: High-impact 9:16 vertical MP4 video audiograms featuring animated soundwave visualizers, book cover artwork, typography, and direct story links.
+- **Instant Status Sharing**: One-tap sharing directly to WhatsApp Status and Instagram Stories, alongside direct video download.
+- **Pre-Generated Cloud Media**: Server-hosted and cloud-accelerated for instant mobile playback without client-side rendering bottlenecks.
+
+### 6. Living Cultural Heritage & Tributes
 - **Mama Africa Tribute**: A dedicated tribute on the About page celebrating traditional oral storytelling and the griot tradition, linking directly to Mama Africa's inspiring performances.
 - **Naija Speak Integration**: Direct connection to [Naija Speak](https://naijaspeak.sabiai.work/) for young explorers and parents learning Nigerian Pidgin English vocabulary, idioms, and slang.
 
-### 6. Built for AI Crawler Agents & Modern Search (LLM-Ready)
+### 7. Built for AI Crawler Agents & Modern Search (LLM-Ready)
 - **`llms.txt` Standard**: Dedicated machine-readable index at [`/llms.txt`](https://our-mumu-don-do.sabiai.work/llms.txt) following the [llmstxt.org](https://llmstxt.org) standard for AI agents (ChatGPT, Claude, Perplexity, Cursor, Gemini).
 - **AI-Friendly `robots.txt`**: Explicitly allows compliant AI indexing crawlers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`, `Meta-ExternalAgent`, `cohere-ai`, etc.).
-- **Dynamic `sitemap.xml`**: Auto-generated comprehensive index of all 8 educational stories, home, and about pages.
+- **Dynamic `sitemap.xml`**: Auto-generated comprehensive index of all 8 educational stories, home, and about pages with canonical slugs.
 - **Schema.org JSON-LD**: Rich educational schema (`EducationalOrganization`, `WebApplication`, `EducationalAudience`).
 
 ---
@@ -55,6 +60,7 @@ Every story in the catalog is grounded in authentic history, celebrating indigen
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with custom design tokens
 - **UI Components**: [Radix UI](https://www.radix-ui.com/) & [ShadCN UI](https://ui.shadcn.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
+- **Media & Audiograms**: Pre-rendered 9:16 vertical MP4 audiograms, HTML5 Canvas, Web Audio API
 - **Generative AI**: [Firebase Genkit](https://firebase.google.com/docs/genkit) & Google Gemini models
 - **Database & Hosting**: [Cloud Firestore](https://firebase.google.com/docs/firestore) & [Firebase App Hosting](https://firebase.google.com/docs/app-hosting)
 
@@ -70,7 +76,7 @@ Every story in the catalog is grounded in authentic history, celebrating indigen
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/aostefan/our-mumu-don-do.git
+   git clone https://github.com/stefanasemota/our-mumu-don-do.git
    cd our-mumu-don-do
    ```
 

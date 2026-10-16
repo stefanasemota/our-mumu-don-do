@@ -1,56 +1,137 @@
-/**
- * Core Philosophy:
- * This ruleset enforces a public read model for all client-side requests.
- * All educational content is considered public and can be read by any user,
- * whether authenticated or anonymous. Write operations (create, update, delete)
- * are restricted to authenticated users, reflecting a security model where
- * data is managed exclusively by a trusted party (e.g., via the admin dashboard).
- *
- * Data Structure:
- * The data is organized into a single top-level collection:
- * - /weeklyEducationalTopics/{weeklyEducationalTopicId}: Stores the educational
- *   content, including denormalized story pages.
- *
- * Key Security Decisions:
- * - Public Read Access: All documents in the `weeklyEducationalTopics` collection
- *   are publicly readable to support the application's content delivery function.
- * - Authenticated Writes: To protect the integrity of the educational content,
- *   write operations from the client are only allowed for authenticated users.
- *   This is designed to work with the password-protected admin dashboard.
- *
- * Denormalization for Authorization:
- * The data model denormalizes story pages directly into the topic documents.
- * Since the access model is simple (public read), no specific denormalization
- * is required for authorization checks.
- */
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description
-     *   Allows public, read-only access to all weekly educational topics. Write
-     *   operations are restricted to authenticated users to allow seeding from
-     *   the admin dashboard.
-     * @path
-     *   /weeklyEducationalTopics/{weeklyEducationalTopicId}
-     * @allow
-     *   An anonymous user reading a specific educational topic document.
-     *   Example: `(get) /weeklyEducationalTopics/some-topic-id`
-     * @deny
-     *   An unauthenticated user attempting to create a new topic.
-     *   Example: `(create) /weeklyEducationalTopics/new-topic`
-     * @principle
-     *   Protects data integrity by enforcing a read-only model for the public,
-     *   while allowing a trusted, authenticated user to manage content.
-     */
-    match /weeklyEducationalTopics/{weeklyEducationalTopicId} {
-      // READ: Anyone can read the educational topics and list them.
-      allow get: if true;
-      allow list: if true;
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: weeklyEducationalTopics
+    // Document ID: weeklyEducationalTopicId (matches id field)
+    // Fields:
+    //   - id: string (required, immutable, 1..100 chars) - unique identifier matching document ID
+    //   - title: string (required, 1..200 chars) - story title
+    //   - description: string (required, 1..5000 chars) - story synopsis or description
+    //   - date: string (required, 1..100 chars) - publication date string
+    //   - guidelineCategory: list of strings (required, 1..10 items) - educational category tags
+    //   - audioUrl: string (required, 0..1000 chars) - primary audio file path or URL
+    //   - audioUrlDeCH: string (optional, 0..1000 chars) - Swiss German audio file path or URL
+    //   - imageUrl: string (optional, 0..1000 chars) - story cover illustration URL or path
+    //   - pages: list of maps (required, 1..50 items) - story pages
+    //     - text: string (required, 0..10000 chars) - story text for the page
+    //     - imageUrl: string (required, 0..1000 chars) - illustration image URL or path
+    //     - textDeCH: string (optional, 0..10000 chars) - Swiss German translation text
+    //   - lastUpdated: string (optional, 0..100 chars) - ISO timestamp of last update
+    //   - narration: map (optional) - optional audio narration and quiz track map
+    //
+    // ===============================================================
 
-      // WRITE: Only authenticated users can write.
-      allow write: if request.auth != null;
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the request is authenticated (including anonymous admin session)
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the document contains all required field keys
+    function hasRequiredFields(data, fields) {
+      return data.keys().hasAll(fields);
+    }
+
+    // Check if the document contains only allowed field keys (strict schema enforcement)
+    function hasOnlyAllowedFields(data, fields) {
+      return data.keys().hasOnly(fields);
+    }
+
+    // Validate optional string field: if present, must be string within max length
+    function isValidOptionalString(data, field, maxLen) {
+      return !(field in data) || (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    // Validate a single story page object
+    function isValidStoryPage(page) {
+      return page is map
+        && page.keys().hasAll(['text', 'imageUrl'])
+        && page.keys().hasOnly(['text', 'imageUrl', 'textDeCH'])
+        && page.text is string
+        && page.text.size() <= 10000
+        && page.imageUrl is string
+        && page.imageUrl.size() <= 1000
+        && (!('textDeCH' in page) || (page.textDeCH is string && page.textDeCH.size() <= 10000));
+    }
+
+    // Domain Validator: Enforces strict data types, bounds, and schema for weeklyEducationalTopics
+    function isValidWeeklyEducationalTopic(data, topicId) {
+      return hasOnlyAllowedFields(data, [
+          'id', 'title', 'description', 'date', 'guidelineCategory',
+          'audioUrl', 'audioUrlDeCH', 'imageUrl', 'pages', 'lastUpdated', 'narration'
+        ])
+        && hasRequiredFields(data, [
+          'id', 'title', 'description', 'date', 'guidelineCategory', 'audioUrl', 'pages'
+        ])
+        && data.id is string
+        && data.id == topicId
+        && data.id.size() >= 1
+        && data.id.size() <= 100
+        && data.title is string
+        && data.title.size() >= 1
+        && data.title.size() <= 200
+        && data.description is string
+        && data.description.size() >= 1
+        && data.description.size() <= 5000
+        && data.date is string
+        && data.date.size() >= 1
+        && data.date.size() <= 100
+        && data.guidelineCategory is list
+        && data.guidelineCategory.size() >= 1
+        && data.guidelineCategory.size() <= 10
+        && data.guidelineCategory[0] is string
+        && data.guidelineCategory[0].size() >= 1
+        && data.guidelineCategory[0].size() <= 100
+        && (data.guidelineCategory.size() < 2 || (data.guidelineCategory[1] is string && data.guidelineCategory[1].size() <= 100))
+        && data.audioUrl is string
+        && data.audioUrl.size() <= 1000
+        && isValidOptionalString(data, 'audioUrlDeCH', 1000)
+        && isValidOptionalString(data, 'imageUrl', 1000)
+        && isValidOptionalString(data, 'lastUpdated', 100)
+        && (!('narration' in data) || data.narration is map)
+        && data.pages is list
+        && data.pages.size() >= 1
+        && data.pages.size() <= 50
+        && isValidStoryPage(data.pages[0])
+        && (data.pages.size() < 2 || isValidStoryPage(data.pages[1]));
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    match /weeklyEducationalTopics/{weeklyEducationalTopicId} {
+      // Public Read: Allows all users (authenticated and anonymous) to view educational stories.
+      allow read: if true;
+
+      // Authenticated Create: Validates types, constraints, and ensures document ID consistency.
+      allow create: if isAuthenticated()
+        && isValidWeeklyEducationalTopic(request.resource.data, weeklyEducationalTopicId);
+
+      // Authenticated Update: Validates all data on write, prevents document ID mutation,
+      // and eliminates the Update Bypass vulnerability.
+      allow update: if isAuthenticated()
+        && request.resource.data.id == resource.data.id
+        && isValidWeeklyEducationalTopic(request.resource.data, weeklyEducationalTopicId);
+
+      // Deletions Disallowed: Prevents accidental or malicious topic deletion via client SDK.
+      allow delete: if false;
+    }
+
+    // ===============================================================
+    // Default Deny Root Fallback
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

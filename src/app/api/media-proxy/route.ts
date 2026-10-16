@@ -10,17 +10,41 @@ export async function GET(request: NextRequest) {
   const rawUrl = searchParams.get('url');
 
   let targetUrl = '';
+
   if (path) {
-    targetUrl = getMediaUrl(path);
+    // Disallow absolute schemes or path traversal in relative path
+    if (path.includes('://') || path.startsWith('//') || path.includes('..')) {
+      return new NextResponse('Invalid media path', { status: 400 });
+    }
+    const cleanPath = path.replace(/^\/+/, '');
+    targetUrl = getMediaUrl(cleanPath);
   } else if (rawUrl) {
-    // Only allow fetching from Firebase Storage or local paths for security
-    if (
-      rawUrl.startsWith('https://firebasestorage.googleapis.com/') ||
-      rawUrl.startsWith('https://pub-2e9ba426189547d286d9a9f2f8fb7928.r2.dev/')
-    ) {
-      targetUrl = rawUrl;
-    } else {
-      targetUrl = getMediaUrl(rawUrl);
+    try {
+      const parsedUrl = new URL(rawUrl);
+      if (parsedUrl.protocol !== 'https:') {
+        return new NextResponse('Only HTTPS media URLs are permitted', { status: 403 });
+      }
+
+      const allowedHosts = [
+        'firebasestorage.googleapis.com',
+        'pub-2e9ba426189547d286d9a9f2f8fb7928.r2.dev',
+      ];
+
+      if (!allowedHosts.includes(parsedUrl.hostname)) {
+        return new NextResponse('Forbidden: Media host not permitted', { status: 403 });
+      }
+
+      // If Firebase Storage, restrict to our project's storage bucket
+      if (parsedUrl.hostname === 'firebasestorage.googleapis.com') {
+        const allowedBucketPrefix = '/v0/b/studio-748727496-885ed.firebasestorage.app/';
+        if (!parsedUrl.pathname.startsWith(allowedBucketPrefix)) {
+          return new NextResponse('Forbidden: Firebase storage bucket not permitted', { status: 403 });
+        }
+      }
+
+      targetUrl = parsedUrl.toString();
+    } catch {
+      return new NextResponse('Invalid URL format', { status: 400 });
     }
   }
 

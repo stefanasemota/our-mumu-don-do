@@ -13,12 +13,12 @@ The platform features authentic, curated historical stories designed specificall
 
 - [The Great Giants of Zazzau](https://our-mumu-don-do.sabiai.work/story/the-great-giants-of-zazzau): Queen Amina, Warrior of Zazzau (Northern Kingdom). Explores tactical leadership, ancient earthen fortress walls, and the protection of savannah trade routes. Includes an interactive illustrated storybook viewer.
 - [Arhuan: The Giant Prince of Benin](https://our-mumu-don-do.sabiai.work/story/arhuan-the-giant-prince-of-benin): Inspired by Mama Africa, celebrating the ancient Benin Kingdom, bronze metallurgy, and defending waterways. Features an interactive illustrated storybook viewer.
-- [The King's Signature](https://our-mumu-don-do.sabiai.work/story/3): King Duke Ephraim and the 1855 Calabar law protecting twin children 21 years before foreign missionaries arrived, highlighting local agency in humanitarian reform.
-- [The Glass of Milk](https://our-mumu-don-do.sabiai.work/story/1): A critical thinking parable teaching kids about corruption versus integrity using clear, everyday metaphors.
-- [The River Was Always There](https://our-mumu-don-do.sabiai.work/story/2): Debunks colonial discovery narratives by showing the vibrant indigenous civilizations that navigated and lived alongside the River Niger for centuries.
-- [Understanding Colonisation](https://our-mumu-don-do.sabiai.work/story/4): An age-appropriate historical breakdown of African sovereignty, resource management, and resilience.
-- [We Were Never Lost](https://our-mumu-don-do.sabiai.work/story/5): King Jaja of Opobo and the commercial independence of the Niger Delta river trade.
-- [The River of a Thousand Songs](https://our-mumu-don-do.sabiai.work/story/6): A lyrical journey celebrating the preservation of ancestral songs, indigenous instruments, and oral storytelling traditions.
+- [The King's Signature](https://our-mumu-don-do.sabiai.work/story/the-kings-signature): King Duke Ephraim and the 1855 Calabar law protecting twin children 21 years before foreign missionaries arrived, highlighting local agency in humanitarian reform.
+- [The Glass of Milk](https://our-mumu-don-do.sabiai.work/story/the-glass-of-milk): A critical thinking parable teaching kids about corruption versus integrity using clear, everyday metaphors.
+- [The River Was Always There](https://our-mumu-don-do.sabiai.work/story/the-river-was-always-there): Debunks colonial discovery narratives by showing the vibrant indigenous civilizations that navigated and lived alongside the River Niger for centuries.
+- [Understanding Colonisation](https://our-mumu-don-do.sabiai.work/story/understanding-colonisation): An age-appropriate historical breakdown of African sovereignty, resource management, and resilience.
+- [We Were Never Lost](https://our-mumu-don-do.sabiai.work/story/we-were-never-lost): King Jaja of Opobo and the commercial independence of the Niger Delta river trade.
+- [The River of a Thousand Songs](https://our-mumu-don-do.sabiai.work/story/the-river-of-a-thousand-songs): A lyrical journey celebrating the preservation of ancestral songs, indigenous instruments, and oral storytelling traditions.
 
 ## Educational Pillars
 1. **True History & Real Heroes**: True accounts of African monarchs, warrior queens, and community builders.
@@ -28,7 +28,8 @@ The platform features authentic, curated historical stories designed specificall
 
 ## Multilingual & Audio Features
 - **High-Quality Audio Narrations**: Built-in audio playback for all 8 stories.
-- **Swiss German & Pidgin English Narrations**: Multi-dialect narration capabilities for global and diaspora youth.
+- **Swiss German & Pidgin English Narrations**: Multi-dialect narration capabilities (English, Nigerian Pidgin, Swiss German `de-CH`) for global and diaspora youth.
+- **WhatsApp & Social Audiograms**: Pre-rendered 15-second vertical (9:16) MP4 video audiograms with animated soundwave visualizers, book cover art, story titles, and links for one-tap WhatsApp Status sharing.
 - **Interactive Storybook Viewer**: Page-turning reader and downloadable PDF editions for selected books.
 
 ## Companion Resources

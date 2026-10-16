@@ -20,8 +20,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const storyRoutes: MetadataRoute.Sitemap = Object.keys(REAL_STORIES).map((id) => ({
-    url: `${baseUrl}/story/${id}`,
+  const canonicalSlugs = [
+    'the-glass-of-milk',
+    'the-river-was-always-there',
+    'the-kings-signature',
+    'understanding-colonisation',
+    'we-were-never-lost',
+    'the-river-of-a-thousand-songs',
+    'the-great-giants-of-zazzau',
+    'arhuan-the-giant-prince-of-benin',
+  ];
+
+  const storyRoutes: MetadataRoute.Sitemap = canonicalSlugs.map((slug) => ({
+    url: `${baseUrl}/story/${slug}`,
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.85,
