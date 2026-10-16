@@ -125,6 +125,13 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
     if (!story) return;
     setIsSharing(true);
 
+    // Copy story link to clipboard so user can immediately paste in WhatsApp caption or Instagram link sticker
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(storyUrl);
+      } catch (_) {}
+    }
+
     try {
       // 1. Fetch the pre-rendered server teaser MP4 file
       const response = await fetch(teaserUrl);
@@ -138,8 +145,8 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
       if (typeof navigator !== 'undefined' && navigator.canShare && navigator.canShare({ files: [videoFile] })) {
         try {
           toast({
-            title: '📲 Opening WhatsApp Status!',
-            description: 'Select "WhatsApp" and choose "My Status" to post your teaser video.',
+            title: '📲 Opening WhatsApp & Link Copied!',
+            description: 'Link copied to clipboard! Paste it into your WhatsApp Status caption or Instagram sticker.',
           });
           await navigator.share({
             files: [videoFile],
@@ -161,15 +168,15 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
       const downloadUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = downloadUrl;
-      a.download = `${story.id}-whatsapp-status.mp4`;
+      a.download = `${story.id}-whatsapp-audiogram.mp4`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 5000);
 
       toast({
-        title: '📥 Teaser Video Saved!',
-        description: 'Upload this video directly to your WhatsApp Status or Instagram Stories.',
+        title: '📥 Video Saved & Link Copied!',
+        description: 'Story link copied to clipboard. Paste into your WhatsApp Status or Instagram Stories.',
       });
     } catch (err: any) {
       console.error('Failed to share teaser video:', err);
@@ -187,20 +194,26 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
   const handleDownloadVideo = async () => {
     if (!story) return;
     try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(storyUrl);
+        } catch (_) {}
+      }
+
       const response = await fetch(teaserUrl);
       const blob = await response.blob();
       const downloadUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = downloadUrl;
-      a.download = `${story.id}-status-teaser.mp4`;
+      a.download = `${story.id}-whatsapp-audiogram.mp4`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 5000);
 
       toast({
-        title: '✅ Video Saved!',
-        description: 'Ready to post to WhatsApp Status, Instagram Reels, or TikTok.',
+        title: '✅ Video Saved & Link Copied!',
+        description: 'Story link copied to clipboard. Ready to post to WhatsApp Status, Instagram, or TikTok.',
       });
     } catch (err) {
       console.error('Download failed:', err);
