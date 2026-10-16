@@ -255,7 +255,7 @@ export function ShareStoryModal({ story, isOpen, onClose }: ShareStoryModalProps
                   </div>
                   <div className="flex flex-col text-left">
                     <span className="text-sm sm:text-base font-bold leading-tight flex items-center gap-1.5">
-                      WhatsApp Status Audio Teaser
+                      WhatsApp Audiogram
                       <span className="px-1.5 py-0.5 rounded text-[10px] font-mono uppercase bg-yellow-400 text-black font-extrabold tracking-wider">
                         Teaser
                       </span>

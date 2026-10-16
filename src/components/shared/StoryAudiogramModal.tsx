@@ -196,7 +196,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
             </div>
             <div>
               <h3 className="font-headline text-base sm:text-lg font-bold text-on-surface">
-                WhatsApp Status Teaser
+                WhatsApp Audiogram
               </h3>
               <p className="font-label-code text-[11px] text-stitch-secondary font-medium">
                 15-Second Audiogram with Soundwaves
@@ -264,7 +264,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
 
         {/* ACTION BUTTONS */}
         <div className="p-4 sm:p-5 flex flex-col gap-2.5 bg-surface-container">
-          {/* PRIMARY: SHARE TO WHATSAPP STATUS */}
+          {/* PRIMARY: SHARE WHATSAPP AUDIOGRAM */}
           <button
             type="button"
             onClick={handleShareToWhatsAppStatus}
@@ -272,7 +272,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
             className="w-full py-3.5 px-4 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] active:scale-98 text-white font-label-ui text-sm sm:text-base font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-70"
           >
             <Icons.whatsapp className="w-5 h-5 fill-current" />
-            <span>{isSharing ? 'Preparing WhatsApp...' : 'Share to WhatsApp Status'}</span>
+            <span>{isSharing ? 'Preparing...' : 'Share WhatsApp Audiogram'}</span>
           </button>
 
           {/* SECONDARY: DIRECT DOWNLOAD MP4 */}
@@ -282,7 +282,7 @@ export function StoryAudiogramModal({ story, isOpen, onClose }: StoryAudiogramMo
             className="w-full py-2.5 px-4 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-ui text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 border border-outline-variant/30 transition-all cursor-pointer"
           >
             <Download className="w-4 h-4 text-stitch-secondary" />
-            <span>Download Video Clip (MP4)</span>
+            <span>Download Video (.mp4)</span>
           </button>
         </div>
       </div>
