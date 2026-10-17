@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin-dashboard', '/admin-login'],
+        disallow: ['/admin-dashboard', '/admin-dashboard/', '/admin-login', '/admin-login/', '/api/'],
       },
       {
         userAgent: [
@@ -29,7 +29,7 @@ export default function robots(): MetadataRoute.Robots {
           'FacebookBot',
         ],
         allow: '/',
-        disallow: ['/admin-dashboard', '/admin-login'],
+        disallow: ['/admin-dashboard', '/admin-dashboard/', '/admin-login', '/admin-login/', '/api/'],
       },
     ],
     sitemap: 'https://our-mumu-don-do.sabiai.work/sitemap.xml',
