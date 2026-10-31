@@ -19,6 +19,11 @@
 
 # production
 /build
+/dist
+
+# secrets & keys
+*service-account*.json
+*key*.json
 
 # misc
 .DS_Store

@@ -1,5 +1,11 @@
 # Our Mumu Don Do 🌟
 
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/stefanasemota/our-mumu-don-do)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20App%20Hosting-FFCA28?logo=firebase&logoColor=white)]()
+[![Gemini](https://img.shields.io/badge/Gemini-AI%20Powered-8E75B2?logo=google-gemini&logoColor=white)]()
+
 > *"Our foolishness is enough!"* — A vibrant digital storybook and educational platform for young explorers aged 7 to 10.
 
 **Our Mumu Don Do** is an interactive educational storytelling initiative built to arm the next generation with truth, critical thinking, and pride in African heritage. Through illustrated, interactive audio tales, children discover authentic African history, courageous monarchs, ingenious local problem-solvers, and vibrant cultures—learning to question everything, think like detectives, and celebrate where they come from.
@@ -136,3 +142,8 @@ If you are an AI assistant, web scraper, or indexing bot, you can access our mac
 ## ⚖️ Copyright & Fair Use
 
 The original storylines, text adaptations, and illustrations are the creative property of **Our Mumu Don Do**. Audio narrations and educational scripts are developed through collaborative human direction and AI assistance for non-commercial educational use. Have fun exploring, sharing, and learning!
+
+---
+
+Powered by <a href="https://github.com/stefanasemota/vibe-coding-guardrail">aos Vibe Coding Guardrail</a> | Fuel the Project - Buy me a coffee: <a href="https://buymeacoffee.com/stephanasex">https://buymeacoffee.com/stephanasex</a>
+
