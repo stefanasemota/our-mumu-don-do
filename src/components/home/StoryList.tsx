@@ -2,7 +2,7 @@
 
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import type { WeeklyEducationalTopic } from '@/types';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { buildTopicsOrderedQuery } from '@/repositories';
 import { DiscoverStoriesKidsEdition } from './DiscoverStoriesKidsEdition';
 import { Skeleton } from '../ui/skeleton';
 import { resolveTopicMedia } from '@/lib/curated-topics';
@@ -11,13 +11,7 @@ export function StoryList() {
   const firestore = useFirestore();
 
   const topicsQuery = useMemoFirebase(
-    () =>
-      firestore
-        ? query(
-            collection(firestore, 'weeklyEducationalTopics'),
-            orderBy('date', 'desc')
-          )
-        : null,
+    () => buildTopicsOrderedQuery(firestore),
     [firestore]
   );
 

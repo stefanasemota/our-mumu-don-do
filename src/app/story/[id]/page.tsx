@@ -3,13 +3,7 @@
 
 import { StoryPlayer } from '@/components/story/StoryPlayer';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
-import type { WeeklyEducationalTopic } from '@/types';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/firebase/config';
-import { getCuratedTopic, resolveTopicMedia } from '@/lib/curated-topics';
+import { fetchTopicWithCuratedFallback } from '@/repositories';
 
 interface StoryPageProps {
   params: {
@@ -17,44 +11,8 @@ interface StoryPageProps {
   };
 }
 
-async function getTopic(id: string): Promise<WeeklyEducationalTopic | null> {
-  // 1. Try Firestore
-  try {
-    const docRef = doc(db, 'weeklyEducationalTopics', id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      if (data) {
-        let dateString = '';
-        if (data.date?.toDate) {
-          dateString = data.date.toDate().toISOString();
-        } else if (data.date) {
-          dateString = new Date(data.date).toISOString();
-        }
-
-        return resolveTopicMedia({
-          ...data,
-          id: docSnap.id,
-          date: dateString,
-        } as WeeklyEducationalTopic);
-      }
-    }
-  } catch (error) {
-    console.warn(`[Story Fetch] Firestore fetch failed for "${id}", trying curated fallback:`, error);
-  }
-
-  // 2. Try curated built-in stories catalog (Queen Amina / Zazzau, Arhuan, etc.)
-  const curated = getCuratedTopic(id);
-  if (curated) {
-    return curated;
-  }
-
-  return null;
-}
-
 export default async function StoryPage({ params }: StoryPageProps) {
-  const topic = await getTopic(params.id);
+  const topic = await fetchTopicWithCuratedFallback(params.id);
 
   if (!topic) {
     notFound();

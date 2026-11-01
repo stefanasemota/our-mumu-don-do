@@ -36,7 +36,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "npm run test:unit",
-    "test:unit": "node --test"
+    "test:unit": "node --test tests/sanity.test.mjs",
+    "test:e2e": "node --test tests/e2e/routes.e2e.test.mjs"
   },
   "dependencies": {
     "@genkit-ai/google-genai": "^1.20.0",

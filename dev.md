@@ -63,8 +63,9 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="studio-748727496-885ed.firebasestorage.app"
 | `npm run start` | Runs the compiled Next.js production build locally. |
 | `npm run lint` | Runs Next.js ESLint checks. |
 | `npm run typecheck` | Validates TypeScript types across the entire codebase (`tsc --noEmit`). |
-| `npm test` | Runs the automated test suite via Node.js native test runner. |
-| `npm run test:unit` | Executes unit tests (`node --test`). |
+| `npm test` | Runs the automated unit test suite via Node.js native test runner. |
+| `npm run test:unit` | Executes unit tests (`node --test tests/sanity.test.mjs`). |
+| `npm run test:e2e` | Executes E2E route and repository boundary tests (`node --test tests/e2e/routes.e2e.test.mjs`). |
 | `npm run genkit:dev` | Starts the Firebase Genkit developer interface. |
 
 ---
