@@ -18,4 +18,8 @@ test('Project Sanity: core configuration files exist', () => {
   assert.ok(fs.existsSync(path.resolve('.nvmrc')), '.nvmrc must exist');
   assert.ok(fs.existsSync(path.resolve('.gitignore')), '.gitignore must exist');
   assert.ok(fs.existsSync(path.resolve('README.md')), 'README.md must exist');
+  assert.ok(fs.existsSync(path.resolve('AGENTS.md')), 'AGENTS.md must exist');
+  assert.ok(fs.existsSync(path.resolve('ai-rules.json')), 'ai-rules.json must exist');
+  assert.ok(fs.existsSync(path.resolve('decision.md')), 'decision.md must exist');
+  assert.ok(fs.existsSync(path.resolve('aos-audit.md')), 'aos-audit.md must exist');
 });
