@@ -118,6 +118,8 @@ Every story in the catalog is grounded in authentic history, celebrating indigen
 | `npm run start` | Starts the production server |
 | `npm run lint` | Runs Next.js ESLint checks |
 | `npm run typecheck` | Validates TypeScript types across the codebase |
+| `npm run test:unit` | Runs unit sanity tests (`tests/sanity.test.mjs`) |
+| `npm run test:e2e` | Runs E2E route and repository boundary tests (`tests/e2e/routes.e2e.test.mjs`) |
 
 ---
 

@@ -20,7 +20,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal, Pencil } from 'lucide-react';
 import type { WeeklyEducationalTopic } from '@/types';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { buildTopicsOrderedQuery } from '@/repositories';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -31,13 +31,7 @@ interface AdminDashboardClientPageProps {
 function StoryList() {
   const firestore = useFirestore();
   const topicsQuery = useMemoFirebase(
-    () =>
-      firestore
-        ? query(
-            collection(firestore, 'weeklyEducationalTopics'),
-            orderBy('date', 'desc')
-          )
-        : null,
+    () => buildTopicsOrderedQuery(firestore),
     [firestore]
   );
 

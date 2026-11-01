@@ -4,6 +4,17 @@ This reverse-chronological ledger documents the major architectural decisions, c
 
 ---
 
+## [01.11.2026] ADR-008: Shift-Left Repository Layer (`src/repositories/`) & Unit/E2E Test Separation
+
+- **Origin**: Human Request (`aos-audit-project` Pillar D Optimizations).
+- **Context**: Complete the final two compliance items in Pillar D of the 🏗️ Architectural Summary without violating `@SABI_LOCKED` / `@SABI_AUTH_LOCKED` contracts or installing unapproved external dependencies.
+- **Decision**:
+  1. Create `src/repositories/storyRepository.ts` (`fetchTopicWithCuratedFallback` and `buildTopicsOrderedQuery`) and refactor non-locked route and UI components (`src/app/story/[id]/page.tsx`, `src/app/share/story/[id]/page.tsx`, `src/components/home/StoryList.tsx`, `src/app/admin-dashboard/client-page.tsx`, `src/components/admin/client-page.tsx`) to consume `@/repositories`.
+  2. Separate unit tests (`npm run test:unit` -> `tests/sanity.test.mjs`) from E2E route/boundary tests (`npm run test:e2e` -> `tests/e2e/routes.e2e.test.mjs`) and sync `README.md` and `dev.md`.
+- **Impact**: Achieves 19/19 (100%) compliance in `aos-audit.md` while keeping `@SABI_LOCKED` files untouched.
+
+---
+
 ## [01.11.2026] ADR-007: Reverse-Chronological `[DD.MM.YYYY]` Ledger Migration & `ai-rules.json` Governance Upgrade
 
 - **Origin**: Human Request & `aos-audit-project` Audit.

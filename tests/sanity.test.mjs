@@ -12,6 +12,14 @@ test('Project Sanity: package.json has required metadata', () => {
   assert.ok(pkg.version, 'version must be specified');
   assert.ok(pkg.author, 'author must be specified');
   assert.ok(Array.isArray(pkg.keywords), 'keywords must be an array');
+  assert.ok(
+    pkg.scripts?.['test:unit'],
+    'test:unit script must be specified'
+  );
+  assert.ok(
+    pkg.scripts?.['test:e2e'],
+    'test:e2e script must be specified'
+  );
   assert.equal(
     pkg.devDependencies?.['vibe-coding-guardrail'],
     'github:stefanasemota/vibe-coding-guardrail',
@@ -27,4 +35,5 @@ test('Project Sanity: core configuration files exist', () => {
   assert.ok(fs.existsSync(path.resolve('ai-rules.json')), 'ai-rules.json must exist');
   assert.ok(fs.existsSync(path.resolve('decision.md')), 'decision.md must exist');
   assert.ok(fs.existsSync(path.resolve('aos-audit.md')), 'aos-audit.md must exist');
+  assert.ok(fs.existsSync(path.resolve('src/repositories/storyRepository.ts')), 'storyRepository.ts must exist');
 });

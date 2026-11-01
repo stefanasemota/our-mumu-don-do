@@ -1,57 +1,15 @@
 import type { Metadata } from 'next';
-import { db } from '@/firebase/config'; // Import your standard config
-import { doc, getDoc } from 'firebase/firestore'; // Use standard Web SDK
-import type { WeeklyEducationalTopic } from '@/types';
 import { ShareCard } from './_components/ShareCard';
 import { notFound } from 'next/navigation';
-import { getCuratedTopic, resolveTopicMedia } from '@/lib/curated-topics';
+import { fetchTopicWithCuratedFallback } from '@/repositories';
 
 interface SharePageProps {
   params: { id: string };
 }
 
-// 1. IMPROVED: Standard Fetcher (No Admin SDK needed)
-async function getTopicById(id: string): Promise<WeeklyEducationalTopic | null> {
-  const curated = getCuratedTopic(id);
-
-  try {
-    const docRef = doc(db, 'weeklyEducationalTopics', id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      if (data) {
-        let dateString = '';
-        if (data.date?.toDate) {
-          dateString = data.date.toDate().toISOString();
-        } else if (data.date) {
-          dateString = new Date(data.date).toISOString();
-        }
-
-        return resolveTopicMedia({
-          ...curated,
-          ...data,
-          audioUrlDeCH: data.audioUrlDeCH || curated?.audioUrlDeCH,
-          id: docSnap.id,
-          date: dateString,
-        } as WeeklyEducationalTopic);
-      }
-    }
-  } catch (error) {
-    console.warn('[Sabi Share] Error fetching topic from Firestore:', error);
-  }
-
-  // Fallback to built-in curated catalog
-  if (curated) {
-    return curated;
-  }
-
-  return null;
-}
-
-// 2. Metadata Generation
+// 1. Metadata Generation
 export async function generateMetadata({ params }: SharePageProps): Promise<Metadata> {
-  const topic = await getTopicById(params.id);
+  const topic = await fetchTopicWithCuratedFallback(params.id);
 
   if (!topic) {
     return { title: 'Story Not Found' };
@@ -77,11 +35,11 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
   };
 }
 
-// 3. The Main Page
+// 2. The Main Page
 export default async function SharePage({ params }: SharePageProps) {
   // IMPORTANT: Ensure we await params if using Next.js 15, 
   // but for 14.2.5 your current destructuring is fine.
-  const topic = await getTopicById(params.id);
+  const topic = await fetchTopicWithCuratedFallback(params.id);
 
   if (!topic) {
     notFound();
