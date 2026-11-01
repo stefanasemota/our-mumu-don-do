@@ -7,11 +7,12 @@ This reverse-chronological ledger documents the major architectural decisions, c
 ## [01.11.2026] ADR-007: Reverse-Chronological `[DD.MM.YYYY]` Ledger Migration & `ai-rules.json` Governance Upgrade
 
 - **Origin**: Human Request & `aos-audit-project` Audit.
-- **Context**: Audited repository against the latest engine-neutral 🏗️ Architectural Summary. Identified legacy `YYYY-MM-DD` dates and oldest-to-newest ordering in `decision.md` and `aos-audit.md`, as well as missing `ai-rules.json` and Execution Discipline clauses in `AGENTS.md`.
+- **Context**: Audited repository against the latest engine-neutral 🏗️ Architectural Summary. Identified legacy `YYYY-MM-DD` dates and oldest-to-newest ordering in `decision.md` and `aos-audit.md`, as well as missing `ai-rules.json`, Execution Discipline clauses in `AGENTS.md`, and `vibe-coding-guardrail` in `package.json`.
 - **Decision**:
   1. Migrate all dates in `decision.md` and `aos-audit.md` to `[DD.MM.YYYY]` format and reorder `decision.md` from newest (top) to oldest (bottom).
   2. Create root `ai-rules.json` and upgrade `AGENTS.md` to enforce Strict Git Strategy, Execution Discipline (Verify Before Writing, Look Before You Leap, Dependency Lockdown, Fix Your Own Bugs, Documentation Sync, Commit Atomicity, Explain the Fix, Zero AI Slop), and Conventional Commits while preserving `@SABI_LOCKED` contracts.
-- **Impact**: Updates `decision.md`, `aos-audit.md`, `AGENTS.md`, and creates `ai-rules.json`.
+  3. Register `"vibe-coding-guardrail": "github:stefanasemota/vibe-coding-guardrail"` in `package.json` `devDependencies`.
+- **Impact**: Updates `decision.md`, `aos-audit.md`, `AGENTS.md`, `package.json`, `tests/sanity.test.mjs`, and creates `ai-rules.json`.
 
 ---
 

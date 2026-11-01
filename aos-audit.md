@@ -2,8 +2,8 @@
 
 - **Date:** 01.11.2026
 - **Branch:** `chore/aos-audit-date-migration`
-- **Compliance Score:** 16 / 18 checks passing (88.9%)
-- **Status:** Engine-neutral governance (`AGENTS.md`, `ai-rules.json`), isolated branch, and reverse-chronological `[DD.MM.YYYY]` ledger verified; deep repository refactoring deferred per user confirmation.
+- **Compliance Score:** 17 / 19 checks passing (89.5%)
+- **Status:** Engine-neutral governance (`AGENTS.md`, `ai-rules.json`), `vibe-coding-guardrail` in `devDependencies`, isolated branch, and reverse-chronological `[DD.MM.YYYY]` ledger verified; deep repository refactoring deferred per user confirmation.
 
 ---
 
@@ -21,6 +21,7 @@
 | **B. Metadata** | `package.json` Version Synchronization | ✅ Pass | `version: 1.3.0` matches README badge. |
 | **B. Metadata** | `package.json` Author & Keywords Schema | ✅ Pass | Stephan Asemota author metadata, repository URL, and vibe-coding keywords present. |
 | **B. Metadata** | `package.json` Test Scripts | ✅ Pass | `"test"` and `"test:unit"` scripts wired to native `node --test`. |
+| **B. Metadata** | `package.json` `vibe-coding-guardrail` in `devDependencies` | ✅ Pass | Registered `"vibe-coding-guardrail": "github:stefanasemota/vibe-coding-guardrail"` in `devDependencies`. |
 | **C. Git & Governance** | `.gitignore` Secrets & Dist Exclusion | ✅ Pass | Explicit exclusions for `.env*`, `/dist`, `*service-account*.json`, `*key*.json`, and `*.pem` verified. |
 | **C. Git & Governance** | `AGENTS.md` & `ai-rules.json` Governance | ✅ Pass | Full Execution Discipline, Strict Git Strategy, Conventional Commits, and `ai-rules.json` schema enforced. |
 | **C. Git & Governance** | `.nvmrc` Node.js Runtime Pin | ✅ Pass | Pinned to Node `22`. |
@@ -35,6 +36,7 @@
 ## Applied Optimizations
 - [x] **Reverse-Chronological Date Migration (`[DD.MM.YYYY]`)**: Migrated `decision.md` and `aos-audit.md` dates from `YYYY-MM-DD` to `DD.MM.YYYY` and reversed ADR order in `decision.md` so newest entries appear at the top.
 - [x] **AI Governance Schema (`ai-rules.json` & `AGENTS.md`)**: Created root `ai-rules.json` and upgraded `AGENTS.md` with full Execution Discipline rules (Verify Before Writing, Look Before You Leap, Dependency Lockdown, Fix Your Own Bugs, Documentation Sync, Commit Atomicity, Explain the Fix, Zero AI Slop) and Strict Git Strategy (Draft PRs, never merge directly to `main`).
+- [x] **Guardrail Package Registration (`package.json`)**: Added `"vibe-coding-guardrail": "github:stefanasemota/vibe-coding-guardrail"` to `devDependencies`.
 - [x] **Core Documentation**: `README.md` badges, pitch, and footer; `initiative.md`; `dev.md`; `decision.md`.
 - [x] **Project Scaffolding**: Standardized `package.json` schema (name, description, author, keywords, repository, test scripts).
 - [x] **Runtime & Secret Protection**: `.nvmrc` (Node 22), `LICENSE` (MIT), and `.gitignore` hardened against credential and build artifact leakage.
@@ -48,5 +50,3 @@
   - *Decision*: Defer to an isolated feature branch milestone to avoid regressions in locked authentication contracts (`@SABI_LOCKED`).
 - [ ] **E2E Test Separation (`test:e2e`)**:
   - *Context*: Unit tests cover configuration and sanity; browser-driven E2E tests (Playwright) will be introduced in a future testing increment.
-- [ ] **Optional `vibe-coding-guardrail` Package Entry in `devDependencies`**:
-  - *Context*: Active via global Antigravity plugin and root `ai-rules.json`/`AGENTS.md`; skipped in `package.json` per user selection.
