@@ -1,50 +1,48 @@
 # 🛡️ AOS Project Audit Report (`aos-audit.md`)
 
-- **Date:** 2026-10-31
+- **Audit Date:** 2026-11-01
 - **Branch:** `main`
-- **Initial Score:** 2 / 16 checks passing (12.5%)
-- **Current Score:** 14 / 16 checks passing (87.5%)
+- **Compliance Score:** 14 / 17 checks passing (82.4%)
+- **Status:** Stable production architecture verified; deep refactoring deferred per user confirmation.
 
 ---
 
 ## 🏗️ Audit Pillars & Compliance Matrix
 
-| Pillar | Inspection Item | Initial Status | Current Status | Remediation Details |
-| :--- | :--- | :---: | :---: | :--- |
-| **A. Core Docs** | `README.md` 5-Badge Header Row | ❌ Missing | ✅ Pass | Added Version, License, Build Status, Firebase, and Gemini shields. |
-| **A. Core Docs** | `README.md` Pitch & Quick-Start | ✅ Pass | ✅ Pass | Detailed product overview, features, and quick-start instructions intact. |
-| **A. Core Docs** | `README.md` Community Footer | ❌ Missing | ✅ Pass | Injected mandatory Vibe Coding Guardrail & Buy-me-a-coffee footer. |
-| **A. Core Docs** | `initiative.md` Seed & Vision Brief | ❌ Missing | ✅ Pass | Created with executive summary, pedagogical pillars, and catalog overview. |
-| **A. Core Docs** | `dev.md` Developer Guide | ❌ Missing | ✅ Pass | Created with environment specs, Antigravity instructions, and execution table. |
-| **A. Core Docs** | `decision.md` Chronological ADR Ledger | ❌ Missing | ✅ Pass | Created with 5 dated ADR entries documenting foundational architecture to audit. |
-| **B. Metadata** | `package.json` Name Standardization | ⚠️ Partial | ✅ Pass | Standardized `name` from generic `"nextn"` to `"our-mumu-don-do"`. |
-| **B. Metadata** | `package.json` Version Synchronization | ✅ Pass | ✅ Pass | Verified `version: 1.3.0` synchronized with README badge. |
-| **B. Metadata** | `package.json` Author & Keywords Schema | ❌ Missing | ✅ Pass | Added Stephan Asemota author metadata, repository URL, and vibe-coding keywords. |
-| **B. Metadata** | `package.json` Test Scripts | ❌ Missing | ✅ Pass | Added `"test"` and `"test:unit"` scripts backed by `node --test`. |
-| **C. Git & Governance** | `.gitignore` Secrets & Dist Exclusion | ⚠️ Partial | ✅ Pass | Added explicit exclusions for `/dist`, `*service-account*.json`, and `*key*.json`. |
-| **C. Git & Governance** | `AGENTS.md` Conventional Commits Spec | ❌ Missing | ✅ Pass | Authored agent protocol with commit types, guardrails, and verification rules. |
-| **C. Git & Governance** | `.nvmrc` Node.js Runtime Pin | ❌ Missing | ✅ Pass | Created `.nvmrc` pinning Node.js runtime to `22`. |
-| **C. Git & Governance** | `LICENSE` File | ❌ Missing | ✅ Pass | Added MIT License for Stephan Asemota. |
-| **D. Boundaries** | Test Separation & Test Harness | ❌ Missing | ✅ Pass | Implemented `tests/sanity.test.mjs` unit test suite executed by Node native test runner. |
-| **D. Boundaries** | Shift-Left Repository Pattern | ⚠️ Partial | ⚠️ Deferred | Client components and lib files make direct Firestore queries; architectural refactor to `src/repositories/` deferred. |
+| Pillar | Inspection Item | Status | Verification & Evidence |
+| :--- | :--- | :---: | :--- |
+| **A. Core Docs** | `README.md` 5-Badge Header Row | ✅ Pass | Badges present: Version `1.3.0`, License `MIT`, Build `passing`, Firebase, Gemini. |
+| **A. Core Docs** | `README.md` Pitch & Quick-Start | ✅ Pass | Full project overview, 8-story catalog, and installation commands documented. |
+| **A. Core Docs** | `README.md` Community Footer | ✅ Pass | Mandatory Vibe Coding Guardrail & Buy-me-a-coffee attribution present. |
+| **A. Core Docs** | `initiative.md` Seed & Vision Brief | ✅ Pass | Executive summary, 4 pedagogical pillars, and learning goals articulated. |
+| **A. Core Docs** | `dev.md` Developer Guide | ✅ Pass | Prerequisites (Node 22), env specs, Antigravity workflow, and execution table present. |
+| **A. Core Docs** | `decision.md` Chronological ADR Ledger | ✅ Pass | Dated ADRs (ADR-001 through ADR-006) capturing foundational decisions to audit deferral. |
+| **B. Metadata** | `package.json` Name Standardization | ✅ Pass | Standardized to `"our-mumu-don-do"`. |
+| **B. Metadata** | `package.json` Version Synchronization | ✅ Pass | `version: 1.3.0` matches README badge. |
+| **B. Metadata** | `package.json` Author & Keywords Schema | ✅ Pass | Stephan Asemota author metadata, repository URL, and vibe-coding keywords present. |
+| **B. Metadata** | `package.json` Test Scripts | ✅ Pass | `"test"` and `"test:unit"` scripts wired to native `node --test`. |
+| **C. Git & Governance** | `.gitignore` Secrets & Dist Exclusion | ✅ Pass | Explicit exclusions for `/dist`, `*service-account*.json`, and `*key*.json` verified. |
+| **C. Git & Governance** | `AGENTS.md` Conventional Commits Spec | ✅ Pass | Conventional Commits rules, micro-patch rules, and verification gates established. |
+| **C. Git & Governance** | `.nvmrc` Node.js Runtime Pin | ✅ Pass | Pinned to Node `22`. |
+| **C. Git & Governance** | `LICENSE` File | ✅ Pass | Valid MIT License file present. |
+| **D. Boundaries** | Unit Test Harness | ✅ Pass | `tests/sanity.test.mjs` unit test suite passes 100% (2/2 tests passing). |
+| **D. Boundaries** | E2E Test Separation | ⚠️ Deferred | Unit test runner configured; full E2E harness (Playwright/Cucumber) deferred to feature milestone. |
+| **D. Boundaries** | Shift-Left Repository Pattern | ⚠️ Deferred | Direct Firestore calls exist in UI components; refactor to `src/repositories/` deferred. |
 
 ---
 
-## Applied Optimizations
-- [x] **README Header & Footer**: Injected standard 5-badge header (`version-1.3.0`, `MIT`, `build-passing`, `Firebase`, `Gemini`) and official community attribution footer.
-- [x] **Package Metadata**: Standardized package name, author metadata, repository link, keywords, and description in `package.json`.
-- [x] **Node Runtime Pinning**: Created `.nvmrc` pinning Node.js runtime to `22`.
-- [x] **Git Secrets Protection**: Hardened `.gitignore` to reject `/dist`, `*service-account*.json`, and `*key*.json`.
-- [x] **Agent Protocol**: Created `AGENTS.md` establishing Conventional Commits and vibe-coding guardrails.
-- [x] **Product Initiative**: Created `initiative.md` detailing the problem statement, pedagogical pillars, and story catalog.
-- [x] **Developer Documentation**: Created `dev.md` with Antigravity instructions, environment variable specifications, and script references.
-- [x] **Architectural Decisions**: Created `decision.md` capturing ADRs from initial Next.js/Firebase foundation to multi-dialect audio, audiograms, and security hardening.
-- [x] **Automated Test Harness**: Added `tests/sanity.test.mjs` and wired `npm test` & `npm run test:unit`.
-- [x] **Licensing**: Created standard `LICENSE` (MIT) matching badge link.
+## Verified Optimizations
+- [x] **Core Documentation**: `README.md` badges, pitch, and footer; `initiative.md`; `dev.md`; `decision.md`.
+- [x] **Project Scaffolding**: Standardized `package.json` schema (name, description, author, keywords, repository, test scripts).
+- [x] **Runtime & Governance**: `.nvmrc` (Node 22), `AGENTS.md` (Conventional Commits), and `LICENSE` (MIT).
+- [x] **Secret Protection**: `.gitignore` hardened against credential and build artifact leakage.
+- [x] **Sanity Testing**: Automated unit tests wired to `node --test` passing 100%.
 
 ---
 
 ## Deferred / Skipped Items
 - [ ] **Shift-Left Repository Pattern (`src/repositories/`)**:
-  - *Current state*: Direct Firestore SDK calls exist across `src/components/`, `src/lib/stories.ts`, and `src/app/`.
-  - *Recommendation*: Encapsulate all database operations into dedicated repository classes (e.g. `StoryRepository`, `TopicRepository`) under `src/repositories/` in a dedicated feature milestone to prevent regressions in `@SABI_LOCKED` authentication flows.
+  - *Context*: Firestore queries currently live directly inside `src/components/admin/EditStoryForm.tsx`, `src/app/story/[id]/page.tsx`, and `src/lib/stories.ts`.
+  - *Decision*: Defer to an isolated feature branch milestone to avoid regressions in locked authentication contracts (`@SABI_LOCKED`).
+- [ ] **E2E Test Separation (`test:e2e`)**:
+  - *Context*: Unit tests cover configuration and sanity; browser-driven E2E tests (Playwright) will be introduced in a future testing increment.

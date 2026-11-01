@@ -54,3 +54,13 @@ This chronological ledger documents the major architectural decisions, context, 
   3. Establish `initiative.md`, `dev.md`, `decision.md`, `AGENTS.md`, `.nvmrc` (pinned to Node 22), and `.gitignore` key/dist exclusions.
   4. Create `tests/sanity.test.mjs` unit test suite executed by Node.js native test runner.
 - **Impact**: Full compliance with the AOS Vibe Coding Guardrail protocol, consistent agent governance, and streamlined local onboarding.
+
+---
+
+## [2026-11-01] ADR-006: Architectural Audit Verification & Deferral of Runtime Repository Refactoring
+
+- **Origin**: Periodic architecture audit via `aos-audit-project`.
+- **Context**: Evaluated repository compliance against the 🏗️ Architectural Summary (14/17 checks passing). Core documentation, package metadata, governance, Node 22 pin, and unit testing harness are fully verified. However, encapsulating data access into `src/repositories/` and standing up an E2E testing framework would touch critical production routes and `@SABI_LOCKED` authentication modules.
+- **Decision**: Keep the current verified stable state. Defer the Shift-Left Repository refactoring (`src/repositories/`) and E2E harness scaffolding to a dedicated, isolated feature branch/milestone to prevent regressions in active user-facing and admin features.
+- **Impact**: Zero downtime and zero disruption to production features while preserving a formal path for future data layer decoupling.
+
