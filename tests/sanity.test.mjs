@@ -12,6 +12,11 @@ test('Project Sanity: package.json has required metadata', () => {
   assert.ok(pkg.version, 'version must be specified');
   assert.ok(pkg.author, 'author must be specified');
   assert.ok(Array.isArray(pkg.keywords), 'keywords must be an array');
+  assert.equal(
+    pkg.devDependencies?.['vibe-coding-guardrail'],
+    'github:stefanasemota/vibe-coding-guardrail',
+    'vibe-coding-guardrail must be registered in devDependencies'
+  );
 });
 
 test('Project Sanity: core configuration files exist', () => {
